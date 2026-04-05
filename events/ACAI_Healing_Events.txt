@@ -1,0 +1,572 @@
+namespace = acai_healing
+
+fleet_event = {
+	id = acai_healing.1
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			
+			# Min req for performing healing
+				
+				limit = {
+					owner = {
+						is_at_war = yes
+					}
+					acai_main_fleet_current_strongest = yes
+					has_hp_percentage < 1.00
+					any_system = {
+						acai_healing_system_is_suitable = yes
+					}
+				}
+				
+			# If passed, let's go further
+				
+				# Fleet must have solar system and be out of combat, otherwise delay
+					
+					if = {
+						limit = {
+							OR = {
+								NOT = { exists = solar_system }
+								is_in_combat = yes
+							}
+						}
+						fleet_event = { id = acai_healing.1 days = 5 }
+					}
+					
+				#
+				
+				else = {
+					
+					if = {
+						limit = {
+							check_variable = {
+								which = acai_boolean_healing_fleet_is_locked
+								value = 2
+							}
+							solar_system = {
+								acai_healing_system_is_suitable = no
+							}
+						}
+						acai_healing_remove_fleet_locking = yes
+					}
+					
+					if = {
+						limit = {
+							
+							# Conditions for going for healing
+								
+								OR = {
+									
+									# Always go for healing if fleet this low
+										
+										has_hp_percentage < 0.75
+										
+									# From 10 to 12 jumps
+										
+										AND = {
+											has_hp_percentage < 0.80
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 10 max_jumps = 12 }
+											}
+										}
+										
+									# From 7 to 9 jumps
+										
+										AND = {
+											has_hp_percentage < 0.85
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 7 max_jumps = 9 }
+											}
+										}
+										
+									# From 4 to 6 jumps
+										
+										AND = {
+											has_hp_percentage < 0.90
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 4 max_jumps = 6 }
+											}
+										}
+										
+									# From 0 to 3 jumps
+										
+										AND = {
+											has_hp_percentage < 0.95
+											OR = {
+												any_system = {
+													acai_healing_system_is_suitable = yes
+													distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 1 max_jumps = 3 }
+												}
+												AND = {
+													exists = solar_system
+													solar_system = {
+														acai_healing_system_is_suitable = yes
+													}
+												}
+											}
+										}
+										
+									# If already at the starbase
+										
+										AND = {
+											has_hp_percentage < 1.00
+											check_variable = {
+												which = acai_boolean_healing_fleet_is_locked
+												value = 2
+											}
+										}
+										
+									#
+									
+								}
+								
+							#
+						}
+						
+						# Healing, if we are at suitable system
+							
+							if = {
+								limit = {
+									solar_system = {
+										acai_healing_system_is_suitable = yes
+									}
+								}
+								
+								# If we went to this system to heal
+									
+									acai_healing_remove_going_to_system = yes
+									
+								# If there are hostile fleets in the system
+									
+									if = {
+										limit = {
+											solar_system = {
+												any_ship_in_system = {
+													owner = {
+														is_hostile = root.owner
+													}
+												}
+											}
+										}
+										acai_healing_remove_fleet_locking = yes
+										fleet_event = { id = acai_healing.1 days = 5 }
+									}
+									
+								# If we are not healing yet, go to starbase
+									
+									else_if = {
+										limit = {
+											check_variable = {
+												which = acai_boolean_healing_fleet_is_locked
+												value < 2
+											}
+										}
+										
+										set_variable = {
+											which = acai_boolean_healing_fleet_is_locked
+											value = 2
+										}
+										add_modifier = { modifier = acai_healing_locking_by_speed days = -1 }
+										add_modifier = { modifier = acai_healing_emulate_repairing days = -1 }
+										
+										clear_fleet_actions = this
+										clear_orders = yes
+										
+										#set_event_locked = yes
+										
+										set_location = solar_system.star
+										
+										fleet_event = { id = acai_healing.1 days = 5 }
+									}
+									
+								# If we are at starbase, perform healing
+									
+									else_if = {
+										limit = {
+											check_variable = {
+												which = acai_boolean_healing_fleet_is_locked
+												value = 2
+											}
+										}
+										#clear_fleet_actions = this
+										#clear_orders = yes
+										set_location = solar_system.star
+										#auto_move_to_planet = {
+										#	target = solar_system.star
+										#	clear_auto_move_on_arrival = yes
+										#}
+										fleet_event = { id = acai_healing.1 days = 5 }
+									}
+								
+								#
+								
+							}
+							
+						# Going to a system, if we need to
+							
+							else = {
+								if = {
+									limit = {
+										check_variable = {
+											which = acai_boolean_healing_going_to_system
+											value = 2
+										}
+										exists = from.solar_system
+										from.solar_system = {
+											acai_healing_system_is_suitable = yes
+										}
+									}
+									from = {
+										planet_event = { id = acai_healing.2 }
+									}
+								}
+								else = {
+									set_variable = {
+										which = acai_boolean_healing_going_to_system
+										value = 2
+									}
+									if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 1 max_jumps = 1 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 1 max_jumps = 1 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 2 max_jumps = 2 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 2 max_jumps = 2 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 3 max_jumps = 3 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 3 max_jumps = 3 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 4 max_jumps = 4 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 4 max_jumps = 4 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 5 max_jumps = 5 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 5 max_jumps = 5 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 6 max_jumps = 6 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 6 max_jumps = 6 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 7 max_jumps = 7 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 7 max_jumps = 7 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 8 max_jumps = 8 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 8 max_jumps = 8 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 9 max_jumps = 9 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 9 max_jumps = 9 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 10 max_jumps = 10 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 10 max_jumps = 10 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 11 max_jumps = 11 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 11 max_jumps = 11 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 12 max_jumps = 12 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 12 max_jumps = 12 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 13 max_jumps = 13 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 13 max_jumps = 13 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 14 max_jumps = 14 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 14 max_jumps = 14 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 15 max_jumps = 15 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 15 max_jumps = 15 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 16 max_jumps = 16 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 16 max_jumps = 16 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 17 max_jumps = 17 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 17 max_jumps = 17 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 18 max_jumps = 18 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 18 max_jumps = 18 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 19 max_jumps = 19 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 19 max_jumps = 19 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+									else_if = {
+										limit = {
+											any_system = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 20 max_jumps = 1000 }
+											}
+										}
+										random_system = {
+											limit = {
+												acai_healing_system_is_suitable = yes
+												distance = { source = root use_bypasses = yes bypass_empire = root.owner min_jumps = 20 max_jumps = 1000 }
+											}
+											star = { planet_event = { id = acai_healing.2 } }
+										}
+									}
+								}
+							}
+							
+						#
+						
+						
+					}
+					else = {
+						# Exit point
+						acai_healing_remove_everything = yes
+					}
+				}
+				
+			#
+			
+		}
+		else = {
+			# Exit point
+			acai_healing_remove_everything = yes
+		}
+	}
+}
+
+planet_event = {
+	id = acai_healing.2
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		from = {
+			clear_fleet_actions = this
+			clear_orders = yes
+			auto_move_to_planet = {
+				target = root
+				clear_auto_move_on_arrival = yes
+			}
+			fleet_event = { id = acai_healing.1 days = 30 }
+		}
+	}
+}

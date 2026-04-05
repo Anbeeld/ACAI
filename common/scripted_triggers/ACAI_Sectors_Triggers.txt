@@ -1,0 +1,12 @@
+
+acai_sectors_colony_in_system = {
+	exists = owner
+	owner = {
+		is_same_value = root
+	}
+	solar_system = {
+		is_same_value = prevprevprev
+	}
+	is_colony = yes
+	is_under_colonization = no
+}

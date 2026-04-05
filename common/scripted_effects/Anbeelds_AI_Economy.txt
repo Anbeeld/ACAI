@@ -1,0 +1,888 @@
+
+aai_calc_economy = {
+	
+	set_variable = { which = acai_value_energy_stockpile value = 0 }
+	if = { limit = { energy >= 300 energy < 600 } set_variable = { which = acai_value_energy_stockpile value = 300 } }
+	else_if = { limit = { energy >= 600 energy < 900 } set_variable = { which = acai_value_energy_stockpile value = 600 } }
+	else_if = { limit = { energy >= 900 energy < 1200 } set_variable = { which = acai_value_energy_stockpile value = 900 } }
+	else_if = { limit = { energy >= 1200 energy < 1500 } set_variable = { which = acai_value_energy_stockpile value = 1200 } }
+	else_if = { limit = { energy >= 1500 energy < 1800 } set_variable = { which = acai_value_energy_stockpile value = 1500 } }
+	else_if = { limit = { energy >= 1800 energy < 2100 } set_variable = { which = acai_value_energy_stockpile value = 1800 } }
+	else_if = { limit = { energy >= 2100 energy < 2400 } set_variable = { which = acai_value_energy_stockpile value = 2100 } }
+	else_if = { limit = { energy >= 2400 energy < 2700 } set_variable = { which = acai_value_energy_stockpile value = 2400 } }
+	else_if = { limit = { energy >= 2700 energy < 3000 } set_variable = { which = acai_value_energy_stockpile value = 2700 } }
+	else_if = { limit = { energy >= 3000 energy < 3300 } set_variable = { which = acai_value_energy_stockpile value = 3000 } }
+	else_if = { limit = { energy >= 3300 energy < 3600 } set_variable = { which = acai_value_energy_stockpile value = 3300 } }
+	else_if = { limit = { energy >= 3600 energy < 3900 } set_variable = { which = acai_value_energy_stockpile value = 3600 } }
+	else_if = { limit = { energy >= 3900 energy < 4200 } set_variable = { which = acai_value_energy_stockpile value = 3900 } }
+	else_if = { limit = { energy >= 4200 energy < 4500 } set_variable = { which = acai_value_energy_stockpile value = 4200 } }
+	else_if = { limit = { energy >= 4500 energy < 4800 } set_variable = { which = acai_value_energy_stockpile value = 4500 } }
+	else_if = { limit = { energy >= 4800 energy < 5100 } set_variable = { which = acai_value_energy_stockpile value = 4800 } }
+	else_if = { limit = { energy >= 5100 energy < 5400 } set_variable = { which = acai_value_energy_stockpile value = 5100 } }
+	else_if = { limit = { energy >= 5400 energy < 5700 } set_variable = { which = acai_value_energy_stockpile value = 5400 } }
+	else_if = { limit = { energy >= 5700 energy < 6000 } set_variable = { which = acai_value_energy_stockpile value = 5700 } }
+	else_if = { limit = { energy >= 6000 energy < 6300 } set_variable = { which = acai_value_energy_stockpile value = 6000 } }
+	else_if = { limit = { energy >= 6300 energy < 6600 } set_variable = { which = acai_value_energy_stockpile value = 6300 } }
+	else_if = { limit = { energy >= 6600 energy < 6900 } set_variable = { which = acai_value_energy_stockpile value = 6600 } }
+	else_if = { limit = { energy >= 6900 energy < 7200 } set_variable = { which = acai_value_energy_stockpile value = 6900 } }
+	else_if = { limit = { energy >= 7200 energy < 7500 } set_variable = { which = acai_value_energy_stockpile value = 7200 } }
+	else_if = { limit = { energy >= 7500 energy < 7800 } set_variable = { which = acai_value_energy_stockpile value = 7500 } }
+	else_if = { limit = { energy >= 7800 energy < 8100 } set_variable = { which = acai_value_energy_stockpile value = 7800 } }
+	else_if = { limit = { energy >= 8100 energy < 8400 } set_variable = { which = acai_value_energy_stockpile value = 8100 } }
+	else_if = { limit = { energy >= 8400 energy < 8700 } set_variable = { which = acai_value_energy_stockpile value = 8400 } }
+	else_if = { limit = { energy >= 8700 energy < 9000 } set_variable = { which = acai_value_energy_stockpile value = 8700 } }
+	else_if = { limit = { energy >= 9000 energy < 9300 } set_variable = { which = acai_value_energy_stockpile value = 9000 } }
+	else_if = { limit = { energy >= 9300 energy < 9600 } set_variable = { which = acai_value_energy_stockpile value = 9300 } }
+	else_if = { limit = { energy >= 9600 energy < 9900 } set_variable = { which = acai_value_energy_stockpile value = 9600 } }
+	else_if = { limit = { energy >= 9900 energy < 10200 } set_variable = { which = acai_value_energy_stockpile value = 9900 } }
+	else_if = { limit = { energy >= 10200 energy < 10500 } set_variable = { which = acai_value_energy_stockpile value = 10200 } }
+	else_if = { limit = { energy >= 10500 energy < 10800 } set_variable = { which = acai_value_energy_stockpile value = 10500 } }
+	else_if = { limit = { energy >= 10800 energy < 11100 } set_variable = { which = acai_value_energy_stockpile value = 10800 } }
+	else_if = { limit = { energy >= 11100 energy < 11400 } set_variable = { which = acai_value_energy_stockpile value = 11100 } }
+	else_if = { limit = { energy >= 11400 energy < 11700 } set_variable = { which = acai_value_energy_stockpile value = 11400 } }
+	else_if = { limit = { energy >= 11700 energy < 12000 } set_variable = { which = acai_value_energy_stockpile value = 11700 } }
+	else_if = { limit = { energy >= 12000 energy < 12300 } set_variable = { which = acai_value_energy_stockpile value = 12000 } }
+	else_if = { limit = { energy >= 12300 energy < 12600 } set_variable = { which = acai_value_energy_stockpile value = 12300 } }
+	else_if = { limit = { energy >= 12600 energy < 12900 } set_variable = { which = acai_value_energy_stockpile value = 12600 } }
+	else_if = { limit = { energy >= 12900 energy < 13200 } set_variable = { which = acai_value_energy_stockpile value = 12900 } }
+	else_if = { limit = { energy >= 13200 energy < 13500 } set_variable = { which = acai_value_energy_stockpile value = 13200 } }
+	else_if = { limit = { energy >= 13500 energy < 13800 } set_variable = { which = acai_value_energy_stockpile value = 13500 } }
+	else_if = { limit = { energy >= 13800 energy < 14100 } set_variable = { which = acai_value_energy_stockpile value = 13800 } }
+	else_if = { limit = { energy >= 14100 energy < 14400 } set_variable = { which = acai_value_energy_stockpile value = 14100 } }
+	else_if = { limit = { energy >= 14400 energy < 14700 } set_variable = { which = acai_value_energy_stockpile value = 14400 } }
+	else_if = { limit = { energy >= 14700 energy < 15000 } set_variable = { which = acai_value_energy_stockpile value = 14700 } }
+	else_if = { limit = { energy >= 15000 } set_variable = { which = acai_value_energy_stockpile value = 15000 } }
+	
+	set_variable = { which = aai_value_energy_produced value = 0 }
+	if = { limit = { produced_energy >= 50 produced_energy < 100 } set_variable = { which = aai_value_energy_produced value = 50 } }
+	else_if = { limit = { produced_energy >= 100 produced_energy < 150 } set_variable = { which = aai_value_energy_produced value = 100 } }
+	else_if = { limit = { produced_energy >= 150 produced_energy < 200 } set_variable = { which = aai_value_energy_produced value = 150 } }
+	else_if = { limit = { produced_energy >= 200 produced_energy < 250 } set_variable = { which = aai_value_energy_produced value = 200 } }
+	else_if = { limit = { produced_energy >= 250 produced_energy < 300 } set_variable = { which = aai_value_energy_produced value = 250 } }
+	else_if = { limit = { produced_energy >= 300 produced_energy < 350 } set_variable = { which = aai_value_energy_produced value = 300 } }
+	else_if = { limit = { produced_energy >= 350 produced_energy < 400 } set_variable = { which = aai_value_energy_produced value = 350 } }
+	else_if = { limit = { produced_energy >= 400 produced_energy < 450 } set_variable = { which = aai_value_energy_produced value = 400 } }
+	else_if = { limit = { produced_energy >= 450 produced_energy < 500 } set_variable = { which = aai_value_energy_produced value = 450 } }
+	else_if = { limit = { produced_energy >= 500 produced_energy < 550 } set_variable = { which = aai_value_energy_produced value = 500 } }
+	else_if = { limit = { produced_energy >= 550 produced_energy < 600 } set_variable = { which = aai_value_energy_produced value = 550 } }
+	else_if = { limit = { produced_energy >= 600 produced_energy < 650 } set_variable = { which = aai_value_energy_produced value = 600 } }
+	else_if = { limit = { produced_energy >= 650 produced_energy < 700 } set_variable = { which = aai_value_energy_produced value = 650 } }
+	else_if = { limit = { produced_energy >= 700 produced_energy < 750 } set_variable = { which = aai_value_energy_produced value = 700 } }
+	else_if = { limit = { produced_energy >= 750 produced_energy < 800 } set_variable = { which = aai_value_energy_produced value = 750 } }
+	else_if = { limit = { produced_energy >= 800 produced_energy < 850 } set_variable = { which = aai_value_energy_produced value = 800 } }
+	else_if = { limit = { produced_energy >= 850 produced_energy < 900 } set_variable = { which = aai_value_energy_produced value = 850 } }
+	else_if = { limit = { produced_energy >= 900 produced_energy < 950 } set_variable = { which = aai_value_energy_produced value = 900 } }
+	else_if = { limit = { produced_energy >= 950 produced_energy < 1000 } set_variable = { which = aai_value_energy_produced value = 950 } }
+	else_if = { limit = { produced_energy >= 1000 produced_energy < 1050 } set_variable = { which = aai_value_energy_produced value = 1000 } }
+	else_if = { limit = { produced_energy >= 1050 produced_energy < 1100 } set_variable = { which = aai_value_energy_produced value = 1050 } }
+	else_if = { limit = { produced_energy >= 1100 produced_energy < 1150 } set_variable = { which = aai_value_energy_produced value = 1100 } }
+	else_if = { limit = { produced_energy >= 1150 produced_energy < 1200 } set_variable = { which = aai_value_energy_produced value = 1150 } }
+	else_if = { limit = { produced_energy >= 1200 produced_energy < 1250 } set_variable = { which = aai_value_energy_produced value = 1200 } }
+	else_if = { limit = { produced_energy >= 1250 produced_energy < 1300 } set_variable = { which = aai_value_energy_produced value = 1250 } }
+	else_if = { limit = { produced_energy >= 1300 produced_energy < 1350 } set_variable = { which = aai_value_energy_produced value = 1300 } }
+	else_if = { limit = { produced_energy >= 1350 produced_energy < 1400 } set_variable = { which = aai_value_energy_produced value = 1350 } }
+	else_if = { limit = { produced_energy >= 1400 produced_energy < 1450 } set_variable = { which = aai_value_energy_produced value = 1400 } }
+	else_if = { limit = { produced_energy >= 1450 produced_energy < 1500 } set_variable = { which = aai_value_energy_produced value = 1450 } }
+	else_if = { limit = { produced_energy >= 1500 produced_energy < 1550 } set_variable = { which = aai_value_energy_produced value = 1500 } }
+	else_if = { limit = { produced_energy >= 1550 produced_energy < 1600 } set_variable = { which = aai_value_energy_produced value = 1550 } }
+	else_if = { limit = { produced_energy >= 1600 produced_energy < 1650 } set_variable = { which = aai_value_energy_produced value = 1600 } }
+	else_if = { limit = { produced_energy >= 1650 produced_energy < 1700 } set_variable = { which = aai_value_energy_produced value = 1650 } }
+	else_if = { limit = { produced_energy >= 1700 produced_energy < 1750 } set_variable = { which = aai_value_energy_produced value = 1700 } }
+	else_if = { limit = { produced_energy >= 1750 produced_energy < 1800 } set_variable = { which = aai_value_energy_produced value = 1750 } }
+	else_if = { limit = { produced_energy >= 1800 produced_energy < 1850 } set_variable = { which = aai_value_energy_produced value = 1800 } }
+	else_if = { limit = { produced_energy >= 1850 produced_energy < 1900 } set_variable = { which = aai_value_energy_produced value = 1850 } }
+	else_if = { limit = { produced_energy >= 1900 produced_energy < 1950 } set_variable = { which = aai_value_energy_produced value = 1900 } }
+	else_if = { limit = { produced_energy >= 1950 produced_energy < 2000 } set_variable = { which = aai_value_energy_produced value = 1950 } }
+	else_if = { limit = { produced_energy >= 2000 } set_variable = { which = aai_value_energy_produced value = 2000 } }
+	
+	set_variable = { which = acai_value_energy_income value = 0 }
+	if = { limit = { has_monthly_income = { resource = energy value >= 2 } has_monthly_income = { resource = energy value < 3 } } set_variable = { which = acai_value_energy_income value = 2 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 3 } has_monthly_income = { resource = energy value < 4 } } set_variable = { which = acai_value_energy_income value = 3 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 4 } has_monthly_income = { resource = energy value < 5 } } set_variable = { which = acai_value_energy_income value = 4 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 5 } has_monthly_income = { resource = energy value < 6 } } set_variable = { which = acai_value_energy_income value = 5 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 6 } has_monthly_income = { resource = energy value < 7 } } set_variable = { which = acai_value_energy_income value = 6 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 7 } has_monthly_income = { resource = energy value < 8 } } set_variable = { which = acai_value_energy_income value = 7 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 8 } has_monthly_income = { resource = energy value < 9 } } set_variable = { which = acai_value_energy_income value = 8 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 9 } has_monthly_income = { resource = energy value < 10 } } set_variable = { which = acai_value_energy_income value = 9 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 10 } has_monthly_income = { resource = energy value < 11 } } set_variable = { which = acai_value_energy_income value = 10 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 11 } has_monthly_income = { resource = energy value < 12 } } set_variable = { which = acai_value_energy_income value = 11 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 12 } has_monthly_income = { resource = energy value < 13 } } set_variable = { which = acai_value_energy_income value = 12 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 13 } has_monthly_income = { resource = energy value < 14 } } set_variable = { which = acai_value_energy_income value = 13 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 14 } has_monthly_income = { resource = energy value < 15 } } set_variable = { which = acai_value_energy_income value = 14 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 15 } has_monthly_income = { resource = energy value < 16 } } set_variable = { which = acai_value_energy_income value = 15 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 16 } has_monthly_income = { resource = energy value < 17 } } set_variable = { which = acai_value_energy_income value = 16 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 17 } has_monthly_income = { resource = energy value < 18 } } set_variable = { which = acai_value_energy_income value = 17 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 18 } has_monthly_income = { resource = energy value < 19 } } set_variable = { which = acai_value_energy_income value = 18 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 19 } has_monthly_income = { resource = energy value < 20 } } set_variable = { which = acai_value_energy_income value = 19 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 20 } has_monthly_income = { resource = energy value < 21 } } set_variable = { which = acai_value_energy_income value = 20 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 21 } has_monthly_income = { resource = energy value < 22 } } set_variable = { which = acai_value_energy_income value = 21 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 22 } has_monthly_income = { resource = energy value < 23 } } set_variable = { which = acai_value_energy_income value = 22 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 23 } has_monthly_income = { resource = energy value < 24 } } set_variable = { which = acai_value_energy_income value = 23 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 24 } has_monthly_income = { resource = energy value < 25 } } set_variable = { which = acai_value_energy_income value = 24 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 25 } has_monthly_income = { resource = energy value < 26 } } set_variable = { which = acai_value_energy_income value = 25 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 26 } has_monthly_income = { resource = energy value < 27 } } set_variable = { which = acai_value_energy_income value = 26 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 27 } has_monthly_income = { resource = energy value < 28 } } set_variable = { which = acai_value_energy_income value = 27 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 28 } has_monthly_income = { resource = energy value < 29 } } set_variable = { which = acai_value_energy_income value = 28 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 29 } has_monthly_income = { resource = energy value < 30 } } set_variable = { which = acai_value_energy_income value = 29 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 30 } has_monthly_income = { resource = energy value < 31 } } set_variable = { which = acai_value_energy_income value = 30 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 31 } has_monthly_income = { resource = energy value < 32 } } set_variable = { which = acai_value_energy_income value = 31 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 32 } has_monthly_income = { resource = energy value < 33 } } set_variable = { which = acai_value_energy_income value = 32 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 33 } has_monthly_income = { resource = energy value < 34 } } set_variable = { which = acai_value_energy_income value = 33 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 34 } has_monthly_income = { resource = energy value < 35 } } set_variable = { which = acai_value_energy_income value = 34 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 35 } has_monthly_income = { resource = energy value < 36 } } set_variable = { which = acai_value_energy_income value = 35 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 36 } has_monthly_income = { resource = energy value < 37 } } set_variable = { which = acai_value_energy_income value = 36 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 37 } has_monthly_income = { resource = energy value < 38 } } set_variable = { which = acai_value_energy_income value = 37 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 38 } has_monthly_income = { resource = energy value < 39 } } set_variable = { which = acai_value_energy_income value = 38 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 39 } has_monthly_income = { resource = energy value < 40 } } set_variable = { which = acai_value_energy_income value = 39 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 40 } has_monthly_income = { resource = energy value < 41 } } set_variable = { which = acai_value_energy_income value = 40 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 41 } has_monthly_income = { resource = energy value < 42 } } set_variable = { which = acai_value_energy_income value = 41 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 42 } has_monthly_income = { resource = energy value < 43 } } set_variable = { which = acai_value_energy_income value = 42 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 43 } has_monthly_income = { resource = energy value < 44 } } set_variable = { which = acai_value_energy_income value = 43 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 44 } has_monthly_income = { resource = energy value < 45 } } set_variable = { which = acai_value_energy_income value = 44 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 45 } has_monthly_income = { resource = energy value < 46 } } set_variable = { which = acai_value_energy_income value = 45 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 46 } has_monthly_income = { resource = energy value < 47 } } set_variable = { which = acai_value_energy_income value = 46 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 47 } has_monthly_income = { resource = energy value < 48 } } set_variable = { which = acai_value_energy_income value = 47 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 48 } has_monthly_income = { resource = energy value < 49 } } set_variable = { which = acai_value_energy_income value = 48 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 49 } has_monthly_income = { resource = energy value < 50 } } set_variable = { which = acai_value_energy_income value = 49 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 50 } has_monthly_income = { resource = energy value < 51 } } set_variable = { which = acai_value_energy_income value = 50 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 51 } has_monthly_income = { resource = energy value < 52 } } set_variable = { which = acai_value_energy_income value = 51 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 52 } has_monthly_income = { resource = energy value < 53 } } set_variable = { which = acai_value_energy_income value = 52 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 53 } has_monthly_income = { resource = energy value < 54 } } set_variable = { which = acai_value_energy_income value = 53 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 54 } has_monthly_income = { resource = energy value < 55 } } set_variable = { which = acai_value_energy_income value = 54 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 55 } has_monthly_income = { resource = energy value < 56 } } set_variable = { which = acai_value_energy_income value = 55 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 56 } has_monthly_income = { resource = energy value < 57 } } set_variable = { which = acai_value_energy_income value = 56 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 57 } has_monthly_income = { resource = energy value < 58 } } set_variable = { which = acai_value_energy_income value = 57 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 58 } has_monthly_income = { resource = energy value < 59 } } set_variable = { which = acai_value_energy_income value = 58 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 59 } has_monthly_income = { resource = energy value < 60 } } set_variable = { which = acai_value_energy_income value = 59 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 60 } has_monthly_income = { resource = energy value < 61 } } set_variable = { which = acai_value_energy_income value = 60 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 61 } has_monthly_income = { resource = energy value < 62 } } set_variable = { which = acai_value_energy_income value = 61 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 62 } has_monthly_income = { resource = energy value < 63 } } set_variable = { which = acai_value_energy_income value = 62 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 63 } has_monthly_income = { resource = energy value < 64 } } set_variable = { which = acai_value_energy_income value = 63 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 64 } has_monthly_income = { resource = energy value < 65 } } set_variable = { which = acai_value_energy_income value = 64 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 65 } has_monthly_income = { resource = energy value < 66 } } set_variable = { which = acai_value_energy_income value = 65 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 66 } has_monthly_income = { resource = energy value < 67 } } set_variable = { which = acai_value_energy_income value = 66 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 67 } has_monthly_income = { resource = energy value < 68 } } set_variable = { which = acai_value_energy_income value = 67 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 68 } has_monthly_income = { resource = energy value < 69 } } set_variable = { which = acai_value_energy_income value = 68 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 69 } has_monthly_income = { resource = energy value < 70 } } set_variable = { which = acai_value_energy_income value = 69 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 70 } has_monthly_income = { resource = energy value < 71 } } set_variable = { which = acai_value_energy_income value = 70 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 71 } has_monthly_income = { resource = energy value < 72 } } set_variable = { which = acai_value_energy_income value = 71 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 72 } has_monthly_income = { resource = energy value < 73 } } set_variable = { which = acai_value_energy_income value = 72 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 73 } has_monthly_income = { resource = energy value < 74 } } set_variable = { which = acai_value_energy_income value = 73 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 74 } has_monthly_income = { resource = energy value < 75 } } set_variable = { which = acai_value_energy_income value = 74 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 75 } has_monthly_income = { resource = energy value < 76 } } set_variable = { which = acai_value_energy_income value = 75 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 76 } has_monthly_income = { resource = energy value < 77 } } set_variable = { which = acai_value_energy_income value = 76 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 77 } has_monthly_income = { resource = energy value < 78 } } set_variable = { which = acai_value_energy_income value = 77 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 78 } has_monthly_income = { resource = energy value < 79 } } set_variable = { which = acai_value_energy_income value = 78 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 79 } has_monthly_income = { resource = energy value < 80 } } set_variable = { which = acai_value_energy_income value = 79 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 80 } has_monthly_income = { resource = energy value < 81 } } set_variable = { which = acai_value_energy_income value = 80 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 81 } has_monthly_income = { resource = energy value < 82 } } set_variable = { which = acai_value_energy_income value = 81 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 82 } has_monthly_income = { resource = energy value < 83 } } set_variable = { which = acai_value_energy_income value = 82 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 83 } has_monthly_income = { resource = energy value < 84 } } set_variable = { which = acai_value_energy_income value = 83 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 84 } has_monthly_income = { resource = energy value < 85 } } set_variable = { which = acai_value_energy_income value = 84 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 85 } has_monthly_income = { resource = energy value < 86 } } set_variable = { which = acai_value_energy_income value = 85 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 86 } has_monthly_income = { resource = energy value < 87 } } set_variable = { which = acai_value_energy_income value = 86 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 87 } has_monthly_income = { resource = energy value < 88 } } set_variable = { which = acai_value_energy_income value = 87 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 88 } has_monthly_income = { resource = energy value < 89 } } set_variable = { which = acai_value_energy_income value = 88 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 89 } has_monthly_income = { resource = energy value < 90 } } set_variable = { which = acai_value_energy_income value = 89 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 90 } has_monthly_income = { resource = energy value < 91 } } set_variable = { which = acai_value_energy_income value = 90 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 91 } has_monthly_income = { resource = energy value < 92 } } set_variable = { which = acai_value_energy_income value = 91 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 92 } has_monthly_income = { resource = energy value < 93 } } set_variable = { which = acai_value_energy_income value = 92 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 93 } has_monthly_income = { resource = energy value < 94 } } set_variable = { which = acai_value_energy_income value = 93 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 94 } has_monthly_income = { resource = energy value < 95 } } set_variable = { which = acai_value_energy_income value = 94 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 95 } has_monthly_income = { resource = energy value < 96 } } set_variable = { which = acai_value_energy_income value = 95 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 96 } has_monthly_income = { resource = energy value < 97 } } set_variable = { which = acai_value_energy_income value = 96 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 97 } has_monthly_income = { resource = energy value < 98 } } set_variable = { which = acai_value_energy_income value = 97 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 98 } has_monthly_income = { resource = energy value < 99 } } set_variable = { which = acai_value_energy_income value = 98 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 99 } has_monthly_income = { resource = energy value < 100 } } set_variable = { which = acai_value_energy_income value = 99 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 100 } has_monthly_income = { resource = energy value < 101 } } set_variable = { which = acai_value_energy_income value = 100 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 101 } has_monthly_income = { resource = energy value < 102 } } set_variable = { which = acai_value_energy_income value = 101 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 102 } has_monthly_income = { resource = energy value < 103 } } set_variable = { which = acai_value_energy_income value = 102 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 103 } has_monthly_income = { resource = energy value < 104 } } set_variable = { which = acai_value_energy_income value = 103 } }
+	else_if = { limit = { has_monthly_income = { resource = energy value >= 104 } } set_variable = { which = acai_value_energy_income value = 104 } }
+	
+	set_variable = { which = acai_value_minerals_income value = 0 }
+	if = { limit = { has_monthly_income = { resource = minerals value >= 5 } has_monthly_income = { resource = minerals value < 10 } } set_variable = { which = acai_value_minerals_income value = 5 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 10 } has_monthly_income = { resource = minerals value < 15 } } set_variable = { which = acai_value_minerals_income value = 10 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 15 } has_monthly_income = { resource = minerals value < 20 } } set_variable = { which = acai_value_minerals_income value = 15 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 20 } has_monthly_income = { resource = minerals value < 25 } } set_variable = { which = acai_value_minerals_income value = 20 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 25 } has_monthly_income = { resource = minerals value < 30 } } set_variable = { which = acai_value_minerals_income value = 25 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 30 } has_monthly_income = { resource = minerals value < 35 } } set_variable = { which = acai_value_minerals_income value = 30 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 35 } has_monthly_income = { resource = minerals value < 40 } } set_variable = { which = acai_value_minerals_income value = 35 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 40 } has_monthly_income = { resource = minerals value < 45 } } set_variable = { which = acai_value_minerals_income value = 40 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 45 } has_monthly_income = { resource = minerals value < 50 } } set_variable = { which = acai_value_minerals_income value = 45 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 50 } has_monthly_income = { resource = minerals value < 55 } } set_variable = { which = acai_value_minerals_income value = 50 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 55 } has_monthly_income = { resource = minerals value < 60 } } set_variable = { which = acai_value_minerals_income value = 55 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 60 } has_monthly_income = { resource = minerals value < 65 } } set_variable = { which = acai_value_minerals_income value = 60 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 65 } has_monthly_income = { resource = minerals value < 70 } } set_variable = { which = acai_value_minerals_income value = 65 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 70 } has_monthly_income = { resource = minerals value < 75 } } set_variable = { which = acai_value_minerals_income value = 70 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 75 } has_monthly_income = { resource = minerals value < 80 } } set_variable = { which = acai_value_minerals_income value = 75 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 80 } has_monthly_income = { resource = minerals value < 85 } } set_variable = { which = acai_value_minerals_income value = 80 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 85 } has_monthly_income = { resource = minerals value < 90 } } set_variable = { which = acai_value_minerals_income value = 85 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 90 } has_monthly_income = { resource = minerals value < 95 } } set_variable = { which = acai_value_minerals_income value = 90 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 95 } has_monthly_income = { resource = minerals value < 100 } } set_variable = { which = acai_value_minerals_income value = 95 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 100 } has_monthly_income = { resource = minerals value < 105 } } set_variable = { which = acai_value_minerals_income value = 100 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 105 } has_monthly_income = { resource = minerals value < 110 } } set_variable = { which = acai_value_minerals_income value = 105 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 110 } has_monthly_income = { resource = minerals value < 115 } } set_variable = { which = acai_value_minerals_income value = 110 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 115 } has_monthly_income = { resource = minerals value < 120 } } set_variable = { which = acai_value_minerals_income value = 115 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 120 } has_monthly_income = { resource = minerals value < 125 } } set_variable = { which = acai_value_minerals_income value = 120 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 125 } has_monthly_income = { resource = minerals value < 130 } } set_variable = { which = acai_value_minerals_income value = 125 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 130 } has_monthly_income = { resource = minerals value < 135 } } set_variable = { which = acai_value_minerals_income value = 130 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 135 } has_monthly_income = { resource = minerals value < 140 } } set_variable = { which = acai_value_minerals_income value = 135 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 140 } has_monthly_income = { resource = minerals value < 145 } } set_variable = { which = acai_value_minerals_income value = 140 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 145 } has_monthly_income = { resource = minerals value < 150 } } set_variable = { which = acai_value_minerals_income value = 145 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 150 } has_monthly_income = { resource = minerals value < 155 } } set_variable = { which = acai_value_minerals_income value = 150 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 155 } has_monthly_income = { resource = minerals value < 160 } } set_variable = { which = acai_value_minerals_income value = 155 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 160 } has_monthly_income = { resource = minerals value < 165 } } set_variable = { which = acai_value_minerals_income value = 160 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 165 } has_monthly_income = { resource = minerals value < 170 } } set_variable = { which = acai_value_minerals_income value = 165 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 170 } has_monthly_income = { resource = minerals value < 175 } } set_variable = { which = acai_value_minerals_income value = 170 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 175 } has_monthly_income = { resource = minerals value < 180 } } set_variable = { which = acai_value_minerals_income value = 175 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 180 } has_monthly_income = { resource = minerals value < 185 } } set_variable = { which = acai_value_minerals_income value = 180 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 185 } has_monthly_income = { resource = minerals value < 190 } } set_variable = { which = acai_value_minerals_income value = 185 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 190 } has_monthly_income = { resource = minerals value < 195 } } set_variable = { which = acai_value_minerals_income value = 190 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 195 } has_monthly_income = { resource = minerals value < 200 } } set_variable = { which = acai_value_minerals_income value = 195 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 200 } has_monthly_income = { resource = minerals value < 205 } } set_variable = { which = acai_value_minerals_income value = 200 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 205 } has_monthly_income = { resource = minerals value < 210 } } set_variable = { which = acai_value_minerals_income value = 205 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 210 } has_monthly_income = { resource = minerals value < 215 } } set_variable = { which = acai_value_minerals_income value = 210 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 215 } has_monthly_income = { resource = minerals value < 220 } } set_variable = { which = acai_value_minerals_income value = 215 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 220 } has_monthly_income = { resource = minerals value < 225 } } set_variable = { which = acai_value_minerals_income value = 220 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 225 } has_monthly_income = { resource = minerals value < 230 } } set_variable = { which = acai_value_minerals_income value = 225 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 230 } has_monthly_income = { resource = minerals value < 235 } } set_variable = { which = acai_value_minerals_income value = 230 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 235 } has_monthly_income = { resource = minerals value < 240 } } set_variable = { which = acai_value_minerals_income value = 235 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 240 } has_monthly_income = { resource = minerals value < 245 } } set_variable = { which = acai_value_minerals_income value = 240 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 245 } has_monthly_income = { resource = minerals value < 250 } } set_variable = { which = acai_value_minerals_income value = 245 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 250 } has_monthly_income = { resource = minerals value < 255 } } set_variable = { which = acai_value_minerals_income value = 250 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 255 } has_monthly_income = { resource = minerals value < 260 } } set_variable = { which = acai_value_minerals_income value = 255 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 260 } has_monthly_income = { resource = minerals value < 265 } } set_variable = { which = acai_value_minerals_income value = 260 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 265 } has_monthly_income = { resource = minerals value < 270 } } set_variable = { which = acai_value_minerals_income value = 265 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 270 } has_monthly_income = { resource = minerals value < 275 } } set_variable = { which = acai_value_minerals_income value = 270 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 275 } has_monthly_income = { resource = minerals value < 280 } } set_variable = { which = acai_value_minerals_income value = 275 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 280 } has_monthly_income = { resource = minerals value < 285 } } set_variable = { which = acai_value_minerals_income value = 280 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 285 } has_monthly_income = { resource = minerals value < 290 } } set_variable = { which = acai_value_minerals_income value = 285 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 290 } has_monthly_income = { resource = minerals value < 295 } } set_variable = { which = acai_value_minerals_income value = 290 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 295 } has_monthly_income = { resource = minerals value < 300 } } set_variable = { which = acai_value_minerals_income value = 295 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 300 } has_monthly_income = { resource = minerals value < 305 } } set_variable = { which = acai_value_minerals_income value = 300 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 305 } has_monthly_income = { resource = minerals value < 310 } } set_variable = { which = acai_value_minerals_income value = 305 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 310 } has_monthly_income = { resource = minerals value < 315 } } set_variable = { which = acai_value_minerals_income value = 310 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 315 } has_monthly_income = { resource = minerals value < 320 } } set_variable = { which = acai_value_minerals_income value = 315 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 320 } has_monthly_income = { resource = minerals value < 325 } } set_variable = { which = acai_value_minerals_income value = 320 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 325 } has_monthly_income = { resource = minerals value < 330 } } set_variable = { which = acai_value_minerals_income value = 325 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 330 } has_monthly_income = { resource = minerals value < 335 } } set_variable = { which = acai_value_minerals_income value = 330 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 335 } has_monthly_income = { resource = minerals value < 340 } } set_variable = { which = acai_value_minerals_income value = 335 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 340 } has_monthly_income = { resource = minerals value < 345 } } set_variable = { which = acai_value_minerals_income value = 340 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 345 } has_monthly_income = { resource = minerals value < 350 } } set_variable = { which = acai_value_minerals_income value = 345 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 350 } has_monthly_income = { resource = minerals value < 355 } } set_variable = { which = acai_value_minerals_income value = 350 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 355 } has_monthly_income = { resource = minerals value < 360 } } set_variable = { which = acai_value_minerals_income value = 355 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 360 } has_monthly_income = { resource = minerals value < 365 } } set_variable = { which = acai_value_minerals_income value = 360 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 365 } has_monthly_income = { resource = minerals value < 370 } } set_variable = { which = acai_value_minerals_income value = 365 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 370 } has_monthly_income = { resource = minerals value < 375 } } set_variable = { which = acai_value_minerals_income value = 370 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 375 } has_monthly_income = { resource = minerals value < 380 } } set_variable = { which = acai_value_minerals_income value = 375 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 380 } has_monthly_income = { resource = minerals value < 385 } } set_variable = { which = acai_value_minerals_income value = 380 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 385 } has_monthly_income = { resource = minerals value < 390 } } set_variable = { which = acai_value_minerals_income value = 385 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 390 } has_monthly_income = { resource = minerals value < 395 } } set_variable = { which = acai_value_minerals_income value = 390 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 395 } has_monthly_income = { resource = minerals value < 400 } } set_variable = { which = acai_value_minerals_income value = 395 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 400 } has_monthly_income = { resource = minerals value < 405 } } set_variable = { which = acai_value_minerals_income value = 400 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 405 } has_monthly_income = { resource = minerals value < 410 } } set_variable = { which = acai_value_minerals_income value = 405 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 410 } has_monthly_income = { resource = minerals value < 415 } } set_variable = { which = acai_value_minerals_income value = 410 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 415 } has_monthly_income = { resource = minerals value < 420 } } set_variable = { which = acai_value_minerals_income value = 415 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 420 } has_monthly_income = { resource = minerals value < 425 } } set_variable = { which = acai_value_minerals_income value = 420 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 425 } has_monthly_income = { resource = minerals value < 430 } } set_variable = { which = acai_value_minerals_income value = 425 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 430 } has_monthly_income = { resource = minerals value < 435 } } set_variable = { which = acai_value_minerals_income value = 430 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 435 } has_monthly_income = { resource = minerals value < 440 } } set_variable = { which = acai_value_minerals_income value = 435 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 440 } has_monthly_income = { resource = minerals value < 445 } } set_variable = { which = acai_value_minerals_income value = 440 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 445 } has_monthly_income = { resource = minerals value < 450 } } set_variable = { which = acai_value_minerals_income value = 445 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 450 } has_monthly_income = { resource = minerals value < 455 } } set_variable = { which = acai_value_minerals_income value = 450 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 455 } has_monthly_income = { resource = minerals value < 460 } } set_variable = { which = acai_value_minerals_income value = 455 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 460 } has_monthly_income = { resource = minerals value < 465 } } set_variable = { which = acai_value_minerals_income value = 460 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 465 } has_monthly_income = { resource = minerals value < 470 } } set_variable = { which = acai_value_minerals_income value = 465 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 470 } has_monthly_income = { resource = minerals value < 475 } } set_variable = { which = acai_value_minerals_income value = 470 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 475 } has_monthly_income = { resource = minerals value < 480 } } set_variable = { which = acai_value_minerals_income value = 475 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 480 } has_monthly_income = { resource = minerals value < 485 } } set_variable = { which = acai_value_minerals_income value = 480 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 485 } has_monthly_income = { resource = minerals value < 490 } } set_variable = { which = acai_value_minerals_income value = 485 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 490 } has_monthly_income = { resource = minerals value < 495 } } set_variable = { which = acai_value_minerals_income value = 490 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 495 } has_monthly_income = { resource = minerals value < 500 } } set_variable = { which = acai_value_minerals_income value = 495 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 500 } has_monthly_income = { resource = minerals value < 505 } } set_variable = { which = acai_value_minerals_income value = 500 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 505 } has_monthly_income = { resource = minerals value < 510 } } set_variable = { which = acai_value_minerals_income value = 505 } }
+	else_if = { limit = { has_monthly_income = { resource = minerals value >= 510 } } set_variable = { which = acai_value_minerals_income value = 510 } }
+	
+	
+	#log = "[this.GetName] mineral income 1 --- [this.acai_value_minerals_income]"
+	
+	if = {
+		limit = {
+			acai_main_fleet_exists = yes
+			any_owned_fleet = {
+				acai_main_fleet_current_strongest = yes
+				exists = solar_system
+				exists = orbit
+				orbit = {
+					is_same_value = solar_system.star
+					solar_system = {
+						exists = starbase
+						starbase = {
+							exists = controller
+							controller = {
+								is_same_value = root
+							}
+							has_starbase_size >= starbase_starport
+							has_starbase_building = crew_quarters
+						}
+					}
+				}
+			}
+		}
+		#log = "[this.GetName] fleet is orbiting"
+		every_owned_ship = {
+			limit = {
+				exists = fleet
+				fleet = {
+					acai_main_fleet_current_strongest = yes
+				}
+			}
+			#is_ship_size = destroyer
+			#is_ship_size = cruiser
+			if = {
+				limit = {
+					is_ship_size = corvette
+				}
+				if = {
+					limit = {
+						years_passed < 15
+					}
+					#add_minerals = 140
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.175
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.35
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 15
+						years_passed < 30
+					}
+					#add_minerals = 150
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.1875
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.375
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 30
+						years_passed < 45
+					}
+					#add_minerals = 160
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.20
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.40
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 45
+						years_passed < 60
+					}
+					#add_minerals = 170
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.2125
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.425
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 60
+						years_passed < 75
+					}
+					#add_minerals = 180
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.225
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.45
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 75
+						years_passed < 90
+					}
+					#add_minerals = 200
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.25
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.50
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 90
+						years_passed < 105
+					}
+					#add_minerals = 220
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.275
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.55
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 105
+						years_passed < 120
+					}
+					#add_minerals = 240
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.30
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.60
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 120
+						years_passed < 135
+					}
+					#add_minerals = 260
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.325
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.65
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 135
+						years_passed < 150
+					}
+					#add_minerals = 280
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.35
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.70
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 150
+						years_passed < 165
+					}
+					#add_minerals = 300
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.375
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.75
+					}
+					}
+				}
+				else_if = {
+					limit = {
+						years_passed >= 165
+					}
+					#add_minerals = 320
+					root = {
+					subtract_variable = {
+						which = acai_value_energy_income
+						value = 0.40
+					}
+					subtract_variable = {
+						which = acai_value_minerals_income
+						value = 0.80
+					}
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_ship_size = battleship
+				}
+					root = {
+				subtract_variable = {
+					which = acai_value_energy_income
+					value = 2.50
+				}
+				subtract_variable = {
+					which = acai_value_minerals_income
+					value = 5.00
+				}
+				}
+			}
+		}
+	}
+	
+	#log = "[this.GetName] mineral income 2 --- [this.acai_value_minerals_income]"
+	
+	# 600% base
+	# 2% for every 300%
+	
+	# Calculating low energy income
+		
+		# Calculating 600% segment
+			
+			set_variable = {
+				which = aai_value_energy_stock_segment
+				value = aai_value_energy_produced
+			}
+			multiply_variable = {
+				which = aai_value_energy_stock_segment
+				value = 6
+			}
+			change_variable = {
+				which = aai_value_energy_stock_segment
+				value = 300
+			}
+		
+		# End calculating 600% segment
+		
+		# Calculating low income
+			
+			set_variable = {
+				which = aai_value_energy_income_low
+				value = aai_value_energy_produced
+			}
+			divide_variable = {
+				which = aai_value_energy_income_low
+				value = 50
+			}
+			change_variable = {
+				which = aai_value_energy_income_low
+				value = 2
+			}
+		
+		# End calculating low income
+		
+		# 
+		
+		
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_energy_stockpile
+					value >= aai_value_energy_stock_segment
+				}
+				has_monthly_income = {
+					resource = energy
+					value >= 0
+				}
+			}
+			set_variable = {
+				which = aai_boolean_energy_income_low
+				value = 1
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = {
+					which = acai_value_energy_income
+					value >= aai_value_energy_income_low
+				}
+			}
+			set_variable = {
+				which = aai_boolean_energy_income_low
+				value = 1
+			}
+		}
+		else = {
+			set_variable = {
+				which = aai_boolean_energy_income_low
+				value = 2
+			}
+		}
+		
+		#
+	
+	
+	
+	# Calculating monthly medium energy income
+	set_variable = {
+		which = aai_value_energy_income_medium
+		value = aai_value_energy_produced
+	}
+	divide_variable = {
+		which = aai_value_energy_income_medium
+		value = 50
+	}
+	multiply_variable = {
+		which = aai_value_energy_income_medium
+		value = 2
+	}
+	change_variable = {
+		which = aai_value_energy_income_medium
+		value = 10
+	}
+	
+	# Checking monthly medium energy income
+	
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_value_energy_income
+				value >= aai_value_energy_income_medium
+			}
+		}
+		set_variable = {
+			which = aai_boolean_energy_income_medium
+			value = 2
+		}
+	}
+	else = {
+		set_variable = {
+			which = aai_boolean_energy_income_medium
+			value = 1
+		}
+	}
+	
+	# Calculating monthly high energy income
+	
+	set_variable = {
+		which = aai_value_energy_income_high
+		value = aai_value_energy_income_medium
+	}
+	change_variable = {
+		which = aai_value_energy_income_high
+		value = 14
+	}
+	
+	# Checking monthly high energy income
+	
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_value_energy_income
+				value >= aai_value_energy_income_high
+			}
+		}
+		set_variable = {
+			which = aai_boolean_energy_income_high
+			value = 2
+		}
+	}
+	else = {
+		set_variable = {
+			which = aai_boolean_energy_income_high
+			value = 1
+		}
+	}
+	
+	# Checking extreme minerals income
+	
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_minerals_income
+					value < acai_value_minerals_income_extreme
+				}
+			}
+			set_variable = {
+				which = acai_boolean_minerals_income_extreme
+				value = 2
+			}
+		}
+		else = {
+			set_variable = {
+				which = acai_boolean_minerals_income_extreme
+				value = 1
+			}
+		}
+	
+	# Checking extreme minerals income with margin
+		
+		set_variable = {
+			which = acai_value_minerals_income_extreme_margin
+			value = acai_value_minerals_income_extreme
+		}
+		
+		set_variable = {
+			which = acai_value_minerals_income_extreme_margin_percent
+			value = acai_value_minerals_income_extreme
+		}
+		divide_variable = {
+			which = acai_value_minerals_income_extreme_margin_percent
+			value = 10
+		}
+		
+		change_variable = {
+			which = acai_value_minerals_income_extreme_margin
+			value = 5
+		}
+		change_variable = {
+			which = acai_value_minerals_income_extreme_margin
+			value = acai_value_minerals_income_extreme_margin_percent
+		}
+		
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_minerals_income
+					value < acai_value_minerals_income_extreme_margin
+				}
+			}
+			set_variable = {
+				which = acai_boolean_minerals_income_extreme_margin
+				value = 2
+			}
+		}
+		else = {
+			set_variable = {
+				which = acai_boolean_minerals_income_extreme_margin
+				value = 1
+			}
+		}
+		
+	# Checking low minerals income
+		
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_minerals_income
+					value < acai_value_minerals_income_low
+				}
+			}
+			set_variable = {
+				which = acai_boolean_minerals_income_low
+				value = 2
+			}
+		}
+		else = {
+			set_variable = {
+				which = acai_boolean_minerals_income_low
+				value = 1
+			}
+		}
+		
+	# Checking low minerals income with margin
+		
+		set_variable = {
+			which = acai_value_minerals_income_low_margin
+			value = acai_value_minerals_income_low
+		}
+		
+		set_variable = {
+			which = acai_value_minerals_income_low_margin_percent
+			value = acai_value_minerals_income_low
+		}
+		divide_variable = {
+			which = acai_value_minerals_income_low_margin_percent
+			value = 10
+		}
+		
+		change_variable = {
+			which = acai_value_minerals_income_low_margin
+			value = 10
+		}
+		change_variable = {
+			which = acai_value_minerals_income_low_margin
+			value = acai_value_minerals_income_low_margin_percent
+		}
+		
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_minerals_income
+					value < acai_value_minerals_income_low_margin
+				}
+			}
+			set_variable = {
+				which = acai_boolean_minerals_income_low_margin
+				value = 2
+			}
+		}
+		else = {
+			set_variable = {
+				which = acai_boolean_minerals_income_low_margin
+				value = 1
+			}
+		}
+		
+	#
+	
+}
+
+acai_calc_deposit = {
+	
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_boolean_deposit_planet
+				value = 2
+			}
+			check_variable = {
+				which = acai_value_minerals_deposit
+				value < 300
+			}
+		}
+		
+		while = {
+			limit = {
+				minerals > 5
+				check_variable = {
+					which = acai_value_minerals_deposit
+					value < 300
+				}
+			}
+			log = "[this.GetName] fill deposit"
+			add_minerals = -5
+			change_variable = {
+				which = acai_value_minerals_deposit
+				value = 5
+			}
+		}
+		
+	}
+	
+}

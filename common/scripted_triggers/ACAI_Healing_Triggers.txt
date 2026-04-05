@@ -1,0 +1,10 @@
+
+acai_healing_system_is_suitable = {
+	exists = starbase
+	starbase = {
+		controller = {
+			is_same_value = root.owner
+		}
+		has_starbase_size >= starbase_starport
+	}
+}

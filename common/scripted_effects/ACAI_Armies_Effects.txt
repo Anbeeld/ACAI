@@ -1,0 +1,16 @@
+
+acai_armies_stuckfix_call = {
+	country_event = { id = aai_armies.2 days = 2 }
+}
+
+acai_armies_stuckfix_cancel = {
+	log = "[this.GetName] fix cancelled"
+	set_variable = {
+		which = acai_value_armies_stuck_1
+		value = 0
+	}
+	set_variable = {
+		which = acai_value_armies_stuck_2
+		value = 0
+	}
+}

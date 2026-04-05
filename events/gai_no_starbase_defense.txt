@@ -1,0 +1,31 @@
+namespace = no_starbase_defense
+
+event = {
+	id = no_starbase_defense.1	
+	hide_window = yes
+	is_triggered_only = yes
+	#fire_only_once = yes
+	
+	immediate = {
+		every_country = {
+			limit = {
+				is_ai = yes
+				is_country_type = "default"
+				has_monthly_income = {
+					resource = energy
+					value < 45
+				}
+				has_monthly_income = {
+					resource = minerals
+					value < 150
+				}
+			}
+			add_modifier = {
+				modifier = no_platforms
+				days = 480
+			}
+		}
+	}
+}
+
+

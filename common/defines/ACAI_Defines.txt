@@ -1,0 +1,767 @@
+	
+	NGraphics = {
+	
+		STAR_PIN_CIRCLE_RADIUS				= 0	# The lines that go from solar systems down to the 0-plane. This is the radius of that circle
+		RANDOM_HEIGHT_MIN = 0.0
+		RANDOM_HEIGHT_MAX = 0.0
+		
+		LEADER_GOVERNOR_SECTOR_MONTHLY_EXPERIENCE					= 5	# Monthy exp from governing sector.
+		SECTOR_SUPPORT_RESOURCE_AMOUNT_LARGE	= 1001 	# How much resources each click will give the sector if CTRL is held down
+		SECTOR_SUPPORT_RESOURCE_AMOUNT			= 101 	# How much resources each click will give the sector.
+		
+	}
+	
+	NGameplay = {
+	
+		RELEVANT_DISTANCE = 160				# Within this distance we're considered to be diplomatically relevant
+		
+		MAX_FRICTION 						= 150	# Max friction (total)
+		#ENC FRICTION_FROM_BORDERING_SYSTEM 		= 9	# Friction for each bordering system
+		FRICTION_FROM_BORDERING_SYSTEM 		= 10	# Friction for each bordering system
+		
+		WAR_EXHAUSTION_NAVAL_CAP_ADD		  = 100
+		WAR_EXHAUSTION_SHIP_KILLED_MULT		  = 0.5	# Multiplier of war exhaustion gained from ships
+		WAR_EXHAUSTION_ARMY_KILLED_MULT		  = 0.25	# Multiplier of war exhaustion gained from land battles (armies)
+		WAR_EXHAUSTION_PLANET_DESTRUCTION_MULT = 5.0		# War exhaustion from planets destroyed
+		WAR_EXHAUSTION_PASSIVE_GAIN_YEARLY	  = 0.25		# The amount of yearly war exhaustion gained during war while under WAR_EXHAUSTION_PASSIVE_GAIN_CUTOFF
+		WAR_EXHAUSTION_PASSIVE_WAR_SIZE_DIV	  = 0.1	
+		WAR_EXHAUSTION_PASSIVE_GAIN_CUTOFF	  = 1.0		# At this amount of war exhaustion (excluding occupation) you stop getting war exhaustion passively over time
+		WAR_EXHAUSTION_FROM_UNITS_CUTOFF	  = 1.0		# At this amount of war exhaustion (excluding occupation) you stop gaining war exhaustion from lost units
+		WAR_EXHAUSTION_HIGH_THRESHOLD		  = 1.0		# Apply negative modifier and show alert if war exhaustion >= this
+		
+		ENFORCE_STATUS_QUO_ENABLED	 		  = yes		# Can status quo be enforced at high WE? I'm in two minds about this I want to set this to no but it will have huge implications for both AI's and Players alike Anex.
+		ENFORCE_STATUS_QUO_MONTHS			  = 48		# Just to test things I have set this to 4 years Anex
+		
+		OCCUPATION_BASE_VALUE 					= 5		# Base value of occupied system, used for calculating relative occupation score of empire
+		OCCUPATION_PLANET_VALUE 				= 11	# Per planet in system
+		OCCUPATION_POP_VALUE 					= 0.10	# Per pop in system
+		OCCUPATION_STARBASE_VALUE 				= 10	# If starbase is upgraded
+		
+		STARBASE_AUTO_CONTROL_DISTANCE			= 500	# Distance at which a fleet can seize control of a disabled starbase
+		
+		COMMAND_LIMIT_MAX						= 2000	# Max value of Command Limit
+		COMMAND_LIMIT_BASE 						= 2000	# Base value of Command Limit
+		
+	}
+
+	NShip = {
+	
+		#ENC DESIGNER_WEAPON_PREF_MUL			= 1.45			# How much does weapon preference tags in the ship designer affect the weight it assigns a weapon?
+		#ENC DESIGNER_WEAPON_STACKING_DIV		= 0.35			# The higher this is the more the ship designer will try to vary which weapon types are used on its sections
+		
+		AGGRESSIVE_STANCE_INVASION_ODDS_MULT = 1.25			# Transport fleets on aggressive stance want to have combat strength of enemy ground troops x this to invade a world		
+		AGGRESSIVE_STANCE_MIN_POWER_MULT	= 0.4			# Fleets that are less than our military power x this will be ignored by aggressive fleets that are bombarding
+	
+		#GAI DESIGNER_WEAPON_PREF_MUL			= 1.33			# How much does weapon preference tags in the ship designer affect the weight it assigns a weapon?
+		#GAI DESIGNER_WEAPON_STACKING_DIV		= 0.25			# The higher this is the more the ship designer will try to vary which weapon types are used on its sections
+		
+		DESIGNER_WEAPON_PREF_MUL			= 1.00
+		DESIGNER_WEAPON_STACKING_DIV		= 0.50
+		
+	}
+
+	NAI = {
+		
+		AI_MAX_DISTANCE = 950						# AI considers all systems more distant than this to be equally uninteresting
+		
+		CRISIS_THREAT_THRESHOLD_UPPER = 70			# At this crisis threat, AI drops other priorities and focuses on fighting the crisis
+		
+		MIN_DISTANCE_TO_JUMP = 3					# Target must be at least this many systems away for AI to want to use jump drive
+		AI_JUMP_DRIVE_BRAVERY = 0.45				# AI will not want to jump into systems unless enemy is this much weaker than them, relatively
+		
+		### WAR DEFINES
+		
+		#ENC WAR_DISTANCE_FACTOR = 100					# The lower this is, the more AI fleets will tend to go after nearby targets
+		#ENC WAR_OCCUPIED_BORDER_PRIO = 20				# Priority on targeting systems that are bordering our occupied space
+		#ENC WAR_OWN_BORDER_PRIO	= 10					# Priority on targeting systems that are bordering us
+		#ENC WAR_ALLY_BORDER_PRIO = 5					# Priority on targeting systems that are bordering allies
+		#ENC WAR_NO_BORDER_PRIO = 0.01					# Priority on targeting systems that are in the middle of hostile space
+		#ENC WAR_DEFENSE_OWN_PRIO = 5					# Priority on defending own borders
+		#ENC WAR_DEFENSE_ALLY_PRIO = 3					# Priority on defending allies
+		#ENC WAR_NEUTRAL_SPACE_PRIO = 0.5				# Priority on targeting enemies in neutral space
+		#ENC WAR_ATTACK_CLAIM_PRIO = 3.5					# Priority on targeting enemy systems we have claimed
+		#ENC WAR_ATTACK_PLANET_PRIO = 3.5				# Priority on targeting enemy systems with planets
+		#ENC WAR_ATTACK_PLANET_CONTROLLED_SYSTEM_PRIO = 15.0				# Priority on targeting enemy planets in controlled systems
+		#ENC WAR_ATTACK_STARBASE_PRIO = 2				# Priority on targeting enemy systems with upgraded starbases
+		#ENC WAR_ATTACK_MILITARY_FLEET_PRIO = 3			# Priority on targeting enemy military fleets
+		#ENC WAR_ATTACK_JUMP_DRIVE_FLEET_PRIO = 2.0		# Priority on targeting vulnerable jump-drive fleets that are in cooldown
+		#GAI WAR_DISTANCE_FACTOR = 15					# The lower this is, the more AI fleets will tend to go after nearby targets
+		#GAI WAR_OWN_BORDER_PRIO	= 15					# Priority on targeting systems that are bordering us
+		#GAI WAR_ALLY_BORDER_PRIO = 12					# Priority on targeting systems that are bordering allies
+		AI_NO_RETREAT_LIMIT = 6						# At fewer owner/controlled planets than this, the AI will fight to the death in their home systems
+		#GAI AI_NO_RETREAT_LIMIT = 5						# At fewer owner/controlled planets than this, the AI will fight to the death in their home systems
+		
+		WAR_OCCUPIED_BORDER_PRIO = 30				# Priority on targeting systems that are bordering our occupied space
+		WAR_OWN_BORDER_PRIO	= 50					# Priority on targeting systems that are bordering us
+		WAR_ALLY_BORDER_PRIO = 3					# Priority on targeting systems that are bordering allies
+		WAR_NO_BORDER_PRIO = 0.01					# Priority on targeting systems that are in the middle of hostile space
+		WAR_DEFENSE_OWN_PRIO = 5					# Priority on defending own borders
+		WAR_DEFENSE_ALLY_PRIO = 2					# Priority on defending allies
+		WAR_NEUTRAL_SPACE_PRIO = 0.5				# Priority on targeting enemies in neutral space
+		WAR_ATTACK_CLAIM_PRIO = 8.5					# Priority on targeting enemy systems we have claimed
+		WAR_ATTACK_PLANET_PRIO = 15.0				# Priority on targeting enemy systems with planets
+		WAR_ATTACK_PLANET_CONTROLLED_SYSTEM_PRIO = 10.0				# Priority on targeting enemy planets in controlled systems
+		WAR_ATTACK_STARBASE_PRIO = 25.1				# Priority on targeting enemy systems with upgraded starbases
+		WAR_ATTACK_MILITARY_FLEET_PRIO = 40.0		# Priority on targeting enemy military fleets
+		WAR_ATTACK_JUMP_DRIVE_FLEET_PRIO = 2.0		# Priority on targeting vulnerable jump-drive fleets that are in cooldown
+		
+		WAR_EXHAUSTION_TO_INTERVENE = 0.2
+		
+		#VAN PEACE_DEFENDING_CLAIM_SYSTEM_FACTOR = -10	# For every system
+		#VAN PEACE_DEFENDING_CLAIM_STARBASE_FACTOR = -40	# For systems with upgraded starbases
+		#VAN PEACE_DEFENDING_CLAIM_PLANET_FACTOR = -100	# For systems with colonies
+		
+		#SRN PEACE_DEFENDING_CLAIM_SYSTEM_FACTOR = -10	# For every system
+		#SRN PEACE_DEFENDING_CLAIM_STARBASE_FACTOR = -40	# For systems with upgraded starbases
+		#SRN PEACE_DEFENDING_CLAIM_PLANET_FACTOR = -100	# For systems with colonies
+		
+		#VAN PEACE_STATUS_QUO_FACTOR = -75
+		#VAN PEACE_DEMAND_SURRENDER_FACTOR = -100
+		#VAN PEACE_OCCUPATION_FACTOR = 100
+		#VAN PEACE_RELATIVE_NAVY_STRENGTH_FACTOR = 50	PEACE_RELATIVE_NAVY_STRENGTH_FACTOR = 70
+		#VAN PEACE_WAR_EXHAUSTION_FACTOR = 100
+		#VAN PEACE_HIGH_WE_STATUS_QUO_FACTOR = 100
+		
+		PEACE_STATUS_QUO_FACTOR = -75
+		PEACE_DEMAND_SURRENDER_FACTOR = -100
+		PEACE_OCCUPATION_FACTOR = 125
+		PEACE_RELATIVE_NAVY_STRENGTH_FACTOR = 75
+		PEACE_WAR_EXHAUSTION_FACTOR = 75
+		PEACE_HIGH_WE_STATUS_QUO_FACTOR = 75
+		
+		### CLAIMS
+		
+		#VAN MAX_CLAIM_DISTANCE = 4					# Max number of jumps away AI will make claims on
+		#VAN MAX_CLAIM_DISTANCE_SUBJECT = 2			# Max number of jumps away AI subjects will make claims on
+		#VAN CLAIM_BASE_VALUE = 100					
+		#VAN CLAIM_RESOURCE_FACTOR = 2				# How much will AI prioritize resource-rich systems when making claims
+		#VAN CLAIM_BYPASS_FACTOR = 10				# How much will AI prioritize systems with bypasses when making claims
+		#VAN CLAIM_RELATIONS_FACTOR = -0.1			# How much will AI factor in opinion when making claims
+		#VAN CLAIM_COST_FACTOR = -0.2				# How much will AI prioritize resource-rich systems when making claims
+		#VAN CLAIM_COLONY_FACTOR = 25				# How much will AI prioritize colonies when making claims
+		#VAN CLAIM_BORDERING_FACTOR = 100				# How much will AI prioritize bordering systems when making claims
+		
+		MAX_CLAIM_DISTANCE = 5					# Max number of jumps away AI will make claims on
+		MAX_CLAIM_DISTANCE_SUBJECT = 3			# Max number of jumps away AI subjects will make claims on
+		CLAIM_BASE_VALUE = 100					
+		CLAIM_RESOURCE_FACTOR = 5				# How much will AI prioritize resource-rich systems when making claims
+		CLAIM_BYPASS_FACTOR = 2				# How much will AI prioritize systems with bypasses when making claims
+		CLAIM_RELATIONS_FACTOR = -2.5			# How much will AI factor in opinion when making claims
+		CLAIM_COST_FACTOR = -0.2				# How much will AI prioritize resource-rich systems when making claims
+		CLAIM_COLONY_FACTOR = 500				# How much will AI prioritize colonies when making claims
+		CLAIM_BORDERING_FACTOR = 10			# How much will AI prioritize bordering systems when making claims
+		
+		### EXPANSION DEFINES
+		
+		MAX_EXPANSION_DISTANCE = 2				# Max number of jumps away AI will build starbases
+		MAX_EXPANSION_DISTANCE_SUBJECT = 1		# Max number of jumps away AI subjects will build starbases
+		#GAI MAX_EXPANSION_DISTANCE = 1				# Max number of jumps away AI will build starbases
+		#GAI MAX_EXPANSION_DISTANCE_SUBJECT = 1		# Max number of jumps away AI subjects will build starbases
+		
+		#ENC EXPANSION_OWN_PRIORITY = 1000			# Priority on rebuilding destroyed starbases in colonized systems
+		#ENC EXPANSION_CUT_OFF_SYSTEM_PRIORITY = 10	# Priority on systems cut-off inside own territory
+		#ENC EXPANSION_BORDERING_PRIORITY = 200		# How much will AI prioritize bordering systems when building starbases
+		#ENC EXPANSION_RESOURCE_PRIORITY = 3			# How much will AI prioritize resource-rich systems when building starbases
+		#ENC EXPANSION_COLONY_PRIORITY = 15			# How much will AI prioritize systems with colonizeable worlds when building starbases
+		#ENC EXPANSION_BYPASS_PRIORITY = 10			# How much will AI prioritize systems with bypasses when building starbases
+		#ENC EXPANSION_MIN_VALUE_FOR_HIGH_PRIO = 10	# How much value does a system need to be considered priority over building up existing systems in borders
+		#ENC EXPANSION_RANDOM_AMOUNT	= 25			# A random roll of this amount is added to each system's score when deciding where to expand next
+		
+		#GAI EXPANSION_OWN_PRIORITY = 100			# Priority on rebuilding destroyed starbases in colonized systems
+		EXPANSION_CUT_OFF_SYSTEM_PRIORITY = 10	# Priority on systems cut-off inside own territory
+		#GAI EXPANSION_BORDERING_PRIORITY = 50		# How much will AI prioritize bordering systems when building starbases
+		#GAI EXPANSION_RESOURCE_PRIORITY = 5			# How much will AI prioritize resource-rich systems when building starbases
+		#GAI EXPANSION_COLONY_PRIORITY = 100			# How much will AI prioritize systems with colonizeable worlds when building starbases
+		#GAI EXPANSION_BYPASS_PRIORITY = 10			# How much will AI prioritize systems with bypasses when building starbases
+		#GAI EXPANSION_MIN_VALUE_FOR_HIGH_PRIO = 20	# How much value does a system need to be considered priority over building up existing systems in borders
+		#GAI EXPANSION_RANDOM_AMOUNT	= 50			# A random roll of this amount is added to each system's score when deciding where to expand next
+		
+		
+		EXPANSION_OWN_PRIORITY = 1000			# Priority on rebuilding destroyed starbases in colonized systems
+		EXPANSION_BORDERING_PRIORITY = 300		# How much will AI prioritize bordering systems when building starbases
+		EXPANSION_RESOURCE_PRIORITY = 200		# How much will AI prioritize resource-rich systems when building starbases
+		EXPANSION_COLONY_PRIORITY = 900			# How much will AI prioritize systems with colonizeable worlds when building starbases
+		EXPANSION_BYPASS_PRIORITY = 10			# How much will AI prioritize systems with bypasses when building starbases
+		EXPANSION_MIN_VALUE_FOR_HIGH_PRIO = 50	# How much value does a system need to be considered priority over building up existing systems in borders
+		EXPANSION_RANDOM_AMOUNT	= 50			# A random roll of this amount is added to each system's score when deciding where to expand next
+		
+		MAX_PLANETS_FOR_BUDGET_FACTOR = 2		# At this amount of planets budget is normalized
+		MAX_SYSTEMS_FOR_BUDGET_FACTOR = 3 # At this amount of systems budget priority shifts to colonies
+		
+		### STARBASE BUILDING
+		
+		STARBASE_COLONY_SCORE = 10
+		STARBASE_HABITABLE_PLANET_SCORE = 2
+		STARBASE_MEGASTRUCTURE_SCORE = 3
+		STARBASE_BYPASS_SCORE = 4
+		STARBASE_CHOKEPOINT_SCORE = 5
+		STARBASE_HAZARD_CHOKEPOINT_SCORE_MULT = 1.5
+		
+		### FLEET DEFINES
+		
+		TRANSPORT_FLEET_SIZE = 20					# AI will have transport fleets of this size + 1
+		ARSENAL_FLEET_SIZE = 200					# AI will have arsenal fleets of this size
+		#GAI ARSENAL_FLEET_SIZE = 200				# Maximum size of a fleet during peace time. In this case fleets will build to their fleet cap or 200 total fleet size.
+		
+		MIN_FLEET_FOR_OFFENSIVE = 800
+		MIN_FLEET_TO_RESTRICT_SYSTEM = 500
+		#GAI MIN_FLEET_THREAT_TO_CRISIS = 20000
+		MIN_FLEET_THREAT_TO_CRISIS = 50000
+		
+		MAX_SHIPS_BUILD_PER_WEEK = 25
+		MAX_SHIPS_DISBAND_PER_WEEK = 5
+		
+		START_WEAPON_TECH_AREA_MULT = 10		# Weapons within the same tech area as the start weapon will be weighted (multiplied) by this value when deciding tech strategies
+		#GAI TRANSPORT_FLEET_SIZE = 25					# AI will have transport fleets of this size + 1
+		
+		MIN_NAVY_SIZE_FOR_ADMIRAL = 15
+		
+		#ENC PRIO_BASE_FRACTION = 0.80				# Prio base fraction for example if prio is assault arsenal fraction will be set to this value
+		#GAI 
+		PRIO_BASE_FRACTION = 0.75				# When at war any NEW ships built will create fleets that are 25% of the arsenal fleet size (IE: size 50). If a target is selected that is too large for these new war fleets then the AI will merge them together into a larger fleet to hunt down the target.
+		
+		### DIPLOMACY DEFINES
+		
+		MIN_GIFT_SIZE = 20								# in opinion impact
+		MAX_GIFT_SIZE = 40
+		
+		BROKEN_TRADE_DEAL_FACTOR = 0.5				# How much does broken trade deal affect opinion (based on value of deal)
+	
+		THREAT_PLANET_MULT = 12						# Base threat multiplier for planet
+		THREAT_STARBASE_MULT = 6.0					# Base threat multiplier for system with upgraded starbase
+		THREAT_SYSTEM_MULT = 5.0					# Base threat multiplier for system
+		
+		HIGH_THREAT_THRESHOLD = 40					# Must have at least this much threat to become fearful		
+		SHARED_THREAT_MULT = 0.5					# How much does having a shared threat boost opinion?
+		THREAT_SHARED_THREAT_REDUCTION = 4			# Each point of threat will also eliminate this much shared threat
+		SHARED_THREAT_MAX =50	 				
+		THREAT_DECAY = -0.50							# Each month
+		THREAT_DISTANCE_FACTOR = 0.02				# The higher this is the larger the threat reduction from being far away
+		THREAT_SIZE_FACTOR = 1.25					# How much does the relative power of the aggressive empire affect threat?
+		THREAT_SIZE_FACTOR_MAX = 2.5
+		THREAT_SIZE_FACTOR_MIN = 0.1
+		THREAT_NAP_FACTOR = 0.5					# How much is threat lowered if we have a NAP or defensive pact?
+		THREAT_POSITIVE_OPINION_FACTOR = 0.003		# How much does opinion of the victim affect threat?
+		THREAT_NEGATIVE_OPINION_FACTOR = 0.004
+		THREAT_OPINION_MAX = 1.25
+		THREAT_OPINION_MIN = 0.50
+		
+		COLONIZE_NON_ADJACENT_DIV = 6			# If colony is far away divide priority to colonize it by this
+	
+		AI_AGGRESSIVENESS_LOW_MULT = 0.75		
+		AI_AGGRESSIVENESS_HIGH_MULT = 2.50			
+		AI_AGGRESSIVENESS_BASE = 75			# Base chance AI will declare a war (multiplied by personality aggressiveness score)
+		AI_AGGRESSIVENESS_PROPAGATOR_BOXED_IN_MULT = 20	# When a warlike 'propagator' personality is boxed in aggression is multiplied by this value
+		AI_AGGRESSIVENESS_BOXED_IN_MULT = 15	# When an AI can no longer peacefully expand aggression is Anex multiplied by this value
+		AI_AGGRESSIVENESS_NO_COLONY_TARGET_MULT = 10 # When an AI has no immediate colony targets and at least MAX_PLANETS_FOR_BUDGET_FACTOR planets (but is not boxed in) aggression is multiplied by this value
+	
+		MAX_RESOURCE_SCORE = 1000				# Maximum amount AI will value a resource at
+		MAX_RESOURCE_SCORE_DIV = 100			# Resources that aren't critical prio are divided by this amount
+	
+		ACTION_MIN_DAYS_REJECTED = 10000		# AI will remember a rejection at least this time
+		ACTION_DAYS_REJECTED_RANDOM = 5000		# Max random extra days AI will reject offer
+		ACTION_MIN_DAYS_REJECTED_PEACE = 360	# AI will remember a peace deal rejection at least this time
+		ACTION_DAYS_REJECTED_RANDOM_PEACE = 120 # Max random extra days AI will reject peace offer
+		INSTANT_AI_DIPLOMACY = 0				# AI answers diplomacy immediately. No proposals are sent off to AIs.
+		DIPLO_BREAK_THRESHOLD = -25		# If AI values an existing deal at less than this break it
+		
+		
+		
+		MAX_TRUST = 100							# trust can never be more than this
+		MAX_TRUST_DEFENSIVE_PACT = 75			# trust can tick up to this if defensive pact
+		MAX_TRUST_ASSOCIATE = 50				# trust can tick up to this if federation associate
+		MAX_TRUST_NAP = 25						# trust can tick up to this if non-aggression pact
+		MAX_TRUST_MIN = 25						# trust can always tick up to at least this
+		BASE_TRUST_CHANGE = -0.50				# only applied if no other factor is changing trust
+		MONTHLY_TRUST_GUARANTEE = 0.10
+		MONTHLY_TRUST_RESEARCH_TREATY = 0.10
+		MONTHLY_TRUST_MIGRATION_TREATY = 0.15
+		MONTHLY_TRUST_NON_AGGRESSION_PACT = 0.15		
+		MONTHLY_TRUST_ASSOCIATION_STATUS = 0.20		
+		MONTHLY_TRUST_DEFENSIVE_PACT = 0.25				
+		MONTHLY_TRUST_SUBJECT = 0.5				
+		MONTHLY_TRUST_FEDERATION = 0.25				
+		MONTHLY_TRUST_AT_WAR = -2.00
+		MONTHLY_TRUST_RIVAL = -2.00
+		
+		
+		
+		FEDERATION_ACCEPTANCE_SHARED_RIVAL = 100 						# per rival
+		FEDERATION_ACCEPTANCE_SHARED_RIVAL_IN_FEDERATION = 25 			# extra per rival in alliance
+		FEDERATION_ACCEPTANCE_OPINION_FACTOR = 0.30
+		FEDERATION_ACCEPTANCE_ATTITUDE_ALLIANCE = 25
+		FEDERATION_ACCEPTANCE_ATTITUDE_COEXIST = 0
+		FEDERATION_ACCEPTANCE_OTHER_ATTITUDE = -50
+		FEDERATION_ACCEPTANCE_VOTED_DOWN_PROPOSAL = -50
+		FEDERATION_ACCEPTANCE_SHARED_THREAT = 0.40						# scales with actual threat
+		FEDERATION_CONQUEROR_DIFFERENCE = -75							# penalty if one side wants to wage wars of conquest and the other doesn't
+		FEDERATION_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR = 20				# For each 1x we are stronger than them
+		FEDERATION_ACCEPTANCE_RELATIVE_STRENGTH_MAX = 200
+		FEDERATION_ACCEPTANCE_MEMBER_VOTE = 50							# added to acceptance when a member is voting whether to approve an alliance invite
+		FEDERATION_ACCEPTANCE_MEMBER_VOTE_SIZE_FACTOR = 0				# for each member above two 
+		FEDERATION_ACCEPTANCE_MEMBER_VOTE_MIN = 50
+		FEDERATION_ACCEPTANCE_ASSOCIATION_VOTE = 100
+		FEDERATION_ACCEPTANCE_CRISIS_FACTOR = 50
+		FEDERATION_ACCEPTANCE_DISTANCE_MULT = -0.05 					# per 1 border distance
+		
+		
+		
+		DEFENSIVE_PACT_ACCEPTANCE_SHARED_RIVAL = 150 					# per rival
+		DEFENSIVE_PACT_ACCEPTANCE_SHARED_ALLY = 125						# per shared ally
+		DEFENSIVE_PACT_ACCEPTANCE_NUM_PACTS = -100						# per existing defensive pact
+		DEFENSIVE_PACT_ACCEPTANCE_OPINION_FACTOR = 0.20
+		DEFENSIVE_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE = 25
+		DEFENSIVE_PACT_ACCEPTANCE_ATTITUDE_COEXIST = 0
+		DEFENSIVE_PACT_ACCEPTANCE_OTHER_ATTITUDE = -50
+		DEFENSIVE_PACT_ACCEPTANCE_SHARED_THREAT = 0.40					# scales with actual threat
+		DEFENSIVE_PACT_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR = 20			# For each 1x we are stronger than them
+		DEFENSIVE_PACT_ACCEPTANCE_RELATIVE_STRENGTH_MAX = 200
+		DEFENSIVE_PACT_ACCEPTANCE_DISTANCE_MULT = -0.05					# per 1 border distance
+		
+		
+		
+		NON_AGGRESSION_PACT_ACCEPTANCE_SHARED_RIVAL = 150				# per rival
+		NON_AGGRESSION_PACT_ACCEPTANCE_OPINION_FACTOR = 0.20
+		NON_AGGRESSION_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE = 75
+		NON_AGGRESSION_PACT_ACCEPTANCE_ATTITUDE_COEXIST = 75
+		NON_AGGRESSION_PACT_ACCEPTANCE_OTHER_ATTITUDE = -25
+		NON_AGGRESSION_PACT_ACCEPTANCE_SHARED_THREAT = 0.40				# scales with actual threat
+		NON_AGGRESSION_PACT_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR = 20	# For each 1x we are stronger than them
+		NON_AGGRESSION_PACT_ACCEPTANCE_RELATIVE_STRENGTH_MAX = 200
+		NON_AGGRESSION_PACT_ACCEPTANCE_DISTANCE_MULT = -0.05			# per 1 border distance
+		
+		
+		
+		VASSALIZATION_ACCEPTANCE_POWER_DIFFERENCE_MULT = 30				# for each 1x over min
+		VASSALIZATION_ACCEPTANCE_POWER_DIFFERENCE_MAX = 300
+		VASSALIZATION_ACCEPTANCE_ATTITUDE_ALLIANCE = 25
+		
+		
+		
+		#ENC FEDERATION_ACCEPTANCE_SHARED_RIVAL = 10 # per rival
+		#ENC FEDERATION_ACCEPTANCE_SHARED_RIVAL_IN_FEDERATION = 10 # extra per rival in alliance
+		#STN FEDERATION_ACCEPTANCE_SHARED_RIVAL = 150 # per rival
+		#STN FEDERATION_ACCEPTANCE_SHARED_RIVAL_IN_FEDERATION = 15 # extra per rival in alliance
+		#STN FEDERATION_ACCEPTANCE_OPINION_FACTOR = 0.5
+		#ENC FEDERATION_ACCEPTANCE_ATTITUDE_ALLIANCE = 40
+		#STN FEDERATION_ACCEPTANCE_ATTITUDE_ALLIANCE = 60
+		#ENC FEDERATION_ACCEPTANCE_ATTITUDE_COEXIST = 10
+		#ENC FEDERATION_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR = 5 # For each 1x we are stronger than them
+		#ENC FEDERATION_ACCEPTANCE_RELATIVE_STRENGTH_MAX = 20
+		#ENC FEDERATION_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR = 10 # For each 1x we are stronger than them
+		#ENC FEDERATION_ACCEPTANCE_RELATIVE_STRENGTH_MAX = 150
+		#ENC FEDERATION_ACCEPTANCE_CRISIS_FACTOR = 30
+		#ENC FEDERATION_ACCEPTANCE_OPINION_FACTOR = 0.15
+		#ENC FEDERATION_ACCEPTANCE_DISTANCE_MULT = -0.15 # per 1 border distance
+		
+		#ENC DEFENSIVE_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE = 40
+		#ENC DEFENSIVE_PACT_ACCEPTANCE_ATTITUDE_COEXIST = 15
+		#ENC DEFENSIVE_PACT_ACCEPTANCE_NUM_PACTS = -40	# per existing defensive pact
+		#ENC DEFENSIVE_PACT_ACCEPTANCE_SHARED_RIVAL = 30 # per rival
+		#ENC DEFENSIVE_PACT_ACCEPTANCE_SHARED_ALLY = 30 # per shared ally
+		#ENC DEFENSIVE_PACT_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR = 5 # For each 1x we are stronger than them
+		#ENC DEFENSIVE_PACT_ACCEPTANCE_RELATIVE_STRENGTH_MAX = 20
+		#STN DEFENSIVE_PACT_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR = 20 # For each 1x we are stronger than them
+		#STN DEFENSIVE_PACT_ACCEPTANCE_RELATIVE_STRENGTH_MAX = 250
+		#ENC DEFENSIVE_PACT_ACCEPTANCE_DISTANCE_MULT = -0.1 # per 1 border distance
+		#STN DEFENSIVE_PACT_ACCEPTANCE_OPINION_FACTOR = 0.4
+		#STN DEFENSIVE_PACT_ACCEPTANCE_SHARED_RIVAL = 150 # per rival
+		#STN DEFENSIVE_PACT_ACCEPTANCE_SHARED_ALLY = 100 # per shared ally
+		#STN DEFENSIVE_PACT_ACCEPTANCE_SHARED_THREAT = 0.5	# scales with actual threat
+		
+		#ENC NON_AGGRESSION_PACT_ACCEPTANCE_ATTITUDE_COEXIST = 100
+		#ENC NON_AGGRESSION_PACT_ACCEPTANCE_OTHER_ATTITUDE = 0
+		#ENC NON_AGGRESSION_PACT_ACCEPTANCE_SHARED_RIVAL = 40 # per rival
+		#ENC NON_AGGRESSION_PACT_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR = 20 # For each 1x we are stronger than them
+		#ENC NON_AGGRESSION_PACT_ACCEPTANCE_RELATIVE_STRENGTH_MAX = 100
+		#STN NON_AGGRESSION_PACT_ACCEPTANCE_OPINION_FACTOR = 0.2
+		#STN NON_AGGRESSION_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE = 30
+		#STN NON_AGGRESSION_PACT_ACCEPTANCE_ATTITUDE_COEXIST = 10
+		#STN NON_AGGRESSION_PACT_ACCEPTANCE_OTHER_ATTITUDE = -50
+		#STN NON_AGGRESSION_PACT_ACCEPTANCE_SHARED_RIVAL = 150 # per rival
+		#STN NON_AGGRESSION_PACT_ACCEPTANCE_SHARED_THREAT = 0.4	# scales with actual threat
+		
+		#VAN VASSALIZATION_ACCEPTANCE_POWER_DIFFERENCE_MULT = 15  # for each 1x over min
+		#VAN VASSALIZATION_ACCEPTANCE_POWER_DIFFERENCE_MAX = 100
+		#VAN VASSALIZATION_ACCEPTANCE_ATTITUDE_ALLIANCE = 20
+		
+		
+		
+		OFFER_TRADE_ACCEPTANCE_ATTITUDE_FACTOR = -0.25 # trade willingness reduced by this much if don't have an attitude amenable to trade
+		OFFER_TRADE_ACCEPTANCE_ATTITUDE = -1000	# if attitude is trade = no
+		OFFER_TRADE_MIN_RESOURCE_THRESHOLD = 0.75 # if ai want for an accumulative resource is at least max * this it won't trade away that resource
+		
+		TRADE_MAX_RESOURCE_PERCENT = 0.35
+		TRADE_MIN_RESOURCE_DELTA = 10
+		#ENC TRADE_MIN_RESOURCE_STOCKPILE = 500
+		TRADE_MIN_RESOURCE_STOCKPILE = 1000
+		
+		#ENC TRADE_RESOURCE_STOCKPILE_UNDER = 0.35	# AI will want to trade one resource for another if stockpile is this low (fraction of max storage)
+		#ENC TRADE_RESOURCE_STOCKPILE_OVER = 0.70	# AI will want to trade one resource for another if stockpile is over this (fraction of max storage)
+		TRADE_RESOURCE_STOCKPILE_UNDER = 0.25	# AI will want to trade one resource for another if stockpile is this low (fraction of max storage)
+		TRADE_RESOURCE_STOCKPILE_OVER = 0.50	# AI will want to trade one resource for another if stockpile is over this (fraction of max storage)
+		TRADE_RESOURCE_FRACTION_MIN = 0.1			# How much of stockpile AI should offer to trade (min)
+		TRADE_RESOURCE_FRACTION_MAX = 0.3			# How much of stockpile AI should offer to trade (max)
+		
+		MIN_WILLINGNESS_TO_OFFER_TRADE = 0.50 # AIs with a personality whose trade willingness is below this will not offer trades
+		
+		EXPAND_NAVY_LIMIT_FACTOR = 5			# If the AI Navy maintenance is this much bigger than the opponents navy will not be expanded
+
+		CONSTRUCTOR_SHIPS_MUL = 0.06			# Number of constructor ships of AI is the number of planets times this value
+		#ENC THRESHOLD_DISBAND_SHIPS = 3			# AI will disband ships if wanted + this value < owned
+
+		COLONIZER_SHIPS_MAX = 2				# Maximum number of colonizer ships of AI
+		RESEARCH_SHIPS_MAX = 3					# Maximum number of research ships of AI
+		#ENC CONSTRUCTOR_SHIPS_MAX = 6				# Maximum number of constructor ships of AI
+		
+		CONSTRUCTOR_SHIPS_MAX = 6				# Maximum number of constructor ships of AI
+		SECTOR_SYSTEM_CAP_MIN = 75				# AI sectors will have minimum these many colonized systems in each sector before creating new sectors
+
+		THREAT_TRUCE_MONTHS = 12				# AI will not consider the opponent a threat if this many months are left on a truce
+		FLEET_BALANCE_THREAT = 0.7				# If FleetPower of AI / FleetPower of Enemy is lower than this AI will consider the country a threat
+		#ENC ENERGY_MONTHS_FACTOR_WAR = 12			# Energy are supposed to last this many months when used to buy new ships in war
+		#GAI ENERGY_MONTHS_FACTOR_WAR = 120			# Energy are supposed to last this many months when used to buy new ships in war
+		ENERGY_MONTHS_FACTOR_WAR = 60			# Energy are supposed to last this many months when used to buy new ships in war
+		ENEMY_FLEET_POWER_MULT = 1.2			# AI will need the the fleet power of the enemy multiplied by this value Anex to become offensive in an offensive war
+		# ENEMY_ARMY_POWER_MULT = 1.5				# AI will need the the military power of the enemy multiplied by this value to land armies on planet
+		ENEMY_ARMY_POWER_MULT = 1.1				# AI will need the military power of the enemy multiplied by this value to land armies on planet
+		ENEMY_NEUTRALS_FLEET_POWER_MULT = 1.5	# AI will need the the fleet power of the enemy multiplied by this value to attack neutrals and space hostiles
+		#ENEMY_FLEET_POWER_HOME_SYSTEM_MULT = 1.0 # AI will need the fleet power of the enemy multiplied by this value to attack hostiles in own systems
+		ENEMY_FLEET_POWER_HOME_SYSTEM_MULT = 0.9 # AI will need the fleet power of the enemy multiplied by this value to attack hostiles in own systems
+
+		AI_COMMUNICATIONS_RANDOM_VALUE = 45		# AI communications days will vary with +- these many days
+		
+		POP_RESETTLEMENT_PRIO = 10.0				# AI Will prio resettling to achieve these many pops in each colony before anything else
+		
+		
+		LEADER_FRACTION_SCIENTIST = 0.60 	# Fraction of AI Leaders that should be scientists
+		LEADER_FRACTION_ADMIRAL = 0.20			# Fraction of admirals
+		LEADER_FRACTION_GENERAL = 0.10			# Fraction of generals
+		LEADER_FRACTION_GOVERNOR = 0.10			# Fraction of governor
+		LEADER_FRACTION_CHANGE_CAP = 11		# Leader cap > this will decrease scientist fraction and increase other
+		
+		
+		#ENC DEFICIT_SPENDING_START_WAR = 0.20				# If at war and energy is at this fraction of max storage deficit spend energy
+		#ENC DEFICIT_SPENDING_START_PEACE = 0.70			# If at peace and energy is at this fraction of max storage deficit spend energy
+		#ENC DEFICIT_SPENDING_STOP_WAR = 0.1				# If at war and energy is at this fraction of max storage stop deficit spending
+		#ENC DEFICIT_SPENDING_STOP_PEACE = 0.5				# If at peace and energy is at this fraction of max storage stop deficit spending
+		#ENC DEFICIT_SPENDING_MONTHLY_PEACE = 0.005				# This percentage of max storage should be deficit spent each month when at peace
+		#ENC DEFICIT_SPENDING_MONTHLY_WAR = 0.007				# This percentage of max storage should be deficit spent each month when at war
+		
+		DEFICIT_SPENDING_START_WAR = 0.75				# If at war and energy is at this fraction of max storage deficit spend energy
+		DEFICIT_SPENDING_START_PEACE = 0.05			# If at peace and energy is at this fraction of max storage deficit spend energy
+		DEFICIT_SPENDING_STOP_WAR = 0.25				# If at war and energy is at this fraction of max storage stop deficit spending
+		DEFICIT_SPENDING_STOP_PEACE = 0.025				# If at peace and energy is at this fraction of max storage stop deficit spending
+		DEFICIT_SPENDING_MONTHLY_PEACE = 1.00				# This percentage of max storage should be deficit spent each month when at peace
+		DEFICIT_SPENDING_MONTHLY_WAR = 1.00				# This percentage of max storage should be deficit spent each month when at war
+		
+		
+		
+		# CAPITAL_RESOURCE_IMPORTANCE = 5 			# How important is it for the AI to place its colonial capital on suitable resources?
+		# CAPITAL_WRONG_RESOURCE_IMPORTANCE = 3 		# How important is it for the AI to avoid placing its colonial capital on non-suitable resources?
+		# CAPITAL_STRATEGIC_RESOURCE_IMPORTANCE = 20 	# How important is it for the AI to not put its capital on strategic resources?
+		# CAPITAL_ADJACENCY_IMPORTANCE = 7 			# How important is it for the AI to place the capital so that it has Anex numerous adjacent tiles
+		# CAPITAL_ADJACENCY_BLOCKER_IMPORTANCE = 1 	# How important is it for the AI to place the capital so that it isn't surrounded by tile blockers
+	
+		#ENC BASE_BUILDING_BUDGET = 6			# Always reserve this much energy budget for buildings before giving budget anywhere else
+		#ENC BASE_STATION_BUDGET = 6				# Always reserve this much energy budget for stations before giving budget anywhere else
+		#ENC BASE_ROBOT_BUDGET = 5				# In a robot/machine country always reserve this much energy budget for robots/machines before giving budget anywhere else
+		#ENC BASE_ARMY_BUDGET = 3				# Per planet over 1
+		
+		BASE_BUILDING_BUDGET = 1			# Always reserve this much energy budget for buildings before giving budget anywhere else
+		BASE_STATION_BUDGET = 12				# Always reserve this much energy budget for stations before giving budget anywhere else
+		BASE_ROBOT_BUDGET = 12				# In a robot/machine country always reserve this much energy budget for robots/machines before giving budget anywhere else
+		BASE_ARMY_BUDGET = 1				# Always reserve this much energy budget for armies before giving budget anywhere else (after first 20 years of gameplay)
+		
+		#ENC DANGER_BUDGET_FACTOR = 0.15				# When there are potential dangers increase navy budget by this amount
+		#ENC SHIPSIZE_BUDGET_FACTOR = 0.025			# For each ship size unlocked increase navy budget by this amount
+		#ENC PLANET_BUDGET_FACTOR = 0.20			# When AI has few planets it will decrease building/mil station budget by this and put it into colonies/stations instead
+		
+		DANGER_BUDGET_FACTOR = 0.00				# Handled by AI_DESIRED_NAVY_MINERALS_AT_WAR
+		SHIPSIZE_BUDGET_FACTOR = 0.00
+		PLANET_BUDGET_FACTOR = 0.00			# When AI has few planets it will decrease building/mil station budget by this and put it into colonies/stations instead
+		
+
+		
+
+		THRESHOLD_DISBAND_SHIPS = 1000
+		DISBAND_THRESHOLD = 0.00			# If budget does not cover at least this fraction of the navy maintenance disband ships & stations
+		#ENC MIN_NAVY_BUDGET = 7			# Always add this amount to the navy budget so we can have at least a few ships
+		#ENC MIN_ARMY_BUDGET = 3			# Always add this amount to the army budget so we can have at least a few armies
+		MIN_NAVY_BUDGET = 0			# Always add this amount to the navy budget so we can have at least a few ships
+		MIN_ARMY_BUDGET = 0			# Always add this amount to the army budget so we can have at least a few armies
+		#DEC MIN_NAVY_BUDGET = 1.5			# Always add this amount to the navy budget so we can have at least a few ships		#3
+		#DEC MIN_ARMY_BUDGET = 0.5			# Always add this amount to the army budget so we can have at least a few armies	#1
+		
+		# Below values are increased when mineral storage capacity goes up
+		# Above values are increased when mineral storage capacity goes up
+		
+		# Below values are increased when mineral storage capacity goes up
+		
+		
+		MAX_STORED_ENERGY_POST = 1000				# AI will store maximum this amount for each energy budget post
+		# Above values are increased when mineral storage capacity goes up
+		
+		### ECONOMY: ENERGY
+		
+		#ENC ENERGY_COLONY_BUDGET_FRACTION = 0.3 		# AI will spend this fraction of their energy on new colonies
+		#ENC ENERGY_TILE_BLOCKER_BUDGET_FRACTION = 0.2 	# AI will spend this fraction of their energy on tile blockers
+		#ENC ENERGY_ROBOT_BUDGET_FRACTION = 0.05 		# AI will spend this fraction of their energy on robots (transfered to colonies if no robots)
+		#ENC ENERGY_EDICTS_BUDGET_FRACTION = 0.10		# AI will spend this fraction of their energy on edicts
+		#ENC ENERGY_LEADERS_BUDGET_FRACTION = 0.15		# Fraction of AI energy that goes to recruiting leaders
+		#ENC ENERGY_RESETTLEMENT_BUDGET_FRACTION = 0.10	# Fraction of AI energy that is used for resettlement		
+		#ENC ENERGY_SAVINGS_BUDGET_FRACTION = 0.10 		# AI will spend this fraction of their energy on savings
+		
+		ENERGY_COLONY_BUDGET_FRACTION = 0.00		# AI will spend this fraction of their energy on new colonies
+		ENERGY_TILE_BLOCKER_BUDGET_FRACTION = 0.50	# AI will spend this fraction of their energy on tile blockers
+		ENERGY_ROBOT_BUDGET_FRACTION = 0			# AI will spend this fraction of their energy on robots (transfered to colonies if no robots)
+		ENERGY_EDICTS_BUDGET_FRACTION = 0.20		# AI will spend this fraction of their energy on edicts
+		ENERGY_LEADERS_BUDGET_FRACTION = 0.20		# Fraction of AI energy that goes to recruiting leaders
+		ENERGY_RESETTLEMENT_BUDGET_FRACTION = 0.10	# Fraction of AI energy that is used for resettlement		
+		ENERGY_SAVINGS_BUDGET_FRACTION = 0.00		# AI will spend this fraction of their energy on savings
+		
+		TERRAFORM_SAVE_CREDITS = 200				# AI wants to have at least this much energy over after starting a terraforming
+		BLOCKERS_SAVE_CREDITS = 200					# Sector AI wants to have at least this much energy over after starting to clear a blocker
+		
+		### ECONOMY: MINERALS
+		
+		#ENC MINERAL_NAVY_BUDGET_FRACTION = 0.15 		# AI will spend this fraction of their stored minerals on ships
+		#ENC MINERAL_STATION_BUDGET_FRACTION = 0.15 		# AI will spend this fraction of their stored minerals on stations (used for spaceport instead when it needs a new spaceport)
+		#ENC MINERAL_BUILDING_BUDGET_FRACTION = 0.25		# AI will spend this fraction of their stored minerals on buildings (used for spaceport instead when it needs a new spaceport)
+		#ENC MINERAL_STARBASE_BUDGET_FRACTION = 0.25		# AI will spend this fraction of their stored minerals on starbases
+		#ENC MINERAL_COLONY_BUDGET_FRACTION = 0.15		# AI will spend this fraction of their stored minerals on colony ships
+		#ENC MINERAL_ARMY_BUDGET_FRACTION = 0.05			# AI will spend this fraction on armies
+		#ENC MINERAL_TILE_BLOCKER_BUDGET_FRACTION = 0.01	# AI will spend this fraction on tile blockers
+		#ENC MINERAL_ROBOT_BUDGET_FRACTION = 0.05	# AI will spend this fraction of their stored minerals on robots (transfered to buildings if they don't use robots)
+		#ENC MINERAL_EDICTS_BUDGET_FRACTION = 0.0			# AI will spend this fraction of their stored minerals on edicts
+		#ENC MINERAL_MEGASTRUCTURE_BUDGET_FRACTION = 0.10	# AI will spend this fraction of their stored minerals on megastructures (taken from stations & buildings)
+		
+		#ENC SAVINGS_BUDGET_FRACTION = 0.00 		# AI will spend this fraction of their income on savings (normally not needed as fleets in dock will result in energy surplus)
+		#ENC ARMY_BUDGET_FRACTION = 0.05   			# AI will spend this fraction of their income on armies
+		#ENC NAVY_BUDGET_FRACTION = 0.15 			# AI will spend this fraction of their income on ships
+		#ENC STATION_BUDGET_FRACTION = 0.25 		# AI will spend this fraction of their income on stations
+		#ENC BUILDING_BUDGET_FRACTION = 0.40 		# AI will spend this fraction of their income on buildings
+		#ENC ROBOT_BUDGET_FRACTION = 0.10			# AI will spend this fraction of their income on robots (transfered to stations & buildings if they don't use robots)
+		#ENC STARBASE_BUDGET_FRACTION = 0.15
+		
+		SAVINGS_BUDGET_FRACTION = 0.00 		# AI will spend this fraction of their income on savings (normally not needed as fleets in dock will result in energy surplus)
+		ARMY_BUDGET_FRACTION = 0.10   			# AI will spend this fraction of their income on armies
+		NAVY_BUDGET_FRACTION = 0.00 			# AI will spend this fraction of their income on ships
+		STATION_BUDGET_FRACTION =  0.90 		# AI will spend this fraction of their income on stations
+		BUILDING_BUDGET_FRACTION = 0.00 		# AI will spend this fraction of their income on buildings
+		ROBOT_BUDGET_FRACTION = 0.00			# AI will spend this fraction of their income on robots (transfered to stations & buildings if they don't use robots)
+		STARBASE_BUDGET_FRACTION = 0.00
+		
+		MINERAL_ARMY_BUDGET_FRACTION = 0.00				# AI will spend this fraction on armies
+		MINERAL_NAVY_BUDGET_FRACTION = 0.00 			# Receives additional funding from AI_DESIRED_NAVY_MINERALS_AT_WAR
+		MINERAL_STATION_BUDGET_FRACTION = 1.00			# Receives from star base
+		MINERAL_STARBASE_BUDGET_FRACTION = 0.00			# gives to station
+		MINERAL_BUILDING_BUDGET_FRACTION = 0.00			# Receives from Robots and colonies
+		MINERAL_COLONY_BUDGET_FRACTION = 0.00			# Gives to Buildings
+		MINERAL_ROBOT_BUDGET_FRACTION = 0.00			# Gives to buildings
+		MINERAL_MEGASTRUCTURE_BUDGET_FRACTION = 0.80
+		
+		#ENC ABS_MAX_MINERALS_STORED_NAVY = 10000		# Max regardless of cap multiplier
+		#ENC MIN_MINERALS_STORED_NAVY = 0				# Minerals AI will store for navy when it does not need more 
+		#ENC ABS_MAX_MINERALS_STORED_BUILDINGS = 2000	# Max regardless of cap multiplier
+		#ENC MIN_MINERALS_STORED_BUILDINGS = 500		# Minerals AI will store for buildings when it does not need more
+		#ENC ABS_MAX_MINERALS_STORED_STATIONS = 1000	# Max regardless of cap multiplier
+		#ENC MIN_MINERALS_STORED_STATIONS = 150			# Minerals AI will store for stations when it does not need more
+		#ENC ABS_MAX_MINERALS_STORED_STARBASE = 10000		# Max regardless of cap multiplier
+		#ENC MAX_MINERALS_STORED_STARBASE = 2000		# Minerals AI will store for starbase when it needs more
+		#ENC MIN_MINERALS_STORED_STARBASE = 500		# Minerals AI will store for starbase when it does not need more
+		#ENC MIN_MINERALS_STORED_COLONIES = 500			# Minerals AI will store for colonies when it does not need more		
+		#ENC ABS_MAX_MINERALS_STORED_ARMIES = 250		# Max regardless of cap multiplier
+		#ENC MIN_MINERALS_STORED_ARMIES = 100			# Minerals AI will store for armies when it does not need more		
+		#ENC ABS_MAX_MINERALS_STORED_TILE_BLOCKERS = 0	# Max regardless of cap multiplier			
+		#ENC ABS_MAX_MINERALS_STORED_ROBOTS = 300		# Max regardless of cap multiplier
+		#ENC MIN_MINERALS_STORED_ROBOTS = 0				# Minerals AI will store for robots when it does not need more
+		#ENC MINERALS_STORED_EDICTS = 0					# Max minerals AI will store for edicts 
+		#ENC AI_DESIRED_NAVY_MINERALS_AT_WAR = 2000		# AI wants at least this many minerals for ships while at war
+		#ENC AI_DESIRED_ARMY_MINERALS_AT_WAR = 200		# AI wants at least this many minerals for armies while at war
+		#ENC MAX_STORED_ENERGY_POST = 1000				# AI will store maximum this amount for each energy budget post
+		
+		###abs_max for above###
+		ABS_MAX_MINERALS_STORED_NAVY = 0		# Max regardless of cap multiplier
+		ABS_MAX_MINERALS_STORED_STARBASE = 0		# Max regardless of cap multiplier
+		ABS_MAX_MINERALS_STORED_STATIONS = 300		# Max regardless of cap multiplier
+		ABS_MAX_MINERALS_STORED_ARMIES = 0		# Max regardless of cap multiplier
+		ABS_MAX_MINERALS_STORED_COLONIES = 0		# Max regardless of cap multiplier
+		ABS_MAX_MINERALS_STORED_BUILDINGS = 2000		# Max regardless of cap multiplier
+		ABS_MAX_MINERALS_STORED_ROBOTS = 0			# Max regardless of cap multiplier
+		ABS_MAX_MINERALS_STORED_TILE_BLOCKERS = 0	# Max regardless of cap multiplier
+		
+		MAX_MINERALS_STORED_NAVY = 0				# Minerals AI will store for navy when it needs more
+		MAX_MINERALS_STORED_STATIONS = 200			# Minerals AI will store for stations when it needs more
+		MAX_MINERALS_STORED_ARMIES = 0			# Minerals AI will store for armies when it needs more
+		MAX_MINERALS_STORED_STARBASE = 0			# Minerals AI will store for starbase when it needs more
+		MAX_MINERALS_STORED_COLONIES = 0			# Minerals AI will store for colonies when it needs more
+		MAX_MINERALS_STORED_BUILDINGS = 1000			# Minerals AI will store for buildings when it needs more
+		MAX_MINERALS_STORED_ROBOTS = 0				# Minerals AI will store for robots when it needs more
+		MAX_MINERALS_STORED_TILE_BLOCKERS = 0		# Minerals AI will store for tile blockers when it needs more
+		
+		MIN_MINERALS_STORED_NAVY = 0				# Minerals AI will store for navy when it does not need more
+		MIN_MINERALS_STORED_STATIONS = 100			# Minerals AI will store for stations when it does not need more
+		MIN_MINERALS_STORED_STARBASE = 0			# Minerals AI will store for starbase when it does not need more
+		MIN_MINERALS_STORED_ARMIES = 0				# Minerals AI will store for armies when it does not need more
+		MIN_MINERALS_STORED_COLONIES = 0			# Minerals AI will store for colonies when it does not need more
+		MIN_MINERALS_STORED_BUILDINGS = 0			# Minerals AI will store for buildings when it does not need more
+		MIN_MINERALS_STORED_ROBOTS = 0				# Minerals AI will store for robots when it does not need more
+		MIN_MINERALS_STORED_TILE_BLOCKERS = 0		# Mi
+		
+		MINERALS_STORED_EDICTS = 0					# Max minerals AI will store for edicts
+		MINERALS_STORED_MEGASTRUCTURES = 50000			# Max minerals AI will store for megastructures if it can build them Anex
+		MAX_MINERALS_STORED_SECTOR_POST = 0		# Minerals AI will store for each budget post in sectors	
+		MAX_MINERALS_STORED_SECTOR_POST_BUILDINGS = 0		# Minerals AI will store for buildings
+		
+		#GAI AI_DESIRED_NAVY_MINERALS_AT_WAR = 500		# AI wants at least this many minerals for ships while at war
+		AI_DESIRED_NAVY_MINERALS_AT_WAR = 0		# AI wants at least this many minerals for ships while at war
+		AI_DESIRED_ARMY_MINERALS_AT_WAR = 0		# AI wants at least this many minerals for armies while at war
+		
+		### ECONOMY: SECTORS
+		
+		#ENC SECTOR_TILE_BLOCKER_ENERGY_BUDGET_FRACTION = 0.60	# Fraction of sector energy budget going to tile blockers
+		#ENC SECTOR_ROBOT_ENERGY_BUDGET_FRACTION = 0.40 			# Fraction of sector energy budget going to robots
+
+		#ENC SECTOR_COLONY_MINERALS_BUDGET_FRACTION = 0.10		# Fraction of sector minerals budget going to colonies
+		#ENC SECTOR_STATION_MINERALS_BUDGET_FRACTION = 0.20		# Fraction of sector minerals budget going to stations
+		#ENC SECTOR_BUILDING_MINERALS_BUDGET_FRACTION = 0.35		# Fraction of sector minerals budget going to buildings
+		#ENC SECTOR_TILE_BLOCKER_MINERALS_BUDGET_FRACTION = 0.05	# Fraction of sector minerals budget going to tile blockers
+		#ENC SECTOR_STARBASE_MINERALS_BUDGET_FRACTION = 0.10		# Fraction of sector minerals budget Anex going to starbases
+		#ENC SECTOR_ARMY_MINERALS_BUDGET_FRACTION = 0.05			# Fraction of sector minerals budget going to armies
+		#ENC SECTOR_ROBOT_MINERALS_BUDGET_FRACTION = 0.15		# Fraction of sector minerals budget going to robots
+		
+		SECTOR_FOCUS_EFFECT = 15				# Resources designated as the focus of a sector are valued this much more
+		SECTOR_IGNORE_TILE_RESOURCE = 0			# Should sectors ignore which resources are on the tile when building?
+
+		SECTOR_MINERALS_NEED_THRESHOLD = 5				# Minerals needed per month before starting to build other buildings
+
+		SECTOR_BUILDING_MAINT_BUDGET_FRACTION = 0.45 	# Fraction of maintenance budget going to buildings
+		SECTOR_STATION_MAINT_BUDGET_FRACTION = 0.35		# Fraction of maintenance budget going to spaceports and stations
+		SECTOR_ARMY_MAINT_BUDGET_FRACTION = 0.10		# Fraction of maintenance budget going to spaceports and stations
+		SECTOR_ROBOT_MAINT_BUDGET_FRACTION = 0.10		# AI will spend this fraction of their budget on robots (transfered to buildings if they don't use robots)
+		
+		SECTOR_COLONY_MINERALS_BUDGET_FRACTION = 0.20		# Fraction of sector minerals budget going to colonies
+		SECTOR_STATION_MINERALS_BUDGET_FRACTION = 0.10		# Fraction of sector minerals budget going to stations
+		SECTOR_BUILDING_MINERALS_BUDGET_FRACTION = 0.10		# Fraction of sector minerals budget going to buildings
+		SECTOR_ROBOT_MINERALS_BUDGET_FRACTION = 0.60		# Fraction of sector minerals budget going to robots
+		SECTOR_TILE_BLOCKER_MINERALS_BUDGET_FRACTION = 0.00	# Fraction of sector minerals budget going to tile blockers
+		SECTOR_STARBASE_MINERALS_BUDGET_FRACTION = 0.00	# Fraction of sector minerals budget going to starbases
+		SECTOR_ARMY_MINERALS_BUDGET_FRACTION = 0.00			# Fraction of sector minerals budget going to armies
+		SECTOR_TILE_BLOCKER_ENERGY_BUDGET_FRACTION = 0.80	# Fraction of sector energy budget going to tile blockers
+		SECTOR_ROBOT_ENERGY_BUDGET_FRACTION = 0.20 			# Fraction of sector energy budget going to robots
+		
+		
+		
+		
+		
+		
+		DOCKED_FLEET_MAINTENANCE_REDUCTION = 0.10	# AI assumes that it can save this much maintenance on new ships by docking them
+		
+		#ENC EXPECTED_UNITY_BASE = 10				# AI expects to make this base amount in unity
+		#ENC EXPECTED_UNITY_PER_POP = 0.30			# AI expects to make about their num pops x this in unity
+		#ENC EXPECTED_FOOD_BASE = 10					# AI expects to produce this much food surplus (before surplus)
+		EXPECTED_FOOD_PER_GROWING_PLANET = 5	# AI expects to make about their num planets needing food x this in food surplus
+		#ENC EXPECTED_MINERALS_BASE = 50				# AI expects to make this base amount in minerals
+		#ENC EXPECTED_MINERALS_PER_POP = 1.35		# AI expects to make about their num pops x this in minerals
+		EXPECTED_TECH_BASE = 10					# AI expects to make this base amount in tech
+		#ENC EXPECTED_TECH_PER_POP = 0.60			# AI expects to make about their num pops x this in tech
+		EXPECTED_ENERGY_BASE = 50				# AI expects to make this base amount in energy
+		EXPECTED_ENERGY_PER_POP = 1				# AI expects to make about their num pops x this in energy
+		#ENC EXPECTED_ENERGY_SURPLUS = 3				# AI wants a surplus of least this amount in monthly energy production (temporary spending such as colonies does not count)
+		#ENC POP_FOOD_MIN = 5						# AI should always prioritize to get more food when food growth is below this value
+		
+		EXPECTED_SECTOR_ENERGY_SURPLUS = 3			# As above but for sectors
+		EXPECTED_SECTOR_MINERAL_SURPLUS = 25		# As above but for sectors
+		
+		EXPECTED_UNITY_BASE = 250				# AI expects to make this base amount in unity
+		EXPECTED_UNITY_PER_POP = 1			# AI expects to make about their num pops x this in unity
+		EXPECTED_FOOD_BASE = 5					# AI expects to produce this much food surplus
+		EXPECTED_MINERALS_BASE = 200				# AI expects to make this base amount in minerals
+		EXPECTED_MINERALS_PER_POP = 2		# AI expects to make about their num pops x this in minerals
+		EXPECTED_TECH_PER_POP = 0.01				# AI expects to make about their num pops x this in tech
+		EXPECTED_ENERGY_SURPLUS = 50				# AI wants a surplus of least this amount in monthly energy production (temporary spending such as colonies does not count)
+		POP_FOOD_MIN = 5						# AI should always prioritize to get more food when food growth is below this value
+		
+		
+		#ENC AI_SECTOR_ENERGY_BOOST_THRESHOLD = 100			
+		#ENC AI_SECTOR_MINERAL_BOOST_THRESHOLD = 500
+		#ENC RESOURCES_FOR_HIGH_SECTOR_SHARE = 2000		# At this number of stockpiled resources raise sector tax to 75% (0 = never use)
+		
+		EMPIRE_RICH_FACTOR = 0.75				# Empire will consider draining a rich sector unless it is above this % of max
+		SECTOR_RICH_FACTOR = 0.25				# Empire considers a sector rich if this % of max
+		AI_SECTOR_ENERGY_BOOST_THRESHOLD = 500			
+		AI_SECTOR_MINERAL_BOOST_THRESHOLD = 500
+		RESOURCES_FOR_HIGH_SECTOR_SHARE = 500			# At this number of stockpiled resources raise sector tax to 75% (0 = never use)
+		
+		MIN_RESOURCES_TO_BUILD_ORBITAL_STATION = 2	# If a planet has less than this amount of minerals/research don't bother with a mining/research station here
+		
+		
+		
+		#ENC MAX_ARMY_MAINTENANCE = 50				# AI will not spend more than this amount on assault armies
+		#ENC MAX_ARMY_MAINTENANCE = 45					# AI will not spend more than this amount on assault armies
+		MAX_ARMY_MAINTENANCE = 26
+		
+		#ENC INFLUENCE_FRACTION_EDICTS = 0.15		# Fraction of AI Influence that goes to edicts
+		#ENC INFLUENCE_FRACTION_STARBASES = 0.60		# Fraction of AI influence that is used for starbases
+		#ENC INFLUENCE_FRACTION_CLAIMS = 0.25		# Fraction of AI influence that is used for claims
+		#ENC INFLUENCE_FRACTION_RESETTLEMENT = 0.00	# Fraction of AI influence that is used for resettlement		
+		
+		#ENC INFLUENCE_MAX_EDICTS = 300				# Max influence stored for edicts
+		#ENC INFLUENCE_MAX_STARBASES = 250			# Max influence stored for starbases
+		#ENC INFLUENCE_MAX_CLAIMS = 300				# Max influence stored for claims
+		#ENC INFLUENCE_MAX_RESETTLEMENT = 100		# Max influence stored for resettlement
+		
+		#GAI INFLUENCE_FRACTION_EDICTS = 0.05		# Fraction of AI Influence that goes to edicts
+		#GAI INFLUENCE_FRACTION_STARBASES = 0.90		# Fraction of AI influence that is used for starbases
+		#GAI INFLUENCE_FRACTION_CLAIMS = 0.05		# Fraction of AI influence that is used for claims
+		#GAI INFLUENCE_FRACTION_RESETTLEMENT = 0.00	# Fraction of AI influence that is used for resettlement	
+		
+		#GAI INFLUENCE_MAX_EDICTS = 100		# Max influence stored for edicts
+		#GAI INFLUENCE_MAX_STARBASES = 400		# Max influence stored for starbases
+		#GAI INFLUENCE_MAX_CLAIMS = 200		# Max influence stored for claims
+		#GAI INFLUENCE_MAX_RESETTLEMENT = 0	# Max influence stored for resettlement
+		
+		INFLUENCE_FRACTION_EDICTS = 0.10		# Fraction of AI Influence that goes to edicts
+		INFLUENCE_FRACTION_STARBASES = 0.60		# Fraction of AI influence that is used for starbases
+		INFLUENCE_FRACTION_CLAIMS = 0.30		# Fraction of AI influence that is used for claims
+		INFLUENCE_FRACTION_RESETTLEMENT = 0.00	# Fraction of AI influence that is used for resettlement		
+		
+		INFLUENCE_MAX_EDICTS = 100				# Max influence stored for edicts
+		INFLUENCE_MAX_STARBASES = 160			# Max influence stored for starbases
+		INFLUENCE_MAX_CLAIMS = 240				# Max influence stored for claims
+		INFLUENCE_MAX_RESETTLEMENT = 0			# Max influence stored for resettlement
+		
+		MEGASTRUCTURE_SAVE_INFLUENCE = 1			# AI wants to have at least this much influence over after starting a megastructure project
+		
+		NUM_TRADITIONS_FOR_EDICTS = 35			# How many traditions does the AI want before spending Unity on edicts (there are 49 in total in the base game counting adoption & completion effects)
+		
+		MINERALS_MULT = 8						# Mult used to promote building manufactories
+		#ENC BUILDING_ENERGY_MAX = 100				# Used to calc AI want for buildings with energy
+		INFLUENCE_MULT = 1						# Used to calc AI want for buildings with influence
+		#ENC BUILDING_PRODUCTION_MAX = 1000			# Used to calc AI want for buildings with production points
+		
+		BUILDING_ENERGY_MAX = 5000				# Used to calc AI want for buildings with energy
+		BUILDING_PRODUCTION_MAX = 80			# Used to calc AI want for buildings with production points
+		
+		ROBOT_EMPIRE_EXTRA_ROBOT_BUDGET = 0.00			# If the empire is a machine/synthetic empire, this amount of all other budget is transfered into constructing robot pops
+		#GAI 
+		AI_BUDGETING_START_YEARS = 10					# These variables are used for some of the AI's budgeting to ensure it prioritizes the right things early on
+		#GAI 
+		AI_BUDGETING_MID_YEARS = 20
+		#GAI 
+		AI_BUDGETING_LATE_YEARS = 30
+		#STN AI_BUDGETING_START_YEARS = 10					# These variables are used for some of the AI's budgeting to ensure it prioritizes the right things early on
+		#STN AI_BUDGETING_MID_YEARS = 20
+		#STN AI_BUDGETING_LATE_YEARS = 40
+		
+		WAS_HUMAN_MONTHS = 1							# Amount of months that the AI will refrain from making large changes to the empire if it's taking over from a player
+		
+		#################### Fight to the death you cowards #################
+		
+		#GAI are u insane ABORT_MISSION_LIMIT = 0.01				# MilitaryPower fraction below this level will result in AI escaping battle
+		ABORT_MISSION_LIMIT = 0.30				# MilitaryPower fraction below this level will result in AI escaping battle
+		
+		#################### Fight to the death you cowards #################
+		
+	}

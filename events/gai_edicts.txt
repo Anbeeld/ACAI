@@ -1,0 +1,348 @@
+namespace = gai_edict
+event = {
+	id = gai_edict.1
+	hide_window = yes
+
+	is_triggered_only = yes
+	
+	immediate = {
+		every_country = {
+			limit = {
+				is_ai = yes
+				is_country_type = default
+			}
+			country_event = { id = gai_edict.2 }
+		}
+		#every_country = {
+		#	limit = {
+		#		is_ai = yes
+		#		OR = {
+		#			is_subject = yes
+		#			has_modifier = ai_fix_subject_1
+		#		}
+		#		is_country_type = "default"
+		#		NOT = { has_global_flag = disable_gai_edict }
+		#	}
+		#	country_event = { id = gai_edict.3 }
+		#}
+	}
+}
+
+country_event = {
+	id = gai_edict.2
+	hide_window = yes
+
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						NOR = {
+							has_ascension_perk = ap_voidborn
+							has_ascension_perk = ap_galactic_wonders
+						}
+						OR = {
+							AND = {
+								years_passed < 20
+								influence >= 450
+							}
+							AND = {
+								years_passed >= 20
+								influence >= 300
+							}
+						}
+					}
+					AND = {
+						has_ascension_perk = ap_voidborn
+						NOT = { has_ascension_perk = ap_galactic_wonders }
+						influence >= 600
+					}
+					AND = {
+						NOT = { has_ascension_perk = ap_voidborn }
+						has_ascension_perk = ap_galactic_wonders
+						influence >= 700
+					}
+					AND = {
+						has_ascension_perk = ap_voidborn
+						has_ascension_perk = ap_galactic_wonders
+						influence >= 900
+					}
+				}
+			}
+			if = {
+				limit = {
+					aai_energy_income_low = yes
+					has_technology = tech_power_hub_1
+					NOT = { has_modifier = ai_capacity_overload_edict }
+				}
+				add_influence = -300
+				add_modifier = { 
+					modifier = ai_capacity_overload_edict
+					days = 3600
+				}
+			}
+			else_if = {
+				limit = { 
+					has_technology = tech_colonial_centralization
+					NOT = { has_modifier = ai_production_targets_edict }
+				}
+				add_influence = -300
+				add_modifier = { 
+					modifier = ai_production_targets_edict
+					days = 3600
+				}
+			}
+			else_if = {
+				limit = { 
+					is_materialist = yes
+					NOT = { has_modifier = ai_research_focus_edict }
+				}
+				add_influence = -300
+				add_modifier = { 
+					modifier = ai_research_focus_edict
+					days = 3600
+				}
+			}
+		}
+		
+		
+		#if = {
+		#	limit = { 
+		#		is_ai = yes
+		#		is_country_type = default
+		#		has_valid_civic = civic_fanatic_purifiers
+		#		NOT = { has_modifier = ai_purifier }
+		#	}
+		#	add_modifier = { 
+		#		modifier = ai_purifier
+		#		days = -1
+		#	}
+		#}
+		if = {
+			limit = {
+				years_passed < 75
+				always = no
+			}
+			if = {
+				limit = { 
+					has_technology = tech_planetary_unification
+					NOT = { has_global_flag = disable_gai_edict }
+					NOT = { has_modifier = ai_healthcare_campaign }
+					NOT = { has_authority = auth_machine_intelligence}
+					
+					energy > 3000
+					has_monthly_income = {
+						resource = energy
+						value > 25
+					}
+				}
+				add_energy = -1000
+				add_modifier = { 
+					modifier = ai_healthcare_campaign
+					days = 3600
+				}
+			}
+			if = {
+				limit = { 
+					has_technology = tech_planetary_unification
+					NOT = { has_global_flag = disable_gai_edict }
+					NOT = { has_modifier = ai_robot_campaign }
+					has_authority = auth_machine_intelligence
+					energy > 3000
+					has_monthly_income = {
+						resource = energy
+						value > 25
+					}
+				}
+				add_energy = -1000
+				add_modifier = { 
+					modifier = ai_robot_campaign
+					days = 3600
+				}
+			}
+			if = {
+				limit = { 
+					has_technology = tech_planetary_unification
+					NOT = { has_global_flag = disable_gai_edict }
+					NOT = { has_modifier = ai_recycling_campaign }
+					has_authority = auth_machine_intelligence
+					energy > 4000
+					has_monthly_income = {
+						resource = energy
+						value > 25
+					}
+				}
+				add_energy = -1000
+				add_modifier = { 
+					modifier = ai_recycling_campaign
+					days = 3600
+				}
+			}
+		}
+		IF = {#Can talk to enclaves
+			limit = {
+				is_at_war = no
+				is_country_type = default
+				NOR = { 
+					has_valid_civic = civic_fanatic_purifiers 
+					has_valid_civic = civic_machine_terminator 
+					has_valid_civic = civic_machine_assimilator
+					has_valid_civic = civic_hive_devouring_swarm
+				}
+			}
+			IF = {#Mineral Trade
+				limit = {
+					NOR = { 
+						has_modifier = ai_simulate_min_trade_3
+						has_modifier = ai_simulate_min_trade_2
+						has_modifier = ai_simulate_min_trade_1
+					}
+				}
+				if = {
+					limit = { 
+						is_ai = yes
+						is_country_type = default
+						NOT = { has_valid_civic = civic_fanatic_purifiers }
+						NOT = { has_valid_civic = civic_machine_terminator }
+						NOT = { has_valid_civic = civic_machine_assimilator }
+						NOT = { has_valid_civic = civic_hive_devouring_swarm }
+						NOT = { has_modifier = ai_simulate_min_trade_3 }
+						any_relation = {
+							has_government = gov_trader_enclave 
+						}
+						energy > 14500
+						has_monthly_income = {
+							resource = energy
+							value > 10
+						}
+					}
+					add_energy = -12000
+					add_modifier = { 
+						modifier = ai_simulate_min_trade_3
+						days = 3600
+					}
+				}
+				else_if = {
+					limit = { 
+						is_ai = yes
+						is_country_type = default
+						NOT = { has_valid_civic = civic_fanatic_purifiers }
+						NOT = { has_valid_civic = civic_machine_terminator }
+						NOT = { has_valid_civic = civic_machine_assimilator }
+						NOT = { has_valid_civic = civic_hive_devouring_swarm }
+						NOT = { has_modifier = ai_simulate_min_trade_2 }
+						any_relation = {
+							has_government = gov_trader_enclave 
+						}
+						energy > 8000
+						energy < 12000
+						has_monthly_income = {
+							resource = energy
+							value > 10
+						}
+					}
+					add_energy = -6000
+					add_modifier = { 
+						modifier = ai_simulate_min_trade_2
+						days = 3600
+					}
+				}
+				else_if = {
+					limit = { 
+						is_ai = yes
+						is_country_type = default
+						NOT = { has_valid_civic = civic_fanatic_purifiers }
+						NOT = { has_valid_civic = civic_machine_terminator }
+						NOT = { has_valid_civic = civic_machine_assimilator }
+						NOT = { has_valid_civic = civic_hive_devouring_swarm }
+						NOT = { has_modifier = ai_simulate_min_trade_1 }
+						any_relation = {
+							has_government = gov_trader_enclave 
+						}
+						energy > 3500
+						energy < 8000
+						has_monthly_income = {
+							resource = energy
+							value > 10
+						}
+					}
+					add_energy = -2400
+					add_modifier = { 
+						modifier = ai_simulate_min_trade_1
+						days = 3600
+					}
+				}
+			}#Mineral Trade
+			if = {
+				limit = { 
+					NOT = { has_modifier = curator_insight }
+					any_relation = {
+						has_government = gov_curator_enclave 
+					}
+					energy > 8000
+					has_monthly_income = {
+						resource = energy
+						value > 25
+					}
+				}
+				add_energy = -5000
+				add_modifier = { 
+					modifier = curator_insight
+					days = 3600
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_modifier = ai_simulate_enclave_artist_patron }
+					any_relation = {
+						has_government = gov_artist_enclave 
+					}
+					energy > 8000
+					has_monthly_income = {
+						resource = energy
+						value > 25
+					}
+				}
+				add_energy = -5000
+				add_modifier = { 
+					modifier = ai_simulate_enclave_artist_patron
+					days = 3600
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = gai_edict.3
+	hide_window = yes
+
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = { 
+				is_ai = yes
+				is_subject = yes
+				is_country_type = default
+				NOT = { has_modifier = ai_fix_subject_1 }
+			}
+			add_modifier = { 
+				modifier = ai_fix_subject_1
+				days = -1
+			}
+		}
+		if = {
+			limit = { 
+				is_ai = yes
+				is_subject = no
+				is_country_type = default
+				has_modifier = ai_fix_subject_1
+			}
+			remove_modifier = ai_fix_subject_1
+		}
+	}
+}
+

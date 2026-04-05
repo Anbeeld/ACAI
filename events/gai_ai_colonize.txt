@@ -1,0 +1,1193 @@
+namespace = gai_ai_colonize
+
+event = {
+	id = gai_ai_colonize.1
+	hide_window = yes
+	is_triggered_only = yes
+		
+	immediate = {
+		if = {
+			every_country = {
+				limit = {
+					is_ai = yes
+					#is_at_war = no
+					OR = {
+						is_country_type = default
+						is_country_type = awakened_fallen_empire
+						
+					}
+					aai_energy_income_low = no
+					any_planet_within_border = {    
+						can_colonize = {
+							who = prev
+							status = yes
+						}    
+					}
+				}
+				if = {
+					limit = {
+						energy >= 100
+						OR = {
+							minerals >= 300
+							AND = {
+								check_variable = {
+									which = acai_boolean_deposit_planet
+									value = 2
+								}
+								check_variable = {
+									which = acai_value_minerals_deposit
+									value >= 300
+								}
+							}
+						}
+					}
+					country_event = { id = gai_ai_colonize.2 }
+				}
+				else_if = {
+					limit = {
+						minerals < 300
+						num_owned_planets < 3
+					}
+					#log = "[this.GetName] make deposit"
+					set_variable = {
+						which = acai_boolean_deposit_planet
+						value = 2
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = gai_ai_colonize.2	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		random_owned_pop = {
+            limit = {
+                NOR = {
+                    has_citizenship_type = {
+                        type = citizenship_assimilation
+                        country = root
+                    }
+                    has_citizenship_type = {
+                        type = citizenship_purge
+                        country = root
+                    }
+                    has_citizenship_type = {
+                        type = citizenship_purge_machine
+                        country = root
+                    }
+                }
+            }
+            if = { 
+                limit = { 
+                    prev = {
+                        any_planet_within_border = {    
+                            can_colonize = { who = prev status = yes }    
+                            is_colony = no
+                            NAND = {
+                                has_modifier = holy_planet 
+                                any_country = {
+                                    has_ai_personality_behaviour = holy_planets
+                                }
+                            }
+                            habitability = { who = prevprev value > 0.19 }
+                        }
+                    }
+                }    
+            }
+            save_event_target_as = habitability_spec
+        }
+		random_planet = {	
+			limit = {
+				NOT = { is_colony = yes }
+				can_colonize = { who = root status = yes }				
+				solar_system = {
+					is_within_borders_of = root
+				}
+				NAND = {
+					has_modifier = holy_planet 
+					any_country = {
+						has_ai_personality_behaviour = holy_planets
+					}
+				}
+				habitability = { who = event_target:habitability_spec value > 0.19 }
+			}
+			IF = {
+				limit = {
+					NOT = { is_colony = yes }
+					can_colonize = { who = root status = yes }				
+					solar_system = {
+						is_within_borders_of = root
+					}
+					habitability = { who = root.species value > 0.19 }
+					NAND = {
+						has_modifier = holy_planet 
+						any_country = {
+							has_ai_personality_behaviour = holy_planets
+						}
+					}
+				}
+				start_colony = {
+					owner = root
+					species = event_target:habitability_spec
+				}
+				#create_pop = {
+				#	species = event_target:habitability_spec
+				#}
+				OWNER = {
+					if = {
+						limit = {
+							check_variable = {
+								which = acai_boolean_deposit_planet
+								value = 2
+							}
+							check_variable = {
+								which = acai_value_minerals_deposit
+								value >= 300
+							}
+						}
+						set_variable = {
+							which = acai_boolean_deposit_planet
+							value = 1
+						}
+						subtract_variable = {
+							which = acai_value_minerals_deposit
+							value = 300
+						}
+					}
+					else = {
+						add_minerals = -300
+					}
+					add_energy = -100
+				}
+			}
+			IF = {
+				limit = {
+					NOT = { is_colony = yes }
+					can_colonize = { who = root status = yes }				
+					solar_system = { is_within_borders_of = root	}
+					habitability = { who = root.species value < 0.20 }
+					NAND = {
+						has_modifier = holy_planet 
+						any_country = {
+							has_ai_personality_behaviour = holy_planets
+						}
+					}
+				}
+				start_colony = {
+					owner = root
+					species = event_target:habitability_spec
+				}
+				create_pop = {
+					species = event_target:habitability_spec
+				}
+				OWNER = {
+					if = {
+						limit = {
+							check_variable = {
+								which = acai_boolean_deposit_planet
+								value = 2
+							}
+							check_variable = {
+								which = acai_value_minerals_deposit
+								value >= 300
+							}
+						}
+						set_variable = {
+							which = acai_boolean_deposit_planet
+							value = 1
+						}
+						subtract_variable = {
+							which = acai_value_minerals_deposit
+							value = 300
+						}
+					}
+					else = {
+						add_minerals = -300
+					}
+					add_energy = -100
+				}
+			}
+		}
+	}
+}
+
+planet_event = {
+	id = gai_ai_colonize.3
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		IF = {
+			limit = {
+				owner = { is_ai = yes }
+			}
+			IF = {
+				limit = {
+					owner = {
+						has_valid_civic = civic_machine_assimilator
+					}
+				}
+				owner = {
+					random_owned_pop = {
+						limit = {
+							NOR = {
+								has_citizenship_type = {
+									type = citizenship_assimilation
+									country = root
+								}
+								has_citizenship_type = {
+									type = citizenship_purge
+									country = root
+								}
+								has_citizenship_type = {
+									type = citizenship_purge_machine
+									country = root
+								}
+							}
+							is_robot_pop = no
+						}
+						if = { 
+							limit = { 
+								prev = {
+									any_planet_within_border = {    
+										can_colonize = { who = prev status = yes }    
+										is_colony = no
+										NAND = {
+											has_modifier = holy_planet 
+											any_country = {
+												has_ai_personality_behaviour = holy_planets
+											}
+										}
+										habitability = { who = prevprev value > 0.19 }
+									}
+								}
+							}    
+						}
+						save_event_target_as = habitability_spec
+					}
+				}
+				random_tile = {
+					limit = {
+						has_grown_pop = no
+						has_growing_pop = no
+						has_blocker = no
+					}
+					create_pop = {
+						species = event_target:habitability_spec
+					}
+				}
+				owner = {
+					add_energy = -100
+				}
+			}
+			random_tile = {
+				limit = {
+					OR = {
+						has_building = building_colony_shelter
+						has_building = building_deployment_post
+					}
+				}
+				remove_building = yes
+			}
+			IF = {
+				limit = {
+					NOT = { owner = {has_authority = auth_machine_intelligence} }
+					NOT = { is_planet_class = pc_habitat }
+				}
+				IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							has_building = no
+							num_adjacent_tiles = 4
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_food = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_food = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 3
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 3
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 3
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 3
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles > 2
+							gai_has_food = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles > 2
+							gai_has_food = yes
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_energy = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_energy = yes
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_is_blank = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_is_blank = yes
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 2
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 2
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 2
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 2
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 1
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 1
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 1
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 1
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							gai_has_food = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							gai_has_food = yes
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							gai_has_energy = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							gai_has_energy = yes
+						}
+						set_building = building_colony_shelter
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+						}
+						set_building = building_colony_shelter
+					}
+				}
+			}
+			IF = {
+				limit = {
+					owner = {has_authority = auth_machine_intelligence}
+					NOT = { is_planet_class = pc_habitat }
+				}
+				IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_food = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_food = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 3
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 3
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 3
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 3
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_food = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_food = yes
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles > 2
+							gai_has_food = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles > 2
+							gai_has_food = yes
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_energy = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_has_energy = yes
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_is_blank = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 4
+							gai_is_blank = yes
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 2
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 2
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 2
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 2
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles > 1
+							gai_has_food = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles > 1
+							gai_has_food = yes
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 1
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 1
+							gai_has_energy = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 1
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 1
+							gai_is_blank = yes
+							NOT = { any_neighboring_tile = { gai_has_research = yes } }
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 1
+							gai_has_food = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							num_adjacent_tiles = 1
+							gai_has_food = yes
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							gai_has_energy = yes
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+							gai_has_energy = yes
+						}
+						set_building = building_deployment_post
+					}
+				}
+				ELSE_IF = {
+					limit = {
+						any_tile = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							OR = {
+								has_building = no
+								has_building = building_colony_shelter
+								has_building = building_deployment_post
+							}
+						}
+						set_building = building_deployment_post
+					}
+				}
+			}
+		}
+	}
+}

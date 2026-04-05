@@ -1,0 +1,37 @@
+namespace = ai_fixmod_flag
+
+event = {
+	id = ai_fixmod_flag.1	
+	hide_window = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	immediate = {
+		every_country = {
+			limit = {
+				is_ai = yes
+				is_country_type = "default"
+			}
+			country_event = { id = ai_fixmod_flag.2 }
+			country_event = { id = ai_fixmod_plasma.1 }
+		}
+		set_global_flag = "ai_fixmod_flag"
+	}
+}
+
+country_event = {
+	id = ai_fixmod_flag.2
+	hide_window = yes
+
+	is_triggered_only = yes
+	
+	immediate = {
+		add_modifier = {
+			modifier = ai_map_the_stars
+			days = 7200
+		}
+		add_influence = -100
+	}
+}
+
+

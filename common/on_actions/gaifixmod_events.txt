@@ -1,0 +1,29 @@
+on_yearly_pulse = {
+	events = {
+		gai_edict.1	
+		no_starbase_defense.1
+		gai_bio_trophy.1
+		gai_ai_colonize.1
+		gai_critical_buildings.1
+		gai_clear.1
+		gai_war.1
+	}
+}
+
+on_entering_war = {
+	events = {
+		gai_clear.1
+	}
+}
+
+on_game_start = {
+	events = {
+		ai_fixmod_flag.1
+	}
+}
+
+on_colonized = {
+	events = {
+		gai_ai_colonize.3
+	}
+}

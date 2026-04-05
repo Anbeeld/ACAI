@@ -1,0 +1,32 @@
+
+on_monthly_pulse = {
+	events = {
+		aai_monthly.1
+	}
+}
+
+on_yearly_pulse = {
+	events = {
+		aai_yearly.1
+	}
+}
+
+on_game_start = {
+	events = {
+		aai_monthly.1
+		aai_yearly.1
+	}
+}
+
+on_game_start_country = {
+	events = {
+		aai_yearly.2
+		aai_yearly.10
+	}
+}
+
+#on_entering_war = {
+#	events = {
+#		aai_monthly.3
+#	}
+#}

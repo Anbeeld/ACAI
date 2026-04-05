@@ -1,0 +1,362 @@
+
+aai_calc_pops_and_food = {
+	
+	# Checking current number of pops
+	
+	set_variable = {
+		which = aai_value_num_pops
+		value = 0
+	}
+	
+	every_owned_pop = {
+		limit = {
+			is_being_purged = no
+			is_growing = no
+		}
+		owner = {
+			change_variable = {
+				which = aai_value_num_pops
+				value = 1
+			}
+		}
+	}
+	
+	# Food should be calculated only for those, who use it
+	if = {
+		limit = {
+			owner = {
+				NOT = { has_authority = auth_machine_intelligence }
+			}
+		}
+	
+		# Calculating low food income
+		set_variable = {
+			which = aai_value_food_income_low
+			value = aai_value_num_pops
+		}
+		# Faster scaling for small to medium empires
+		if = {
+			limit = {
+				check_variable = {
+					which = aai_value_food_income_low
+					value < 200
+				}
+			}
+			divide_variable = {
+				which = aai_value_food_income_low
+				value = 20
+			}
+		}
+		# Slower scaling when becoming huge
+		else = {
+			divide_variable = {
+				which = aai_value_food_income_low
+				value = 40
+			}
+			# Compensate for pre-200 income
+			change_variable = {
+				which = aai_value_food_income_low
+				value = 5
+			}
+		}
+		# Starting value
+		change_variable = {
+			which = aai_value_food_income_low
+			value = 2
+		}
+		
+		# Checking low food income
+		
+			set_variable = {
+				which = aai_boolean_food_income_low
+				value = 1
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = { check_variable = { which = aai_value_food_income_low value >= 2 } check_variable = { which = aai_value_food_income_low value < 3 } has_monthly_income = { resource = food value < 2 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 3 } check_variable = { which = aai_value_food_income_low value < 4 } has_monthly_income = { resource = food value < 3 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 4 } check_variable = { which = aai_value_food_income_low value < 5 } has_monthly_income = { resource = food value < 4 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 5 } check_variable = { which = aai_value_food_income_low value < 6 } has_monthly_income = { resource = food value < 5 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 6 } check_variable = { which = aai_value_food_income_low value < 7 } has_monthly_income = { resource = food value < 6 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 7 } check_variable = { which = aai_value_food_income_low value < 8 } has_monthly_income = { resource = food value < 7 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 8 } check_variable = { which = aai_value_food_income_low value < 9 } has_monthly_income = { resource = food value < 8 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 9 } check_variable = { which = aai_value_food_income_low value < 10 } has_monthly_income = { resource = food value < 9 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 10 } check_variable = { which = aai_value_food_income_low value < 11 } has_monthly_income = { resource = food value < 10 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 11 } check_variable = { which = aai_value_food_income_low value < 12 } has_monthly_income = { resource = food value < 11 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 12 } check_variable = { which = aai_value_food_income_low value < 13 } has_monthly_income = { resource = food value < 12 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 13 } check_variable = { which = aai_value_food_income_low value < 14 } has_monthly_income = { resource = food value < 13 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 14 } check_variable = { which = aai_value_food_income_low value < 15 } has_monthly_income = { resource = food value < 14 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 15 } check_variable = { which = aai_value_food_income_low value < 16 } has_monthly_income = { resource = food value < 15 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 16 } check_variable = { which = aai_value_food_income_low value < 17 } has_monthly_income = { resource = food value < 16 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 17 } check_variable = { which = aai_value_food_income_low value < 18 } has_monthly_income = { resource = food value < 17 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 18 } check_variable = { which = aai_value_food_income_low value < 19 } has_monthly_income = { resource = food value < 18 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 19 } check_variable = { which = aai_value_food_income_low value < 20 } has_monthly_income = { resource = food value < 19 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 20 } check_variable = { which = aai_value_food_income_low value < 21 } has_monthly_income = { resource = food value < 20 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 21 } check_variable = { which = aai_value_food_income_low value < 22 } has_monthly_income = { resource = food value < 21 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 22 } check_variable = { which = aai_value_food_income_low value < 23 } has_monthly_income = { resource = food value < 22 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 23 } check_variable = { which = aai_value_food_income_low value < 24 } has_monthly_income = { resource = food value < 23 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 24 } check_variable = { which = aai_value_food_income_low value < 25 } has_monthly_income = { resource = food value < 24 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 25 } check_variable = { which = aai_value_food_income_low value < 26 } has_monthly_income = { resource = food value < 25 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 26 } check_variable = { which = aai_value_food_income_low value < 27 } has_monthly_income = { resource = food value < 26 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 27 } check_variable = { which = aai_value_food_income_low value < 28 } has_monthly_income = { resource = food value < 27 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 28 } check_variable = { which = aai_value_food_income_low value < 29 } has_monthly_income = { resource = food value < 28 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 29 } check_variable = { which = aai_value_food_income_low value < 30 } has_monthly_income = { resource = food value < 29 } }
+						AND = { check_variable = { which = aai_value_food_income_low value >= 30 } has_monthly_income = { resource = food value < 30 } }
+					}
+				}
+				set_variable = {
+					which = aai_boolean_food_income_low
+					value = 2
+				}
+			}
+		
+		# Calculating medium food income
+		
+			set_variable = {
+				which = aai_value_food_income_medium
+				value = aai_value_num_pops
+			}
+			
+			# Faster scaling for small to medium empires
+			
+				if = {
+					limit = {
+						check_variable = {
+							which = aai_value_food_income_medium
+							value < 200
+						}
+					}
+					divide_variable = {
+						which = aai_value_food_income_medium
+						value = 10
+					}
+				}
+				
+			# Slower scaling when becoming huge
+			
+				else = {
+					divide_variable = {
+						which = aai_value_food_income_medium
+						value = 20
+					}
+					# Compensate for pre-200 income
+					change_variable = {
+						which = aai_value_food_income_medium
+						value = 10
+					}
+				}
+			
+			# Starting value
+			
+				change_variable = {
+					which = aai_value_food_income_medium
+					value = 8
+				}
+		
+		# Checking medium food income
+		
+			set_variable = {
+				which = aai_boolean_food_income_medium
+				value = 1
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 8 } check_variable = { which = aai_value_food_income_medium value < 9 } has_monthly_income = { resource = food value >= 8 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 9 } check_variable = { which = aai_value_food_income_medium value < 10 } has_monthly_income = { resource = food value >= 9 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 10 } check_variable = { which = aai_value_food_income_medium value < 11 } has_monthly_income = { resource = food value >= 10 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 11 } check_variable = { which = aai_value_food_income_medium value < 12 } has_monthly_income = { resource = food value >= 11 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 12 } check_variable = { which = aai_value_food_income_medium value < 13 } has_monthly_income = { resource = food value >= 12 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 13 } check_variable = { which = aai_value_food_income_medium value < 14 } has_monthly_income = { resource = food value >= 13 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 14 } check_variable = { which = aai_value_food_income_medium value < 15 } has_monthly_income = { resource = food value >= 14 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 15 } check_variable = { which = aai_value_food_income_medium value < 16 } has_monthly_income = { resource = food value >= 15 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 16 } check_variable = { which = aai_value_food_income_medium value < 17 } has_monthly_income = { resource = food value >= 16 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 17 } check_variable = { which = aai_value_food_income_medium value < 18 } has_monthly_income = { resource = food value >= 17 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 18 } check_variable = { which = aai_value_food_income_medium value < 19 } has_monthly_income = { resource = food value >= 18 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 19 } check_variable = { which = aai_value_food_income_medium value < 20 } has_monthly_income = { resource = food value >= 19 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 20 } check_variable = { which = aai_value_food_income_medium value < 21 } has_monthly_income = { resource = food value >= 20 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 21 } check_variable = { which = aai_value_food_income_medium value < 22 } has_monthly_income = { resource = food value >= 21 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 22 } check_variable = { which = aai_value_food_income_medium value < 23 } has_monthly_income = { resource = food value >= 22 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 23 } check_variable = { which = aai_value_food_income_medium value < 24 } has_monthly_income = { resource = food value >= 23 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 24 } check_variable = { which = aai_value_food_income_medium value < 25 } has_monthly_income = { resource = food value >= 24 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 25 } check_variable = { which = aai_value_food_income_medium value < 26 } has_monthly_income = { resource = food value >= 25 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 26 } check_variable = { which = aai_value_food_income_medium value < 27 } has_monthly_income = { resource = food value >= 26 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 27 } check_variable = { which = aai_value_food_income_medium value < 28 } has_monthly_income = { resource = food value >= 27 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 28 } check_variable = { which = aai_value_food_income_medium value < 29 } has_monthly_income = { resource = food value >= 28 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 29 } check_variable = { which = aai_value_food_income_medium value < 30 } has_monthly_income = { resource = food value >= 29 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 30 } check_variable = { which = aai_value_food_income_medium value < 31 } has_monthly_income = { resource = food value >= 30 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 31 } check_variable = { which = aai_value_food_income_medium value < 32 } has_monthly_income = { resource = food value >= 31 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 32 } check_variable = { which = aai_value_food_income_medium value < 33 } has_monthly_income = { resource = food value >= 32 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 33 } check_variable = { which = aai_value_food_income_medium value < 34 } has_monthly_income = { resource = food value >= 33 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 34 } check_variable = { which = aai_value_food_income_medium value < 35 } has_monthly_income = { resource = food value >= 34 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 35 } check_variable = { which = aai_value_food_income_medium value < 36 } has_monthly_income = { resource = food value >= 35 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 36 } check_variable = { which = aai_value_food_income_medium value < 37 } has_monthly_income = { resource = food value >= 36 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 37 } check_variable = { which = aai_value_food_income_medium value < 38 } has_monthly_income = { resource = food value >= 37 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 38 } check_variable = { which = aai_value_food_income_medium value < 39 } has_monthly_income = { resource = food value >= 38 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 39 } check_variable = { which = aai_value_food_income_medium value < 40 } has_monthly_income = { resource = food value >= 39 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 40 } check_variable = { which = aai_value_food_income_medium value < 41 } has_monthly_income = { resource = food value >= 40 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 41 } check_variable = { which = aai_value_food_income_medium value < 42 } has_monthly_income = { resource = food value >= 41 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 42 } check_variable = { which = aai_value_food_income_medium value < 43 } has_monthly_income = { resource = food value >= 42 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 43 } check_variable = { which = aai_value_food_income_medium value < 44 } has_monthly_income = { resource = food value >= 43 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 44 } check_variable = { which = aai_value_food_income_medium value < 45 } has_monthly_income = { resource = food value >= 44 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 45 } check_variable = { which = aai_value_food_income_medium value < 46 } has_monthly_income = { resource = food value >= 45 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 46 } check_variable = { which = aai_value_food_income_medium value < 47 } has_monthly_income = { resource = food value >= 46 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 47 } check_variable = { which = aai_value_food_income_medium value < 48 } has_monthly_income = { resource = food value >= 47 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 48 } check_variable = { which = aai_value_food_income_medium value < 49 } has_monthly_income = { resource = food value >= 48 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 49 } check_variable = { which = aai_value_food_income_medium value < 50 } has_monthly_income = { resource = food value >= 49 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 50 } check_variable = { which = aai_value_food_income_medium value < 51 } has_monthly_income = { resource = food value >= 50 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 51 } check_variable = { which = aai_value_food_income_medium value < 52 } has_monthly_income = { resource = food value >= 51 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 52 } check_variable = { which = aai_value_food_income_medium value < 53 } has_monthly_income = { resource = food value >= 52 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 53 } check_variable = { which = aai_value_food_income_medium value < 54 } has_monthly_income = { resource = food value >= 53 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 54 } check_variable = { which = aai_value_food_income_medium value < 55 } has_monthly_income = { resource = food value >= 54 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 55 } check_variable = { which = aai_value_food_income_medium value < 56 } has_monthly_income = { resource = food value >= 55 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 56 } check_variable = { which = aai_value_food_income_medium value < 57 } has_monthly_income = { resource = food value >= 56 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 57 } check_variable = { which = aai_value_food_income_medium value < 58 } has_monthly_income = { resource = food value >= 57 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 58 } check_variable = { which = aai_value_food_income_medium value < 59 } has_monthly_income = { resource = food value >= 58 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 59 } check_variable = { which = aai_value_food_income_medium value < 60 } has_monthly_income = { resource = food value >= 59 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 60 } check_variable = { which = aai_value_food_income_medium value < 61 } has_monthly_income = { resource = food value >= 60 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 61 } check_variable = { which = aai_value_food_income_medium value < 62 } has_monthly_income = { resource = food value >= 61 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 62 } check_variable = { which = aai_value_food_income_medium value < 63 } has_monthly_income = { resource = food value >= 62 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 63 } check_variable = { which = aai_value_food_income_medium value < 64 } has_monthly_income = { resource = food value >= 63 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 64 } check_variable = { which = aai_value_food_income_medium value < 65 } has_monthly_income = { resource = food value >= 64 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 65 } check_variable = { which = aai_value_food_income_medium value < 66 } has_monthly_income = { resource = food value >= 65 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 66 } check_variable = { which = aai_value_food_income_medium value < 67 } has_monthly_income = { resource = food value >= 66 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 67 } check_variable = { which = aai_value_food_income_medium value < 68 } has_monthly_income = { resource = food value >= 67 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 68 } has_monthly_income = { resource = food value >= 68 } }
+					}
+				}
+				set_variable = {
+					which = aai_boolean_food_income_medium
+					value = 2
+				}
+			}
+			
+		# End checking medium food income
+		
+		# — — — — — — — — — — — — — — — — — — — — — — — — — —
+		
+		# Calculating high food income
+		
+			set_variable = {
+				which = aai_value_food_income_high
+				value = aai_value_food_income_medium
+			}
+			change_variable = {
+				which = aai_value_food_income_high
+				value = 14
+			}
+			
+		# End calculating high food income
+		
+		# — — — — — — — — — — — — — — — — — — — — — — — — — —
+		
+		# Checking high food income
+		
+			set_variable = {
+				which = aai_boolean_food_income_high
+				value = 1
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 22 } check_variable = { which = aai_value_food_income_medium value < 23 } has_monthly_income = { resource = food value >= 22 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 23 } check_variable = { which = aai_value_food_income_medium value < 24 } has_monthly_income = { resource = food value >= 23 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 24 } check_variable = { which = aai_value_food_income_medium value < 25 } has_monthly_income = { resource = food value >= 24 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 25 } check_variable = { which = aai_value_food_income_medium value < 26 } has_monthly_income = { resource = food value >= 25 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 26 } check_variable = { which = aai_value_food_income_medium value < 27 } has_monthly_income = { resource = food value >= 26 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 27 } check_variable = { which = aai_value_food_income_medium value < 28 } has_monthly_income = { resource = food value >= 27 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 28 } check_variable = { which = aai_value_food_income_medium value < 29 } has_monthly_income = { resource = food value >= 28 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 29 } check_variable = { which = aai_value_food_income_medium value < 30 } has_monthly_income = { resource = food value >= 29 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 30 } check_variable = { which = aai_value_food_income_medium value < 31 } has_monthly_income = { resource = food value >= 30 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 31 } check_variable = { which = aai_value_food_income_medium value < 32 } has_monthly_income = { resource = food value >= 31 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 32 } check_variable = { which = aai_value_food_income_medium value < 33 } has_monthly_income = { resource = food value >= 32 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 33 } check_variable = { which = aai_value_food_income_medium value < 34 } has_monthly_income = { resource = food value >= 33 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 34 } check_variable = { which = aai_value_food_income_medium value < 35 } has_monthly_income = { resource = food value >= 34 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 35 } check_variable = { which = aai_value_food_income_medium value < 36 } has_monthly_income = { resource = food value >= 35 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 36 } check_variable = { which = aai_value_food_income_medium value < 37 } has_monthly_income = { resource = food value >= 36 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 37 } check_variable = { which = aai_value_food_income_medium value < 38 } has_monthly_income = { resource = food value >= 37 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 38 } check_variable = { which = aai_value_food_income_medium value < 39 } has_monthly_income = { resource = food value >= 38 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 39 } check_variable = { which = aai_value_food_income_medium value < 40 } has_monthly_income = { resource = food value >= 39 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 40 } check_variable = { which = aai_value_food_income_medium value < 41 } has_monthly_income = { resource = food value >= 40 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 41 } check_variable = { which = aai_value_food_income_medium value < 42 } has_monthly_income = { resource = food value >= 41 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 42 } check_variable = { which = aai_value_food_income_medium value < 43 } has_monthly_income = { resource = food value >= 42 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 43 } check_variable = { which = aai_value_food_income_medium value < 44 } has_monthly_income = { resource = food value >= 43 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 44 } check_variable = { which = aai_value_food_income_medium value < 45 } has_monthly_income = { resource = food value >= 44 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 45 } check_variable = { which = aai_value_food_income_medium value < 46 } has_monthly_income = { resource = food value >= 45 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 46 } check_variable = { which = aai_value_food_income_medium value < 47 } has_monthly_income = { resource = food value >= 46 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 47 } check_variable = { which = aai_value_food_income_medium value < 48 } has_monthly_income = { resource = food value >= 47 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 48 } check_variable = { which = aai_value_food_income_medium value < 49 } has_monthly_income = { resource = food value >= 48 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 49 } check_variable = { which = aai_value_food_income_medium value < 50 } has_monthly_income = { resource = food value >= 49 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 50 } check_variable = { which = aai_value_food_income_medium value < 51 } has_monthly_income = { resource = food value >= 50 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 51 } check_variable = { which = aai_value_food_income_medium value < 52 } has_monthly_income = { resource = food value >= 51 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 52 } check_variable = { which = aai_value_food_income_medium value < 53 } has_monthly_income = { resource = food value >= 52 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 53 } check_variable = { which = aai_value_food_income_medium value < 54 } has_monthly_income = { resource = food value >= 53 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 54 } check_variable = { which = aai_value_food_income_medium value < 55 } has_monthly_income = { resource = food value >= 54 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 55 } check_variable = { which = aai_value_food_income_medium value < 56 } has_monthly_income = { resource = food value >= 55 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 56 } check_variable = { which = aai_value_food_income_medium value < 57 } has_monthly_income = { resource = food value >= 56 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 57 } check_variable = { which = aai_value_food_income_medium value < 58 } has_monthly_income = { resource = food value >= 57 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 58 } check_variable = { which = aai_value_food_income_medium value < 59 } has_monthly_income = { resource = food value >= 58 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 59 } check_variable = { which = aai_value_food_income_medium value < 60 } has_monthly_income = { resource = food value >= 59 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 60 } check_variable = { which = aai_value_food_income_medium value < 61 } has_monthly_income = { resource = food value >= 60 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 61 } check_variable = { which = aai_value_food_income_medium value < 62 } has_monthly_income = { resource = food value >= 61 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 62 } check_variable = { which = aai_value_food_income_medium value < 63 } has_monthly_income = { resource = food value >= 62 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 63 } check_variable = { which = aai_value_food_income_medium value < 64 } has_monthly_income = { resource = food value >= 63 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 64 } check_variable = { which = aai_value_food_income_medium value < 65 } has_monthly_income = { resource = food value >= 64 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 65 } check_variable = { which = aai_value_food_income_medium value < 66 } has_monthly_income = { resource = food value >= 65 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 66 } check_variable = { which = aai_value_food_income_medium value < 67 } has_monthly_income = { resource = food value >= 66 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 67 } check_variable = { which = aai_value_food_income_medium value < 68 } has_monthly_income = { resource = food value >= 67 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 68 } check_variable = { which = aai_value_food_income_medium value < 69 } has_monthly_income = { resource = food value >= 68 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 69 } check_variable = { which = aai_value_food_income_medium value < 70 } has_monthly_income = { resource = food value >= 69 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 70 } check_variable = { which = aai_value_food_income_medium value < 71 } has_monthly_income = { resource = food value >= 70 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 71 } check_variable = { which = aai_value_food_income_medium value < 72 } has_monthly_income = { resource = food value >= 71 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 72 } check_variable = { which = aai_value_food_income_medium value < 73 } has_monthly_income = { resource = food value >= 72 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 73 } check_variable = { which = aai_value_food_income_medium value < 74 } has_monthly_income = { resource = food value >= 73 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 74 } check_variable = { which = aai_value_food_income_medium value < 75 } has_monthly_income = { resource = food value >= 74 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 75 } check_variable = { which = aai_value_food_income_medium value < 76 } has_monthly_income = { resource = food value >= 75 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 76 } check_variable = { which = aai_value_food_income_medium value < 77 } has_monthly_income = { resource = food value >= 76 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 77 } check_variable = { which = aai_value_food_income_medium value < 78 } has_monthly_income = { resource = food value >= 77 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 78 } check_variable = { which = aai_value_food_income_medium value < 79 } has_monthly_income = { resource = food value >= 78 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 79 } check_variable = { which = aai_value_food_income_medium value < 80 } has_monthly_income = { resource = food value >= 79 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 80 } check_variable = { which = aai_value_food_income_medium value < 81 } has_monthly_income = { resource = food value >= 80 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 81 } check_variable = { which = aai_value_food_income_medium value < 82 } has_monthly_income = { resource = food value >= 81 } }
+						AND = { check_variable = { which = aai_value_food_income_medium value >= 82 } has_monthly_income = { resource = food value >= 82 } }
+					}
+				}
+				set_variable = {
+					which = aai_boolean_food_income_high
+					value = 2
+				}
+			}
+			
+		# End checking high food income
+		
+		set_variable = {
+			which = acai_value_minerals_income_low
+			value = aai_value_num_pops
+		}
+		divide_variable = {
+			which = acai_value_minerals_income_low
+			value = 2
+		}
+		change_variable = {
+			which = acai_value_minerals_income_low
+			value = 10
+		}
+		
+		set_variable = {
+			which = acai_value_minerals_income_extreme
+			value = aai_value_num_pops
+		}
+		divide_variable = {
+			which = acai_value_minerals_income_extreme
+			value = 4
+		}
+		change_variable = {
+			which = acai_value_minerals_income_extreme
+			value = 5
+		}
+		
+	}
+	
+}

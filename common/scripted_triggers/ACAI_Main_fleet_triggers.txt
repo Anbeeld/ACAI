@@ -1,0 +1,46 @@
+
+acai_main_fleet_exists = {
+	any_owned_fleet = {
+		check_variable = {
+			which = acai_value_main_fleet_current_power
+			value > 0
+		}
+	}
+}
+
+acai_main_fleet_current_strongest = {
+	owner = {
+		OR = {
+			NOT = {
+				any_owned_fleet = {
+					check_variable = {
+						which = acai_value_main_fleet_current_power
+						value >= prevprev
+					}
+				}
+			}
+			AND = {
+				NOT = {
+					any_owned_fleet = {
+						check_variable = {
+							which = acai_value_main_fleet_current_power
+							value > prevprev
+						}
+					}
+				}
+				NOT = {
+					any_owned_fleet = {
+						check_variable = {
+							which = acai_value_main_fleet_current_power
+							value = prevprev
+						}
+						check_variable = {
+							which = acai_value_main_fleet_identificator
+							value < prevprev
+						}
+					}
+				}
+			}
+		}
+	}
+}

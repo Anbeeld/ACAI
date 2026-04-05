@@ -1,0 +1,464 @@
+
+aai_tile_strategic = {
+	OR = {
+			has_resource = {
+				type = sr_betharian
+				amount > 0
+			}
+			has_resource = {
+				type = sr_alien_pets
+				amount > 0
+			}
+	}
+}
+
+aai_tile_energy = {	
+			has_resource = {
+				type = energy
+				amount > 0
+			}
+		aai_tile_strategic = no
+}
+
+aai_tile_high_energy = {	
+			has_resource = {
+				type = energy
+				amount > 1
+			}
+		aai_tile_strategic = no
+}
+
+aai_no_free_energy = {
+	NOT = {
+		planet = {
+			any_tile = {
+				aai_tile_energy = yes
+				has_building = no
+				has_blocker = no
+			}
+		}
+	}
+}
+
+aai_no_free_high_energy = {
+	NOT = {
+		planet = {
+			any_tile = {
+				aai_tile_high_energy = yes
+				has_building = no
+				has_blocker = no
+			}
+		}
+	}
+}
+
+aai_tile_minerals = {	
+			has_resource = {
+				type = minerals
+				amount > 0
+			}
+}
+
+aai_tile_high_minerals = {	
+		has_resource = {
+			type = minerals
+			amount > 1
+		}
+}
+
+aai_no_free_minerals = {
+	NOT = {
+		planet = {
+			any_tile = {
+				aai_tile_minerals = yes
+				has_building = no
+				has_blocker = no
+			}
+		}
+	}
+}
+
+aai_no_free_high_minerals = {
+	NOT = {
+		planet = {
+			any_tile = {
+				aai_tile_high_minerals = yes
+				has_building = no
+				has_blocker = no
+			}
+		}
+	}
+}
+
+aai_tile_food = {	
+			has_resource = {
+				type = food
+				amount > 0
+			}
+}
+
+aai_tile_high_food = {
+		has_resource = {
+			type = food
+			amount > 1
+		}
+}
+
+aai_no_free_food = {
+	NOT = {
+		planet = {
+			any_tile = {
+				aai_tile_food = yes
+				has_building = no
+				has_blocker = no
+			}
+		}
+	}
+}
+
+aai_no_free_high_food = {
+	NOT = {
+		planet = {
+			any_tile = {
+				aai_tile_high_food = yes
+				has_building = no
+				has_blocker = no
+			}
+		}
+	}
+}
+
+aai_tile_research = {
+	OR = {
+		has_resource = {
+			type = society_research
+			amount > 0
+		}
+		has_resource = {
+			type = physics_research
+			amount > 0
+		}
+		has_resource = {
+			type = engineering_research
+			amount > 0
+		}
+	}
+}
+
+aai_tile_high_research = {
+	OR = {
+		has_resource = {
+			type = society_research
+			amount > 1
+		}
+		has_resource = {
+			type = physics_research
+			amount > 1
+		}
+		has_resource = {
+			type = engineering_research
+			amount > 1
+		}
+	}
+}
+
+aai_tile_physics = {
+		has_resource = {
+			type = physics_research
+			amount > 0
+		}
+}
+
+aai_tile_society = {
+	has_resource = {
+		type = society_research
+		amount > 0
+	}
+	OR = {
+		owner = {
+			NOT = { has_technology = tech_alien_life_studies }
+		}
+		AND = {
+			owner = {
+				has_technology = tech_alien_life_studies
+			}
+			has_resource = {
+				type = sr_alien_pets
+				amount = 0
+			}
+		}
+	}
+}
+
+aai_tile_engineering = {
+		has_resource = {
+			type = engineering_research
+			amount > 0
+		}
+}
+
+aai_no_free_research = {
+	NOT = {
+		planet = {
+			any_tile = {
+				aai_tile_research = yes
+				has_building = no
+				has_blocker = no
+			}
+		}
+	}
+}
+
+aai_no_free_high_research = {
+	NOT = {
+		planet = {
+			any_tile = {
+				aai_tile_high_research = yes
+				has_building = no
+				has_blocker = no
+			}
+		}
+	}
+}
+
+aai_tile_blank = {
+	NOR = {
+		aai_tile_energy = yes
+		aai_tile_minerals = yes
+		aai_tile_food = yes
+		aai_tile_research = yes
+		aai_tile_strategic = yes
+	}
+}
+
+aai_no_free_blank = {
+	NOT = {
+		planet = {
+			any_tile = {
+				aai_tile_blank = yes
+				has_building = no
+				has_blocker = no
+			}
+		}
+	}
+}
+
+aai_suitable_planet_for_construction = {
+	is_occupied_flag = no
+	has_orbital_bombardment = no
+	is_colony = yes
+	is_under_colonization = no
+	NOT = { is_planet_class = pc_habitat }
+	solar_system = {
+		is_within_borders_of = root
+	}
+	has_building_construction = no
+}
+
+
+aai_suitable_habitat_for_construction = {
+	is_occupied_flag = no
+	has_orbital_bombardment = no
+	is_colony = yes
+	is_under_colonization = no
+	is_planet_class = pc_habitat
+	solar_system = {
+		is_within_borders_of = root
+	}
+	has_building_construction = no
+}
+
+aai_upgrade_to_tier_2 = {
+	owner = {
+		has_country_resource = {
+			type = minerals
+			amount > 90
+		}
+	}
+}
+
+aai_upgrade_to_tier_3 = {
+	owner = {
+		has_country_resource = {
+			type = minerals
+			amount > 120
+		}
+	}
+}
+
+aai_upgrade_to_tier_4 = {
+	owner = {
+		has_country_resource = {
+			type = minerals
+			amount > 150
+		}
+	}
+}
+
+aai_upgrade_to_tier_5 = {
+	planet = {
+		aai_planet_capital_tier_4 = yes
+	}
+	owner = {
+		has_country_resource = {
+			type = minerals
+			amount > 180
+		}
+	}
+}
+
+aai_important_building = {
+		OR = {
+			has_building = building_colony_shelter
+			has_building = building_capital_1
+			has_building = building_capital_2
+			has_building = building_capital_3
+			has_building = building_deployment_post
+			has_building = building_machine_capital_1
+			has_building = building_machine_capital_2
+			has_building = building_machine_capital_3
+			has_building = building_mineral_processing_plant_1
+			has_building = building_mineral_processing_plant_2
+			has_building = building_symbol_purity
+			has_building = building_clinic
+			has_building = building_hospital
+			has_building = building_spare_parts_depot
+			has_building = building_unit_assembly_plant
+			has_building = building_paradise_dome
+			has_building = building_power_hub_1
+			has_building = building_power_hub_2
+			has_building = building_akx_worm_1
+			has_building = building_slave_processing
+			has_building = building_citadel_of_faith
+			has_building = building_temple
+			has_building = building_holotemple
+			has_building = building_sacred_nexus
+			has_building = building_autocurating_vault
+			has_building = building_hypercomms_forum
+			has_building = building_heritage_site
+			has_building = building_autochthon_monument
+			has_building = building_uplink_node
+			has_building = building_network_junction
+			has_building = building_system_conflux
+			has_building = building_alpha_hub
+			AND = {
+				planet = { unrest > 0 }
+				OR = {
+					has_building = building_stronghold
+					has_building = building_fortress
+				}
+			}
+		}
+}
+
+aai_has_power_plant = {
+	OR = {
+		has_building = building_power_plant_1
+		has_building = building_power_plant_2
+		has_building = building_power_plant_3
+		has_building = building_power_plant_4
+		has_building = building_power_plant_5
+		has_building_construction = building_power_plant_1
+		has_building_construction = building_power_plant_2
+		has_building_construction = building_power_plant_3
+		has_building_construction = building_power_plant_4
+		has_building_construction = building_power_plant_5
+	}
+}
+
+aai_has_solar_power_processor = {
+	OR = {
+		has_building = building_hab_solar_power_processor
+		has_building_construction = building_hab_solar_power_processor
+	}
+}
+
+aai_has_mining_network = {
+	OR = {
+		has_building = building_mining_network_1
+		has_building = building_mining_network_2
+		has_building = building_mining_network_3
+		has_building = building_mining_network_4
+		has_building = building_mining_network_5
+		has_building_construction = building_mining_network_1
+		has_building_construction = building_mining_network_2
+		has_building_construction = building_mining_network_3
+		has_building_construction = building_mining_network_4
+		has_building_construction = building_mining_network_5
+	}
+}
+
+aai_has_astro_mining_bay = {
+	OR = {
+		has_building = building_hab_astro_mining_facility
+		has_building_construction = building_hab_astro_mining_facility
+	}
+}
+
+aai_has_hydroponics_farm = {
+	OR = {
+		has_building = building_hydroponics_farm_1
+		has_building = building_hydroponics_farm_2
+		has_building = building_hydroponics_farm_3
+		has_building = building_hydroponics_farm_4
+		has_building = building_hydroponics_farm_5
+		has_building_construction = building_hydroponics_farm_1
+		has_building_construction = building_hydroponics_farm_2
+		has_building_construction = building_hydroponics_farm_3
+		has_building_construction = building_hydroponics_farm_4
+		has_building_construction = building_hydroponics_farm_5
+	}
+}
+
+aai_has_agricultural_zone = {
+	OR = {
+		has_building = building_hab_agri_bay
+		has_building_construction = building_hab_agri_bay
+	}
+}
+
+aai_has_physics_lab = {
+	OR = {
+		has_building = building_physics_lab_1
+		has_building = building_physics_lab_2
+		has_building = building_physics_lab_3
+		has_building = building_physics_lab_4
+		has_building_construction = building_physics_lab_1
+		has_building_construction = building_physics_lab_2
+		has_building_construction = building_physics_lab_3
+		has_building_construction = building_physics_lab_4
+	}
+}
+
+aai_has_biolab = {
+	OR = {
+		has_building = building_biolab_1
+		has_building = building_biolab_2
+		has_building = building_biolab_3
+		has_building = building_biolab_4
+		has_building_construction = building_biolab_1
+		has_building_construction = building_biolab_2
+		has_building_construction = building_biolab_3
+		has_building_construction = building_biolab_4
+	}
+}
+
+aai_has_engineering_facility = {
+	OR = {
+		has_building = building_engineering_facility_1
+		has_building = building_engineering_facility_2
+		has_building = building_engineering_facility_3
+		has_building = building_engineering_facility_4
+		has_building_construction = building_engineering_facility_1
+		has_building_construction = building_engineering_facility_2
+		has_building_construction = building_engineering_facility_3
+		has_building_construction = building_engineering_facility_4
+	}
+}
+
+aai_has_laboratory_complex = {
+	OR = {
+		has_building = building_hab_laboratory_module
+		has_building_construction = building_hab_laboratory_module
+	}
+}

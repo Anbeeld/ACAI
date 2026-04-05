@@ -1,0 +1,392 @@
+	
+aai_planet_building_construction = {
+	random_tile = {
+		limit = {
+			has_building = no
+			has_blocker = no
+			acai_rogue_servitors_not_organic = yes
+			OR = {
+			
+				# No capital building, pick tile with adj
+				AND = {
+					planet = {
+						aai_has_capital = no
+					}
+					num_adjacent_tiles > 2
+				}
+				
+				# Other buildings
+				AND = {
+					planet = {
+						aai_has_capital = yes
+					}
+					OR = {
+					
+						# Low food income, build farms
+						AND = {
+							owner = {
+								NOT = { has_authority = auth_machine_intelligence }
+							}
+							aai_food_income_low = yes
+							OR = {
+								aai_tile_food = yes
+								AND = {
+									aai_no_free_food = yes
+									aai_tile_blank = yes
+								}
+								AND = {
+									aai_no_free_food = yes
+									aai_no_free_blank = yes
+									aai_tile_energy = yes
+								}
+								AND = {
+									aai_no_free_food = yes
+									aai_no_free_blank = yes
+									aai_no_free_energy = yes
+								}
+							}
+						}
+						
+						# Low energy income, build plants
+						AND = {
+							aai_energy_income_low = yes
+							OR = {
+								aai_tile_energy = yes
+								AND = {
+									aai_no_free_energy = yes
+									aai_tile_blank = yes
+								}
+								AND = {
+									aai_no_free_energy = yes
+									aai_no_free_blank = yes
+									aai_tile_food = yes
+								}
+								AND = {
+									aai_no_free_energy = yes
+									aai_no_free_blank = yes
+									aai_no_free_food = yes
+								}
+							}
+						}
+						
+						# Tile has high minerals: build mine
+						aai_tile_high_minerals = yes
+						
+						# Tile has minerals and no high minerals left: build mine
+						AND = {
+							aai_tile_minerals = yes
+							aai_no_free_high_minerals = yes
+						}
+						
+						# Tile has high energy, we don't have too much energy and no minerals left: build plant
+						AND = {
+							aai_tile_high_energy = yes
+							aai_no_free_minerals = yes
+							aai_energy_income_medium = no
+						}
+						
+						# Tile has high food, we don't have too much food and no minerals or high energy left: build plant
+						AND = {
+							aai_tile_high_food = yes
+							OR = {
+								aai_no_free_high_energy = yes
+								aai_energy_income_medium = yes
+							}
+							aai_no_free_minerals = yes
+							aai_food_income_medium = no
+						}
+						
+						# Tile has high research, build lab
+						AND = {
+							aai_tile_high_research = yes
+							OR = {
+								aai_no_free_high_energy = yes
+								aai_energy_income_medium = yes
+							}
+							aai_no_free_minerals = yes
+							OR = {
+								aai_no_free_high_food = yes
+								aai_food_income_medium = yes
+							}
+						}
+						
+						# Tile has research, build lab
+						AND = {
+							aai_tile_research = yes
+							aai_no_free_high_research = yes
+							OR = {
+								aai_no_free_high_energy = yes
+								aai_energy_income_medium = yes
+							}
+							aai_no_free_minerals = yes
+							OR = {
+								aai_no_free_high_food = yes
+								aai_food_income_medium = yes
+							}
+						}
+						
+						# Tile has energy, build plant
+						AND = {
+							aai_tile_energy = yes
+							aai_energy_income_medium = no
+							OR = {
+								aai_no_free_high_energy = yes
+								aai_energy_income_medium = yes
+							}
+							aai_no_free_minerals = yes
+							OR = {
+								aai_no_free_high_food = yes
+								aai_food_income_medium = yes
+							}
+							aai_no_free_research = yes
+						}
+						
+						# Tile has food, build farm
+						AND = {
+							aai_tile_food = yes
+							aai_food_income_medium = no
+							OR = {
+								aai_no_free_energy = yes
+								aai_energy_income_medium = yes
+							}
+							aai_no_free_minerals = yes
+							OR = {
+								aai_no_free_high_food = yes
+								aai_food_income_medium = yes
+							}
+							aai_no_free_research = yes
+						}
+						
+						# Tile has nothing interesting
+						AND = {
+							OR = {
+								aai_no_free_energy = yes
+								aai_food_income_medium = yes
+							}
+							aai_no_free_minerals = yes
+							OR = {
+								aai_no_free_food = yes
+								aai_energy_income_medium = yes
+							}
+							aai_no_free_research = yes
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				planet = {
+					aai_has_capital = no
+				}
+			}
+			if = {
+				limit = {
+					owner = {
+						has_technology = tech_planetary_government
+						has_country_resource = {
+							type = minerals
+							amount > 350
+						}
+					}
+					planet = {
+						count_pops = {
+							count > 4
+							limit = {
+								is_colony_pop = yes
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						owner = { has_authority = auth_machine_intelligence }
+					}
+					add_building_construction = building_machine_capital_1
+				}
+				else = {
+					add_building_construction = building_capital_1
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						owner = { has_authority = auth_machine_intelligence }
+					}
+					add_building_construction = building_deployment_post
+				}
+				else = {
+					add_building_construction = building_colony_shelter
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_resource = {
+					type = sr_alien_pets
+					amount > 0
+				}
+			}
+			if = {
+				limit = {
+					owner = { has_technology = tech_alien_life_studies }
+				}
+				if = {
+					limit = {
+						owner = {
+							has_authority = auth_machine_intelligence
+						}
+					}
+					add_building_construction = building_animal_evaluation_laboratory
+				}
+				else = {
+					add_building_construction = building_xeno_zoo
+				}
+			}
+			else = {
+				add_building_construction = building_basic_science_lab_1
+			}
+		}
+		else_if = {
+			limit = {
+				has_resource = {
+					type = sr_betharian
+					amount > 0
+				}
+			}
+			IF = {
+				limit = {
+					owner = { has_technology = tech_mine_betharian }
+				}
+				add_building_construction = betharian_power_plant
+			}
+			else = {
+				add_building_construction = building_power_plant_1
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+					NOT = { has_authority = auth_machine_intelligence }
+				}
+				OR = {
+					aai_food_income_low = yes
+					AND = {
+						aai_food_income_medium = no
+						aai_tile_food = yes
+						aai_tile_minerals = no
+					}
+				}
+			}
+			add_building_construction = building_hydroponics_farm_1
+			if = {
+				limit = {
+					aai_food_income_low = yes
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					aai_energy_income_low = yes
+					AND = {
+						aai_energy_income_medium = no
+						aai_tile_energy = yes
+						aai_tile_minerals = no
+					}
+				}
+			}
+			add_building_construction = building_power_plant_1
+		}
+		else_if = {
+			limit = {
+				aai_tile_research = yes
+			}
+			add_building_construction = building_basic_science_lab_1
+		}
+		else_if = {
+			limit = {
+				aai_tile_minerals = yes
+			}
+			add_building_construction = building_mining_network_1
+		}
+		else = {
+			if = {
+			#	limit = {
+			#		years_passed < 5
+			#	}
+			#	add_building_construction = building_mining_network_1
+			#}
+			#else_if = {
+				limit = {
+					years_passed < 10
+				}
+				random_list = {
+					30 = {
+						add_building_construction = building_basic_science_lab_1
+					}
+					45 = {
+						add_building_construction = building_mining_network_1
+					}
+				}
+			}
+			else = {
+				random_list = {
+					30 = {
+						add_building_construction = building_basic_science_lab_1
+					}
+					30 = {
+						add_building_construction = building_mining_network_1
+					}
+				}
+			}
+		}
+	}
+}
+
+aai_habitat_building_construction = {
+	random_tile = {
+		limit = {
+			has_building = no
+			has_blocker = no
+			acai_rogue_servitors_not_organic = yes
+		}
+		if = {
+			limit = {
+				NOT = {
+					planet = {
+						any_tile = {
+							has_building = building_hab_capital
+						}
+					}
+				}
+			}
+			add_building_construction = building_hab_capital
+		}
+		else_if = {
+			limit = {
+				aai_energy_income_low = yes
+			}
+			add_building_construction = building_hab_solar_power_processor
+		}
+		else_if = {
+			limit = {
+				aai_food_income_low = yes
+				owner = {
+					NOT = { has_authority = auth_machine_intelligence }
+				}
+			}
+			add_building_construction = building_hab_agri_bay
+		}
+		else = {
+			random_list = {
+				45 = {
+					add_building_construction = building_hab_laboratory_module
+				}
+				30 = {
+					add_building_construction = building_hab_astro_mining_facility
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,911 @@
+namespace = aai_monthly
+
+# Anbeeld's AI: Monthly Hub
+event = {
+	id = aai_monthly.1
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				NOT = { exists = event_target:acai_days_scope }
+			}
+			random_planet = {
+				save_global_event_target_as = acai_days_scope
+			}
+		}
+		
+		event_target:acai_days_scope = {
+			set_variable = {
+				which = acai_value_day_monthly_economy
+				value = 1
+			}
+		}
+		
+		event_target:acai_days_scope = {
+			set_variable = {
+				which = acai_value_day_monthly_ships
+				value = 8
+			}
+		}
+		
+		event_target:acai_days_scope = {
+			set_variable = {
+				which = acai_value_day_monthly_robots
+				value = 16
+			}
+		}
+		
+		event_target:acai_days_scope = {
+			set_variable = {
+				which = acai_value_day_monthly_buildings_1
+				value = 1
+			}
+		}
+		
+		event_target:acai_days_scope = {
+			set_variable = {
+				which = acai_value_day_monthly_buildings_2
+				value = 6
+			}
+		}
+		
+		event_target:acai_days_scope = {
+			set_variable = {
+				which = acai_value_day_monthly_buildings_3
+				value = 9
+			}
+		}
+		
+		every_country = {
+			limit = {
+				is_ai = yes
+				is_country_type = default
+			}
+			
+			# Fleet healing
+			if = {
+				limit = {
+					is_at_war = yes
+					acai_main_fleet_exists = yes
+					any_system = {
+						exists = starbase
+						starbase = {
+							controller = {
+								is_same_value = prevprevprev
+							}
+							has_starbase_size >= starbase_starport
+						}
+					}
+				}
+				every_owned_fleet = {
+					limit = {
+						acai_main_fleet_current_strongest = yes
+					}
+					if = {
+						limit = {
+							has_hp_percentage < 1.00
+							check_variable = {
+								which = acai_boolean_healing_triggered
+								value < 2
+							}
+						}
+						set_variable = {
+							which = acai_boolean_healing_triggered
+							value = 2
+						}
+						fleet_event = { id = acai_healing.1 days = 1 }
+					}
+				}
+			}
+			
+			if = {
+				limit = {
+					is_at_war = yes
+					check_variable = {
+						which = acai_value_armies_stuck_1
+						value = 0
+					}
+					check_variable = {
+						which = acai_value_armies_stuck_2
+						value = 0
+					}
+					any_owned_fleet = {
+						NOT = {
+							any_owned_ship = {
+								NOT = { is_ship_size = transport }
+							}
+						}
+						is_in_combat = no
+						has_fleet_order = land_armies_order
+					}
+					NOT = {
+						any_owned_fleet = {
+							NOT = {
+								any_owned_ship = {
+									NOT = { is_ship_size = transport }
+								}
+							}
+							is_in_combat = no
+							has_fleet_order = land_armies_order
+							NOT = { exists = solar_system }
+						}
+					}
+				}
+				log = "[owner.GetName] initiating fix"
+				set_variable = {
+					which = acai_value_armies_stuck_1
+					value = 1
+				}
+				set_variable = {
+					which = acai_value_armies_stuck_2
+					value = 1
+				}
+				acai_armies_stuckfix_call = yes
+			}
+			
+			# Economy
+			#country_event = { id = aai_monthly.2 days = 1 random = 6 }
+			
+			event_target:acai_days_scope = {
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_day_monthly_economy
+							value = 8
+						}
+					}
+					set_variable = {
+						which = acai_value_day_monthly_economy
+						value = 1
+					}
+				}
+			}
+			
+			if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_economy
+							value = 1
+						}
+					}
+				}
+				country_event = { id = aai_monthly.2 days = 1 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_economy
+							value = 2
+						}
+					}
+				}
+				country_event = { id = aai_monthly.2 days = 2 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_economy
+							value = 3
+						}
+					}
+				}
+				country_event = { id = aai_monthly.2 days = 3 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_economy
+							value = 4
+						}
+					}
+				}
+				country_event = { id = aai_monthly.2 days = 4 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_economy
+							value = 5
+						}
+					}
+				}
+				country_event = { id = aai_monthly.2 days = 5 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_economy
+							value = 6
+						}
+					}
+				}
+				country_event = { id = aai_monthly.2 days = 6 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_economy
+							value = 7
+						}
+					}
+				}
+				country_event = { id = aai_monthly.2 days = 7 }
+			}
+			
+			event_target:acai_days_scope = {
+				change_variable = {
+					which = acai_value_day_monthly_economy
+					value = 1
+				}
+			}
+			
+			# Ships
+				
+				#country_event = { id = aai_monthly.3 days = 8 random = 3 }
+				#country_event = { id = aai_monthly.3 days = 12 random = 3 }
+				
+				
+			
+			event_target:acai_days_scope = {
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_day_monthly_ships
+							value = 12
+						}
+					}
+					set_variable = {
+						which = acai_value_day_monthly_ships
+						value = 8
+					}
+				}
+			}
+			
+			if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_ships
+							value = 8
+						}
+					}
+				}
+				country_event = { id = aai_monthly.3 days = 8 }
+				country_event = { id = aai_monthly.3 days = 12 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_ships
+							value = 9
+						}
+					}
+				}
+				country_event = { id = aai_monthly.3 days = 9 }
+				country_event = { id = aai_monthly.3 days = 13 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_ships
+							value = 10
+						}
+					}
+				}
+				country_event = { id = aai_monthly.3 days = 10 }
+				country_event = { id = aai_monthly.3 days = 14 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_ships
+							value = 11
+						}
+					}
+				}
+				country_event = { id = aai_monthly.3 days = 11 }
+				country_event = { id = aai_monthly.3 days = 15 }
+			}
+			
+			event_target:acai_days_scope = {
+				change_variable = {
+					which = acai_value_day_monthly_ships
+					value = 1
+				}
+			}
+			
+			# Robots
+			if = {
+				limit = {
+					NOT = { has_policy_flag = robots_outlawed }
+					OR = {
+						has_authority = auth_machine_intelligence
+						has_technology = tech_robotic_workers
+						has_country_flag = synthetic_age
+					}
+					OR = {
+						AND = {
+							is_at_war = no
+							minerals > 100
+						}
+						AND = {
+							is_at_war = yes
+							minerals > 3000
+						}
+					}
+				}
+				#country_event = { id = aai_monthly.4 days = 16 random = 3 }
+				
+				event_target:acai_days_scope = {
+					if = {
+						limit = {
+							check_variable = {
+								which = acai_value_day_monthly_robots
+								value = 20
+							}
+						}
+						set_variable = {
+							which = acai_value_day_monthly_robots
+							value = 16
+						}
+					}
+				}
+				
+				if = {
+					limit = {
+						event_target:acai_days_scope = {
+							check_variable = {
+								which = acai_value_day_monthly_robots
+								value = 16
+							}
+						}
+					}
+					country_event = { id = aai_monthly.4 days = 16 }
+				}
+				else_if = {
+					limit = {
+						event_target:acai_days_scope = {
+							check_variable = {
+								which = acai_value_day_monthly_robots
+								value = 17
+							}
+						}
+					}
+					country_event = { id = aai_monthly.4 days = 17 }
+				}
+				else_if = {
+					limit = {
+						event_target:acai_days_scope = {
+							check_variable = {
+								which = acai_value_day_monthly_robots
+								value = 18
+							}
+						}
+					}
+					country_event = { id = aai_monthly.4 days = 18 }
+				}
+				else_if = {
+					limit = {
+						event_target:acai_days_scope = {
+							check_variable = {
+								which = acai_value_day_monthly_robots
+								value = 19
+							}
+						}
+					}
+					country_event = { id = aai_monthly.4 days = 19 }
+				}
+				
+				event_target:acai_days_scope = {
+					change_variable = {
+						which = acai_value_day_monthly_robots
+						value = 1
+					}
+				}
+				
+			}
+			
+			# Buildings
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							is_at_war = no
+							minerals > 60
+						}
+						AND = {
+							is_at_war = yes
+							minerals > 5000
+						}
+					}
+				}
+				country_event = { id = aai_monthly.5 days = 19 }
+			}
+		}
+	}
+}
+
+# Anbeeld's AI: Economy
+country_event = {
+	id = aai_monthly.2
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		is_country_type = default
+	}
+	
+	immediate = {
+		aai_calc_economy = yes
+		acai_calc_deposit = yes
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_minerals_deposit
+					value > 0
+				}
+			}
+			#log = "[this.GetName] [this.acai_value_minerals_deposit] minerals in deposit"
+		}
+		acai_main_fleet_calculating = yes
+		acai_naval_capacity_usage_calculating = yes
+	}
+}
+
+# Anbeeld's AI: Ships
+country_event = {
+	id = aai_monthly.3
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		is_country_type = default
+		acai_ships_has_minerals_for_corvette = yes
+		OR = {
+			num_communications > 0
+			years_passed > 8
+		}
+		any_owned_starbase = {
+			has_starbase_module = shipyard
+			acai_ships_check_busy_shipyards = yes
+		}
+	}
+	
+	immediate = {
+		country_event = { id = aai_ships.1 }
+	}
+}
+
+# Anbeeld's AI: Robots
+country_event = {
+	id = aai_monthly.4
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		is_country_type = default
+		minerals > 100
+		NOT = { has_policy_flag = robots_outlawed }
+		OR = {
+			has_authority = auth_machine_intelligence
+			has_technology = tech_robotic_workers
+			has_country_flag = synthetic_age
+		}
+	}
+	
+	immediate = {
+		country_event = { id = aai_robots.1 }
+	}
+}
+
+# Anbeeld's AI: Buildings
+country_event = {
+	id = aai_monthly.5
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		is_country_type = default
+		minerals > 60
+	}
+	
+	immediate = {
+		if = {
+			limit = {
+				any_owned_planet = {
+					is_planet_class = pc_habitat
+				}
+			}
+			#country_event = { id = aai_buildings.40 days = 0 random = 4 }
+			#country_event = { id = aai_buildings.45 days = 5 random = 3 }
+			#country_event = { id = aai_buildings.50 days = 9 random = 2 }
+			
+			
+			event_target:acai_days_scope = {
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 6
+						}
+					}
+					set_variable = {
+						which = acai_value_day_monthly_buildings_1
+						value = 1
+					}
+				}
+			}
+			
+			if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 1
+						}
+					}
+				}
+				country_event = { id = aai_buildings.40 days = 1 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 2
+						}
+					}
+				}
+				country_event = { id = aai_buildings.40 days = 2 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 3
+						}
+					}
+				}
+				country_event = { id = aai_buildings.40 days = 3 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 4
+						}
+					}
+				}
+				country_event = { id = aai_buildings.40 days = 4 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 5
+						}
+					}
+				}
+				country_event = { id = aai_buildings.40 days = 1 random = 3 }
+			}
+			
+			event_target:acai_days_scope = {
+				change_variable = {
+					which = acai_value_day_monthly_buildings_1
+					value = 1
+				}
+			}
+			
+			
+			event_target:acai_days_scope = {
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 11
+						}
+					}
+					set_variable = {
+						which = acai_value_day_monthly_buildings_2
+						value = 6
+					}
+				}
+			}
+			
+			if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 6
+						}
+					}
+				}
+				country_event = { id = aai_buildings.45 days = 5 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 7
+						}
+					}
+				}
+				country_event = { id = aai_buildings.45 days = 6 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 8
+						}
+					}
+				}
+				country_event = { id = aai_buildings.45 days = 7 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 9
+						}
+					}
+				}
+				country_event = { id = aai_buildings.45 days = 8 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 10
+						}
+					}
+				}
+				country_event = { id = aai_buildings.45 days = 5 random = 3 }
+			}
+			
+			event_target:acai_days_scope = {
+				change_variable = {
+					which = acai_value_day_monthly_buildings_2
+					value = 1
+				}
+			}
+			
+			
+			
+			event_target:acai_days_scope = {
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_3
+							value = 11
+						}
+					}
+					set_variable = {
+						which = acai_value_day_monthly_buildings_3
+						value = 9
+					}
+				}
+			}
+			
+			if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_3
+							value = 9
+						}
+					}
+				}
+				country_event = { id = aai_buildings.50 days = 9 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_3
+							value = 10
+						}
+					}
+				}
+				country_event = { id = aai_buildings.50 days = 10 }
+			}
+			
+			event_target:acai_days_scope = {
+				change_variable = {
+					which = acai_value_day_monthly_buildings_3
+					value = 1
+				}
+			}
+			
+			
+		}
+		else = {
+			#country_event = { id = aai_buildings.40 days = 0 random = 5 }
+			#country_event = { id = aai_buildings.45 days = 6 random = 5 }
+			
+			
+			event_target:acai_days_scope = {
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 6
+						}
+					}
+					set_variable = {
+						which = acai_value_day_monthly_buildings_1
+						value = 1
+					}
+				}
+			}
+			
+			if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 1
+						}
+					}
+				}
+				country_event = { id = aai_buildings.40 days = 1 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 2
+						}
+					}
+				}
+				country_event = { id = aai_buildings.40 days = 2 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 3
+						}
+					}
+				}
+				country_event = { id = aai_buildings.40 days = 3 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 4
+						}
+					}
+				}
+				country_event = { id = aai_buildings.40 days = 4 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_1
+							value = 5
+						}
+					}
+				}
+				country_event = { id = aai_buildings.40 days = 5 }
+			}
+			
+			event_target:acai_days_scope = {
+				change_variable = {
+					which = acai_value_day_monthly_buildings_1
+					value = 1
+				}
+			}
+			
+			
+			event_target:acai_days_scope = {
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 11
+						}
+					}
+					set_variable = {
+						which = acai_value_day_monthly_buildings_2
+						value = 6
+					}
+				}
+			}
+			
+			if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 6
+						}
+					}
+				}
+				country_event = { id = aai_buildings.45 days = 6 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 7
+						}
+					}
+				}
+				country_event = { id = aai_buildings.45 days = 7 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 8
+						}
+					}
+				}
+				country_event = { id = aai_buildings.45 days = 8 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 9
+						}
+					}
+				}
+				country_event = { id = aai_buildings.45 days = 9 }
+			}
+			else_if = {
+				limit = {
+					event_target:acai_days_scope = {
+						check_variable = {
+							which = acai_value_day_monthly_buildings_2
+							value = 10
+						}
+					}
+				}
+				country_event = { id = aai_buildings.45 days = 10 }
+			}
+			
+			event_target:acai_days_scope = {
+				change_variable = {
+					which = acai_value_day_monthly_buildings_2
+					value = 1
+				}
+			}
+			
+			
+		}
+	}
+}

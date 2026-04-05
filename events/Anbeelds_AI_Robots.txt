@@ -1,0 +1,93 @@
+namespace = aai_robots
+
+country_event = {
+	id = aai_robots.1
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		random_owned_planet = {
+			limit = {
+				is_occupied_flag = no
+				has_orbital_bombardment = no
+				is_colony = yes
+				is_under_colonization = no
+				solar_system = {
+					is_within_borders_of = root
+				}
+				free_pop_tiles > 0
+				OR = {
+					AND = {
+						owner = {
+							has_authority = auth_machine_intelligence
+							check_variable = { which = aai_var_energy_income_medium value > 0 }
+						}
+						count_pops = {
+							limit = {
+								is_growing = yes
+								is_robot_pop = yes
+							}
+							count < 2
+						}
+					}
+					count_pops = {
+						limit = {
+							is_growing = yes
+							is_robot_pop = yes
+						}
+						count < 1
+					}
+				}
+			}
+			if = {
+				limit = {
+					owner = { 
+						OR = {
+							has_country_flag = synthetic_age
+							has_authority = auth_machine_intelligence
+						}
+					}
+				}
+				build_pop = {
+					name = buildable_robot_pop_4
+					grown = no
+				}
+				owner = { add_minerals = -100 }
+			}
+			else_if = {
+				limit = {
+					owner = {
+						has_monthly_income = {
+							resource = energy
+							value > 5
+						}
+					}
+				}
+				if = {
+					limit = { owner = { has_technology = tech_synthetic_workers } }
+					build_pop = {
+						name = buildable_robot_pop_3
+						grown = no
+					}
+					owner = { add_minerals = -100 }
+				}
+				else_if = {
+					limit = { owner = { has_technology = tech_droid_workers } }
+					build_pop = {
+						name = buildable_robot_pop_2
+						grown = no
+					}
+					owner = { add_minerals = -100 }
+				}
+				else_if = {
+					limit = { owner = { has_technology = tech_robotic_workers } }
+					build_pop = {
+						name = buildable_robot_pop_1
+						grown = no
+					}
+					owner = { add_minerals = -100 }
+				}
+			}
+		}
+	}
+}

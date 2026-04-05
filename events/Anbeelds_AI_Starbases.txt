@@ -1,0 +1,629 @@
+namespace = aai_starbases
+
+country_event = {
+	id = aai_starbases.1
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#log = "[this.GetName] [this.acai_value_starbases_shipyards_amount] [this.acai_value_starbases_shipyards_wanted] [this.acai_value_starbases_trading_hubs_amount] [this.acai_value_starbases_trading_hubs_wanted]"
+		
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_starbases_shipyards_wanted
+					value > acai_value_starbases_shipyards_amount
+				}
+				any_owned_starbase = {
+					has_starbase_size >= starbase_starport
+					acai_starbases_is_shipyard = no
+				}
+			}
+			#log = "[this.GetName] new shipyard"
+			if = {
+				limit = {
+					any_owned_starbase = {
+						has_starbase_module = shipyard
+						acai_starbases_is_shipyard = no
+					}
+				}
+				random_owned_starbase = {
+					limit = {
+						has_starbase_module = shipyard
+						acai_starbases_is_shipyard = no
+					}
+					acai_starbases_set_shipyard = yes
+				}
+				#log = "[this.GetName] new shipyard 1"
+			}
+			else_if = {
+				limit = {
+					any_owned_starbase = {
+						acai_starbases_suitable_for_trading_hub = no
+						has_starbase_size >= starbase_starport
+						acai_starbases_is_shipyard = no
+					}
+				}
+				if = {
+					limit = {
+						any_owned_starbase = {
+							acai_starbases_suitable_for_trading_hub = no
+							acai_starbases_has_no_use = yes
+							has_starbase_size >= starbase_starport
+							acai_starbases_is_shipyard = no
+						}
+					}
+					random_owned_starbase = {
+						limit = {
+							acai_starbases_suitable_for_trading_hub = no
+							acai_starbases_has_no_use = yes
+							has_starbase_size >= starbase_starport
+							acai_starbases_is_shipyard = no
+						}
+						acai_starbases_set_shipyard = yes
+					}
+					#log = "[this.GetName] new shipyard 2"
+				}
+				else = {
+					random_owned_starbase = {
+						limit = {
+							acai_starbases_suitable_for_trading_hub = no
+							has_starbase_size >= starbase_starport
+							acai_starbases_is_shipyard = no
+						}
+						acai_starbases_set_shipyard = yes
+					}
+					#log = "[this.GetName] new shipyard 3"
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						any_owned_starbase = {
+							acai_starbases_has_no_use = yes
+							has_starbase_size >= starbase_starport
+							acai_starbases_is_shipyard = no
+						}
+					}
+					random_owned_starbase = {
+						limit = {
+							acai_starbases_has_no_use = yes
+							has_starbase_size >= starbase_starport
+							acai_starbases_is_shipyard = no
+						}
+						acai_starbases_set_shipyard = yes
+					}
+				#log = "[this.GetName] new shipyard 4"
+				}
+				else = {
+					random_owned_starbase = {
+						limit = {
+							has_starbase_size >= starbase_starport
+							acai_starbases_is_shipyard = no
+						}
+						acai_starbases_set_shipyard = yes
+					}
+				#log = "[this.GetName] new shipyard 5"
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = {
+					which = acai_value_starbases_trading_hubs_wanted
+					value > acai_value_starbases_trading_hubs_amount
+				}
+				any_owned_starbase = {
+					has_starbase_size >= starbase_starport
+					acai_starbases_suitable_for_trading_hub = yes
+					NOR = {
+						acai_starbases_is_shipyard = yes
+						acai_starbases_is_trading_hub = yes
+					}
+				}
+			}
+				#log = "[this.GetName] new trading hub"
+			if = {
+				limit = {
+					any_owned_starbase = {
+						has_starbase_module = trading_hub
+						acai_starbases_suitable_for_trading_hub = yes
+						acai_starbases_is_shipyard = no
+						acai_starbases_is_trading_hub = no
+					}
+				}
+				random_owned_starbase = {
+					limit = {
+						has_starbase_module = trading_hub
+						acai_starbases_suitable_for_trading_hub = yes
+						acai_starbases_is_shipyard = no
+						acai_starbases_is_trading_hub = no
+					}
+					acai_starbases_set_trading_hub = yes
+				}
+				#log = "[this.GetName] new trading hub 1"
+			}
+			else_if = {
+				limit = {
+					any_owned_starbase = {
+						acai_starbases_has_no_use = yes
+						has_starbase_size >= starbase_starport
+						acai_starbases_suitable_for_trading_hub = yes
+						NOR = {
+							acai_starbases_is_shipyard = yes
+							acai_starbases_is_trading_hub = yes
+						}
+					}
+				}
+				random_owned_starbase = {
+					limit = {
+						acai_starbases_has_no_use = yes
+						has_starbase_size >= starbase_starport
+						acai_starbases_suitable_for_trading_hub = yes
+						NOR = {
+							acai_starbases_is_shipyard = yes
+							acai_starbases_is_trading_hub = yes
+						}
+					}
+					acai_starbases_set_trading_hub = yes
+				}
+				#log = "[this.GetName] new trading hub 2"
+			}
+			else = {
+				random_owned_starbase = {
+					limit = {
+						has_starbase_size >= starbase_starport
+						acai_starbases_suitable_for_trading_hub = yes
+						NOR = {
+							acai_starbases_is_shipyard = yes
+							acai_starbases_is_trading_hub = yes
+						}
+					}
+					acai_starbases_set_trading_hub = yes
+				}
+				#log = "[this.GetName] new trading hub 3"
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					owner = {
+						check_variable = {
+							which = acai_value_starbases_shipyards_wanted
+							value < acai_value_starbases_shipyards_amount
+						}
+					}
+					owner = {
+						check_variable = {
+							which = acai_value_starbases_trading_hubs_wanted
+							value < acai_value_starbases_trading_hubs_amount
+						}
+					}
+					any_owned_starbase = {
+						has_starbase_size >= starbase_starport
+						acai_starbases_has_no_use = yes
+					}
+				}
+			}
+				#log = "[this.GetName] new anchorage"
+			if = {
+				limit = {
+					check_variable = {
+						which = acai_value_starbases_shipyards_wanted
+						value < acai_value_starbases_shipyards_amount
+					}
+				}
+				if = {
+					limit = {
+						any_owned_starbase = {
+							acai_starbases_is_shipyard = yes
+							acai_starbases_suitable_for_trading_hub = no
+						}
+					}
+					random_owned_starbase = {
+						limit = {
+							acai_starbases_is_shipyard = yes
+							acai_starbases_suitable_for_trading_hub = no
+						}
+						acai_starbases_set_anchorage = yes
+					}
+				#log = "[this.GetName] new anchorage 1"
+				}
+				else = {
+					random_owned_starbase = {
+						limit = {
+							acai_starbases_is_shipyard = yes
+						}
+						acai_starbases_set_anchorage = yes
+					}
+				#log = "[this.GetName] new anchorage 2"
+				}
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = acai_value_starbases_trading_hubs_wanted
+						value < acai_value_starbases_trading_hubs_amount
+					}
+				}
+				random_owned_starbase = {
+					limit = {
+						acai_starbases_is_trading_hub = yes
+					}
+					acai_starbases_set_anchorage = yes
+				}
+				#log = "[this.GetName] new anchorage 3"
+			}
+			else_if = {
+				limit = {
+					any_owned_starbase = {
+						acai_starbases_suitable_for_trading_hub = no
+						has_starbase_size >= starbase_starport
+						acai_starbases_has_no_use = yes
+					}
+				}
+				random_owned_starbase = {
+					limit = {
+						acai_starbases_suitable_for_trading_hub = no
+						has_starbase_size >= starbase_starport
+						acai_starbases_has_no_use = yes
+					}
+					acai_starbases_set_anchorage = yes
+				}
+				#log = "[this.GetName] new anchorage 4"
+			}
+			else = {
+				random_owned_starbase = {
+					limit = {
+						has_starbase_size >= starbase_starport
+						acai_starbases_has_no_use = yes
+					}
+					acai_starbases_set_anchorage = yes
+				}
+				#log = "[this.GetName] new anchorage 5"
+			}
+		}
+	}
+}
+
+country_event = {
+	id = aai_starbases.2
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				any_owned_starbase = {
+					acai_starbase_shipyard_conditions = yes
+				}
+			}
+			#log = "[This.GetName] working with shipyards"
+			random_owned_starbase =	{
+				limit = {
+					acai_starbase_shipyard_conditions = yes
+				}
+				acai_starbase_shipyard_construction = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = aai_starbases.3
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				any_owned_starbase = {
+					acai_starbase_anchorage_conditions = yes
+				}
+			}
+			#log = "[This.GetName] working with anchorages"
+			random_owned_starbase =	{
+				limit = {
+					acai_starbase_anchorage_conditions = yes
+				}
+				acai_starbase_anchorage_construction = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = aai_starbases.4
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				any_owned_starbase = {
+					acai_starbase_trading_hub_conditions = yes
+				}
+			}
+			#log = "[This.GetName] working with trading hubs"
+			random_owned_starbase =	{
+				limit = {
+					acai_starbase_trading_hub_conditions = yes
+				}
+				acai_starbase_trading_hub_construction = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = aai_starbases.5
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		
+		acai_starbases_count_by_type = yes
+		
+		set_variable = {
+			which = acai_boolean_trading_hub_priority
+			value = 0
+		}
+		if = {
+			limit = {
+				OR = {
+					check_variable = {
+						which = acai_value_starbases_shipyards_wanted
+						value > acai_value_starbases_shipyards_amount
+					}
+					check_variable = {
+						which = acai_value_starbases_trading_hubs_wanted
+						value <= acai_value_starbases_trading_hubs_amount
+					}
+				}
+			}
+			if = {
+				limit = {
+					any_owned_starbase = {
+						has_starbase_size = starbase_outpost
+						acai_starbases_suitable_for_trading_hub = yes
+					}
+				}
+				set_variable = {
+					which = acai_boolean_trading_hub_priority
+					value = 2
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = {
+					which = acai_value_starbases_trading_hubs_wanted
+					value > acai_value_starbases_trading_hubs_amount
+				}
+			}
+			if = {
+				limit = {
+					any_owned_starbase = {
+						has_starbase_size = starbase_outpost
+						acai_starbases_suitable_for_trading_hub = yes
+					}
+				}
+				set_variable = {
+					which = acai_boolean_trading_hub_priority
+					value = 1
+				}
+			}
+		}
+		
+		#log = "[this.GetName] trading hubs wanted is [this.acai_value_starbases_trading_hubs_wanted]"
+		#log = "[this.GetName] trading hubs amount is [this.acai_value_starbases_trading_hubs_amount]"
+		
+		if = {
+			limit = {
+				any_owned_starbase = {
+					acai_starbases_is_shipyard = yes
+					acai_starbases_is_trading_hub = yes
+				}
+			}
+			log = "[this.GetName] trading hubs are out of control!"
+		}
+		
+		if = {
+			limit = {
+				any_owned_starbase = {
+					acai_starbase_upgrading_conditions = yes
+				}
+			}
+			# #log = "[This.GetName] working with upgrading"
+			random_owned_starbase =	{
+				limit = {
+					acai_starbase_upgrading_conditions = yes
+				}
+				if = {
+					limit = {
+						owner = { 
+							minerals > 300
+						}
+						has_starbase_size = starbase_outpost
+					}
+					set_starbase_size = starbase_starport
+					owner = {
+						add_minerals = -300
+					}
+				}
+				else_if = {
+					limit = {
+						owner = { 
+							has_technology = tech_starbase_3 
+							minerals > 750
+						}
+						has_starbase_size = starbase_starport
+					}
+					set_starbase_size = starbase_starhold
+					owner = {
+						add_minerals = -750
+					}
+				}
+				else_if = {
+					limit = {
+						owner = { 
+							has_technology = tech_starbase_4
+							OR = {
+								AND = {
+									NOT = { has_ascension_perk = ap_voidborn }
+									minerals > 2500
+								}
+								AND = {
+									has_ascension_perk = ap_voidborn
+									minerals > 12500
+								}
+							}
+						}
+						has_starbase_size = starbase_starhold
+					}
+					set_starbase_size = starbase_starfortress
+					owner = {
+						add_minerals = -2500
+					}
+				}
+				else_if = {
+					limit = {
+						owner = { 
+							has_technology = tech_starbase_5 
+							OR = {
+								AND = {
+									NOT = { has_ascension_perk = ap_voidborn }
+									minerals > 7500
+								}
+								AND = {
+									has_ascension_perk = ap_voidborn
+									minerals > 17500
+								}
+							}
+						}
+						has_starbase_size = starbase_starfortress
+					}
+					set_starbase_size = starbase_citadel
+					owner = {
+						add_minerals = -7500
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = aai_starbases.500
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		random_owned_starbase =	{
+			limit = {
+				NOT = { has_starbase_module = shipyard }
+				solar_system = { 
+					NOT = {
+						any_planet = {
+							OR = {
+								is_colonizable = yes
+								is_colony = yes
+							}
+						}
+					}
+				}
+				has_starbase_size >= starbase_starport
+				OR = {
+					has_starbase_module = gun_battery
+					has_starbase_module = missile_battery
+					has_starbase_module = hangar_bay
+					aai_starbase_has_no_modules = yes
+				}
+			}
+			IF = {
+				limit = {
+					has_starbase_size >= starbase_starport
+				}
+				IF = {
+					limit = {
+						count_starbase_modules = {
+							type = gun_battery
+							count < 1
+						}
+					}
+					owner = {
+						add_minerals = -400
+					}
+				}
+				set_starbase_module = {
+					slot = 0
+					module = gun_battery
+				}
+				set_starbase_module = {
+					slot = 1
+					module = missile_battery
+				}
+				set_starbase_building = {
+					slot = 0
+					building = target_uplink_computer
+				}
+			}
+			IF = {
+				limit = {
+					has_starbase_size >= starbase_starhold
+				}
+				IF = {
+					limit = {
+						count_starbase_modules = {
+							type = gun_battery
+							count < 2
+						}
+					}
+					owner = {
+						add_minerals = -400
+					}
+				}
+				set_starbase_module = {
+					slot = 2
+					module = hangar_bay
+				}
+				set_starbase_module = {
+					slot = 3
+					module = gun_battery
+				}
+				set_starbase_building = {
+					slot = 1
+					building = communications_jammer
+				}
+			}
+			IF = {
+				limit = {
+					has_starbase_size >= starbase_starfortress
+				}
+				IF = {
+					limit = {
+						count_starbase_modules = {
+							type = gun_battery
+							count < 4
+						}
+					}
+					owner = {
+						add_minerals = -400
+					}
+				}
+				set_starbase_module = {
+					slot = 4
+					module = gun_battery
+				}
+				set_starbase_module = {
+					slot = 5
+					module = gun_battery
+				}
+				set_starbase_building = {
+					slot = 2
+					building = disruption_field
+				}
+			}
+		}
+	}
+}

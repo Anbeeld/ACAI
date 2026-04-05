@@ -1,0 +1,16 @@
+﻿l_english:
+
+ gai_nsc_compat_warning.2.name:0 "WARNING: NSC Detected"
+ gai_nsc_compat_warning.2.desc:0 "You are running NSC. You must install the compatability patch in order for NSC and Glavius's AI Megamod to work together. You can find the patch in the megamod description."
+
+ gai_nsc_compat_warning.2a:0 "Noted. Thanks for the warning."
+ gai_nsc_compat_warning.2a.tooltip:0 "Make sure to enable it, as this warning will not be displayed again."
+
+ gai_nsc_compat_warning.2b:0 "Check again next game-month and warn if issue still exist."
+ gai_nsc_compat_warning.2b.tooltip:0 "Warning will be displayed next month if compatibility patch is not installed."
+ 
+ edict_disable_gai:0 "Disable GAI"
+ edict_disable_gai_desc:0 "This edict will prevent the AI from replacing any buildings on this planet. It will still upgrade buildings."
+ 
+ edict_enable_gai:0 "Enable GAI"
+ edict_enable_gai_desc:0 "This edict will allow the AI to replace buildings on this planet"

@@ -1,0 +1,3408 @@
+namespace = aai_buildings
+
+#OR = {
+#	any_pop = {
+#		OR = {
+#			pop_produces_resource = { type = minerals amount > 0 }
+#			pop_produces_resource = { type = food amount > 0 }
+#		}
+#		is_robot_pop = no
+#	}
+#}
+
+country_event = {
+	id = aai_buildings.40
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_country_resource = {
+			type = minerals
+			amount > 60
+		}
+	}
+	
+	immediate = {
+	
+		if = {
+			limit = {
+				any_owned_planet = {
+					any_tile = {
+						has_building = building_junkheap
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					any_tile = {
+						has_building = building_junkheap
+					}
+				}
+				while = {
+					limit = {
+						any_tile = {
+							has_building = building_junkheap
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_junkheap
+						}
+						remove_building = yes
+					}
+				}
+			}
+		}
+	
+		# New buildings on empty tiles
+		
+			if = {
+				limit = {
+					any_owned_planet = {
+						acai_buildings_empty_tile_conditions = yes
+					}
+				}
+				random_owned_planet = {
+					limit = {
+						acai_buildings_empty_tile_conditions = yes
+					}
+					random_pop = {
+						planet = {
+							aai_planet_building_construction = yes
+						}
+					}
+				}
+			}
+		
+		# End new buildings on empty tiles
+		
+		# — — — — — — — — — — — — — — — — — — — — — — — — — —
+		
+		# Replace buildings for other
+		
+			# Critical replacing: no capital or low food or low energy
+		
+				else_if = {
+					limit = {
+						any_owned_planet = {
+							aai_suitable_planet_for_construction = yes
+							any_tile = {
+								has_blocker = no
+								OR = {
+									AND = {
+										planet = {
+											aai_has_capital = no
+										}
+										num_adjacent_tiles > 2
+										aai_important_building = no
+									}
+									AND = {
+										planet = {
+											aai_has_capital = yes
+										}
+										OR = {
+											AND = {
+												owner = {
+													NOT = { has_authority = auth_machine_intelligence }
+												}
+												aai_food_income_low = yes
+												aai_has_hydroponics_farm = no
+												aai_important_building = no
+												owner = {
+													NOT = { has_country_flag = aai_rebuild_food }
+												}
+											}
+											AND = {
+												aai_energy_income_low = yes
+												aai_has_power_plant = no
+												aai_important_building = no
+												owner = {
+													NOT = { has_country_flag = aai_rebuild_energy }
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					random_owned_planet = {
+						limit = {
+							aai_suitable_planet_for_construction = yes
+							any_tile = {
+								has_blocker = no
+								OR = {
+									AND = {
+										planet = {
+											aai_has_capital = no
+										}
+										num_adjacent_tiles > 2
+										aai_important_building = no
+										acai_rogue_servitors_not_organic = yes
+									}
+									AND = {
+										planet = {
+											aai_has_capital = yes
+										}
+										OR = {
+											AND = {
+												aai_food_income_low = yes
+												aai_has_hydroponics_farm = no
+												aai_important_building = no
+												acai_rogue_servitors_not_organic = yes
+												owner = {
+													NOT = { has_authority = auth_machine_intelligence }
+													NOT = { has_country_flag = aai_rebuild_food }
+												}
+											}
+											AND = {
+												aai_energy_income_low = yes
+												aai_has_power_plant = no
+												aai_important_building = no
+												acai_rogue_servitors_not_organic = yes
+												owner = {
+													NOT = { has_country_flag = aai_rebuild_energy }
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						
+						# — — — — — — — — — — — — — — — — — — — — — — — — — —
+						
+						# No capital
+						
+							if = {
+								limit = {
+									planet = {
+										aai_has_capital = no
+									}
+								}
+								random_tile = {
+									limit = {
+										num_adjacent_tiles > 2
+										acai_rogue_servitors_not_organic = yes
+									}
+									remove_building = yes
+								}
+								random_pop = {
+									planet = {
+										aai_planet_building_construction = yes
+									}
+								}
+							}
+						
+						# End no capital
+						
+						# — — — — — — — — — — — — — — — — — — — — — — — — — —
+						
+						# Food is low
+							
+							else_if = {
+								limit = {
+									any_tile = {
+										aai_food_income_low = yes
+										aai_has_hydroponics_farm = no
+										aai_important_building = no
+										acai_rogue_servitors_not_organic = yes
+									}
+									owner = {
+										NOT = { has_authority = auth_machine_intelligence }
+										NOT = { has_country_flag = aai_rebuild_food }
+									}
+								}
+								if = {
+									limit = {
+										any_tile = {
+											has_building = yes
+											aai_has_hydroponics_farm = no
+											aai_tile_high_food = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+									}
+									random_tile = {
+										limit = {
+											has_building = yes
+											aai_has_hydroponics_farm = no
+											aai_tile_high_food = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+										remove_building = yes
+									}
+									planet = { aai_planet_building_construction = yes }
+									owner = {
+										set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+									}
+								}
+								else_if = {
+									limit = {
+										any_tile = {
+											has_building = yes
+											aai_has_hydroponics_farm = no
+											aai_tile_food = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+									}
+									random_tile = {
+										limit = {
+											has_building = yes
+											aai_has_hydroponics_farm = no
+											aai_tile_food = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+										remove_building = yes
+									}
+									planet = { aai_planet_building_construction = yes }
+									owner = {
+										set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+									}
+								}
+								else_if = {
+									limit = {
+										any_tile = {
+											has_building = yes
+											aai_has_hydroponics_farm = no
+											aai_tile_blank = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+									}
+									random_tile = {
+										limit = {
+											has_building = yes
+											aai_has_hydroponics_farm = no
+											aai_tile_blank = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+										remove_building = yes
+									}
+									planet = { aai_planet_building_construction = yes }
+									owner = {
+										set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+									}
+								}
+								else_if = {
+									limit = {
+										any_tile = {
+											has_building = yes
+											aai_has_hydroponics_farm = no
+											aai_tile_energy = yes
+											aai_energy_income_medium = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+									}
+									random_tile = {
+										limit = {
+											has_building = yes
+											aai_has_hydroponics_farm = no
+											aai_tile_energy = yes
+											aai_energy_income_medium = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+										remove_building = yes
+									}
+									planet = { aai_planet_building_construction = yes }
+									owner = {
+										set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+									}
+								}
+								else_if = {
+									limit = {
+										any_tile = {
+											has_building = yes
+											aai_has_hydroponics_farm = no
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+									}
+									random_tile = {
+										limit = {
+											has_building = yes
+											aai_has_hydroponics_farm = no
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+										remove_building = yes
+									}
+									planet = { aai_planet_building_construction = yes }
+									owner = {
+										set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+									}
+								}
+							}
+							
+						# End food is low
+						
+						# — — — — — — — — — — — — — — — — — — — — — — — — — —
+						
+						# Energy is low
+							
+							else_if = {
+								limit = {
+									any_tile = {
+										aai_energy_income_low = yes
+										aai_has_power_plant = no
+										aai_important_building = no
+										acai_rogue_servitors_not_organic = yes
+									}
+									owner = {
+										NOT = { has_country_flag = aai_rebuild_energy }
+									}
+								}
+								if = {
+									limit = {
+										any_tile = {
+											has_building = yes
+											aai_has_power_plant = no
+											aai_tile_high_energy = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+									}
+									random_tile = {
+										limit = {
+											has_building = yes
+											aai_has_power_plant = no
+											aai_tile_high_energy = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+										remove_building = yes
+									}
+									planet = { aai_planet_building_construction = yes }
+									owner = {
+										set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+									}
+								}
+								else_if = {
+									limit = {
+										any_tile = {
+											has_building = yes
+											aai_has_power_plant = no
+											aai_tile_energy = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+									}
+									random_tile = {
+										limit = {
+											has_building = yes
+											aai_has_power_plant = no
+											aai_tile_energy = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+										remove_building = yes
+									}
+									planet = { aai_planet_building_construction = yes }
+									owner = {
+										set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+									}
+								}
+								else_if = {
+									limit = {
+										any_tile = {
+											has_building = yes
+											aai_has_power_plant = no
+											aai_tile_blank = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+									}
+									random_tile = {
+										limit = {
+											has_building = yes
+											aai_has_power_plant = no
+											aai_tile_blank = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+										remove_building = yes
+									}
+									planet = { aai_planet_building_construction = yes }
+									owner = {
+										set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+									}
+								}
+								else_if = {
+									limit = {
+										any_tile = {
+											has_building = yes
+											aai_has_power_plant = no
+											aai_tile_food = yes
+											aai_food_income_medium = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+									}
+									random_tile = {
+										limit = {
+											has_building = yes
+											aai_has_power_plant = no
+											aai_tile_food = yes
+											aai_food_income_medium = yes
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+										remove_building = yes
+									}
+									planet = { aai_planet_building_construction = yes }
+									owner = {
+										set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+									}
+								}
+								else_if = {
+									limit = {
+										any_tile = {
+											has_building = yes
+											aai_has_power_plant = no
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+									}
+									random_tile = {
+										limit = {
+											has_building = yes
+											aai_has_power_plant = no
+											aai_important_building = no
+											acai_rogue_servitors_not_organic = yes
+										}
+										remove_building = yes
+									}
+									planet = { aai_planet_building_construction = yes }
+									owner = {
+										set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+									}
+								}
+							}
+							
+						# End energy is low
+						
+					}
+				}
+				
+			# End critical replacing
+			
+		else_if = {
+			limit = {
+				
+				# Skip if purging, because it may influence food/energy income
+				
+				owner = {
+					NOT = {
+						any_owned_planet = {
+							any_pop = {
+								is_being_purged = yes
+							}
+						}
+					}
+				}
+				any_owned_planet = {
+					aai_suitable_planet_for_construction = yes
+					aai_has_capital = yes
+					any_tile = {
+						has_blocker = no
+						OR = {
+							AND = {
+								aai_food_income_high = yes
+								aai_has_hydroponics_farm = yes
+								owner = {
+									NOT = { has_authority = auth_machine_intelligence }
+									NOT = { has_country_flag = aai_rebuild_food }
+								}
+							}
+							AND = {
+								aai_energy_income_high = yes
+								aai_has_power_plant = yes
+								owner = {
+									NOT = { has_country_flag = aai_rebuild_energy }
+								}
+							}
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					aai_suitable_planet_for_construction = yes
+					aai_has_capital = yes
+					any_tile = {
+						has_blocker = no
+						OR = {
+							AND = {
+								aai_food_income_high = yes
+								aai_has_hydroponics_farm = yes
+								owner = {
+									NOT = { has_authority = auth_machine_intelligence }
+									NOT = { has_country_flag = aai_rebuild_food }
+								}
+							}
+							AND = {
+								aai_energy_income_high = yes
+								aai_has_power_plant = yes
+								owner = {
+									NOT = { has_country_flag = aai_rebuild_energy }
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						any_tile = {
+							aai_food_income_high = yes
+							aai_has_hydroponics_farm = yes
+						}
+						owner = {
+							NOT = { has_authority = auth_machine_intelligence }
+							NOT = { has_country_flag = aai_rebuild_food }
+						}
+					}
+					if = {
+						limit = {
+							any_tile = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_high_minerals = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_high_minerals = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_minerals = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_minerals = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_high_research = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_high_research = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_research = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_research = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_high_energy = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_high_energy = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_energy = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_energy = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_blank = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_blank = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_food = no
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_food = no
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_food = yes
+								aai_tile_high_food = no
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_food = yes
+								aai_tile_high_food = no
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_high_food = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_hydroponics_farm = yes
+								aai_tile_high_food = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_energy_income_high = yes
+							aai_has_power_plant = yes
+						}
+						owner = {
+							NOT = { has_country_flag = aai_rebuild_energy }
+						}
+					}
+					# log = "replace energy"
+					if = {
+						limit = {
+							any_tile = {
+								aai_has_power_plant = yes
+								aai_tile_high_minerals = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_power_plant = yes
+								aai_tile_high_minerals = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_power_plant = yes
+								aai_tile_minerals = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_power_plant = yes
+								aai_tile_minerals = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_power_plant = yes
+								aai_tile_high_research = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_power_plant = yes
+								aai_tile_high_research = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_power_plant = yes
+								aai_tile_research = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_power_plant = yes
+								aai_tile_research = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_power_plant = yes
+								aai_tile_high_food = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_power_plant = yes
+								aai_tile_high_food = yes
+							}
+							remove_building = yes
+							
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_power_plant = yes
+								aai_tile_food = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_power_plant = yes
+								aai_tile_food = yes
+							}
+							remove_building = yes
+							
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_power_plant = yes
+								aai_tile_blank = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_power_plant = yes
+								aai_tile_blank = yes
+							}
+							remove_building = yes
+							
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_power_plant = yes
+								aai_tile_energy = no
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_power_plant = yes
+								aai_tile_energy = no
+							}
+							remove_building = yes
+							
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_power_plant = yes
+								aai_tile_energy = yes
+								aai_tile_high_energy = no
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_power_plant = yes
+								aai_tile_energy = yes
+								aai_tile_high_energy = no
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_power_plant = yes
+								aai_tile_high_energy = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_power_plant = yes
+								aai_tile_high_energy = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_planet_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_planet = {
+					aai_suitable_planet_for_construction = yes
+					aai_has_capital = yes
+					any_tile = {
+						has_building = yes
+						OR = {
+							AND = {
+								owner = {
+									has_technology = tech_alien_life_studies
+								}
+								has_resource = {
+									type = sr_alien_pets
+									amount > 0
+								}
+								NAND = { 
+									has_building = building_xeno_zoo
+									has_building = building_animal_evaluation_laboratory
+								}
+							}
+							AND = {
+								owner = {
+									has_technology = tech_mine_betharian
+								}
+								has_resource = {
+									type = sr_betharian
+									amount > 0
+								}
+								NOT = { has_building = betharian_power_plant }
+							}
+						}
+					}
+				}
+			}
+			#log = "strat res [This.GetName]"
+			random_owned_planet = {
+				limit = {
+					aai_suitable_planet_for_construction = yes
+					aai_has_capital = yes
+					any_tile = {
+						has_building = yes
+						OR = {
+							AND = {
+								owner = {
+									has_technology = tech_alien_life_studies
+								}
+								has_resource = {
+									type = sr_alien_pets
+									amount > 0
+								}
+								NAND = { 
+									has_building = building_xeno_zoo
+									has_building = building_animal_evaluation_laboratory
+								}
+							}
+							AND = {
+								owner = {
+									has_technology = tech_mine_betharian
+								}
+								has_resource = {
+									type = sr_betharian
+									amount > 0
+								}
+								NOT = { has_building = betharian_power_plant }
+							}
+						}
+					}
+				}
+				#log = "on planet [This.GetName]"
+				if = {
+					limit = {
+						any_tile = {
+							has_building = yes
+							owner = {
+								has_technology = tech_alien_life_studies
+							}
+							has_resource = {
+								type = sr_alien_pets
+								amount > 0
+							}
+							NAND = { 
+								has_building = building_xeno_zoo
+								has_building = building_animal_evaluation_laboratory
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = yes
+							has_resource = {
+								type = sr_alien_pets
+								amount > 0
+							}
+						}
+						remove_building = yes
+						#log = "pets"
+					}
+					random_pop = {
+						planet = {
+							aai_planet_building_construction = yes
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							has_building = yes
+							owner = {
+								has_technology = tech_mine_betharian
+							}
+							has_resource = {
+								type = sr_betharian
+								amount > 0
+							}
+							NOT = { has_building = betharian_power_plant }
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = yes
+							has_resource = {
+								type = sr_betharian
+								amount > 0
+							}
+						}
+						remove_building = yes
+						#log = "betharian"
+					}
+					random_pop = {
+						planet = {
+							aai_planet_building_construction = yes
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_planet = {
+					aai_suitable_planet_for_construction = yes
+					aai_has_capital = yes
+					any_tile = {
+						OR = {
+							AND = {
+								aai_tile_physics = yes
+								OR = {
+									aai_has_biolab = yes
+									aai_has_engineering_facility = yes
+								}
+							}
+							AND = {
+								aai_tile_society = yes
+								OR = {
+									aai_has_physics_lab = yes
+									aai_has_engineering_facility = yes
+								}
+							}
+							AND = {
+								aai_tile_engineering = yes
+								OR = {
+									aai_has_physics_lab = yes
+									aai_has_biolab = yes
+								}
+							}
+						}
+					}
+				}
+			}
+			#log = "Labs [This.GetName]"
+			random_owned_planet = {
+				limit = {
+					aai_suitable_planet_for_construction = yes
+					aai_has_capital = yes
+					any_tile = {
+						OR = {
+							AND = {
+								aai_tile_physics = yes
+								OR = {
+									aai_has_biolab = yes
+									aai_has_engineering_facility = yes
+								}
+								owner = {
+									has_technology = tech_physics_lab_1
+								}
+							}
+							AND = {
+								aai_tile_society = yes
+								OR = {
+									aai_has_physics_lab = yes
+									aai_has_engineering_facility = yes
+								}
+								owner = {
+									has_technology = tech_biolab_1
+								}
+							}
+							AND = {
+								aai_tile_engineering = yes
+								OR = {
+									aai_has_physics_lab = yes
+									aai_has_biolab = yes
+								}
+								owner = {
+									has_technology = tech_engineering_lab_1
+								}
+							}
+						}
+					}
+				}
+				#log = "on planet [This.GetName]"
+				if = {
+					limit = {
+						any_tile = {
+							aai_tile_physics = yes
+							OR = {
+								aai_has_biolab = yes
+								aai_has_engineering_facility = yes
+							}
+							owner = {
+								has_technology = tech_physics_lab_1
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							aai_tile_physics = yes
+							OR = {
+								aai_has_biolab = yes
+								aai_has_engineering_facility = yes
+							}
+						}
+						remove_building = yes
+						#log = "Change for physics"
+					}
+					random_pop = {
+						planet = {
+							aai_planet_building_construction = yes
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_tile_society = yes
+							OR = {
+								aai_has_physics_lab = yes
+								aai_has_engineering_facility = yes
+							}
+							owner = {
+								has_technology = tech_biolab_1
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							aai_tile_society = yes
+							OR = {
+								aai_has_physics_lab = yes
+								aai_has_engineering_facility = yes
+							}
+						}
+						remove_building = yes
+						#log = "Change for society"
+					}
+					random_pop = {
+						planet = {
+							aai_planet_building_construction = yes
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_tile_engineering = yes
+							OR = {
+								aai_has_physics_lab = yes
+								aai_has_biolab = yes
+							}
+							owner = {
+								has_technology = tech_engineering_lab_1
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							aai_tile_engineering = yes
+							OR = {
+								aai_has_physics_lab = yes
+								aai_has_biolab = yes
+							}
+						}
+						remove_building = yes
+						#log = "Change for engineering"
+					}
+					random_pop = {
+						planet = {
+							aai_planet_building_construction = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+country_event = {
+	id = aai_buildings.45
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_country_resource = {
+			type = minerals
+			amount > 180
+		}
+	}
+	
+	immediate = {
+		if = {
+			limit = {
+				any_owned_planet = {
+					aai_suitable_planet_for_construction = yes
+					any_tile = {
+						OR = {
+							AND = {
+								owner = {
+									has_country_resource = {
+										type = minerals
+										amount > 350
+									}
+								}
+								planet = {
+									num_pops > 4
+								}
+								OR = {
+									AND = {
+										owner = {
+											has_authority = auth_machine_intelligence
+										}
+										has_building = building_deployment_post
+									}
+									has_building = building_colony_shelter
+								}
+							}
+							AND = {
+								owner = {
+									has_country_resource = {
+										type = minerals
+										amount > 500
+									}
+								}
+								planet = {
+									num_pops > 9
+								}
+								owner = {
+									has_technology = tech_colonial_centralization
+								}
+								OR = {
+									AND = {
+										owner = {
+											has_authority = auth_machine_intelligence
+										}
+										has_building = building_machine_capital_1
+									}
+									has_building = building_capital_1
+								}
+							}
+							AND = {
+								owner = {
+									has_country_resource = {
+										type = minerals
+										amount > 1000
+									}
+								}
+								owner = {
+									has_technology = tech_galactic_administration
+								}
+								planet = {
+									is_capital = yes
+								}
+								OR = {
+									AND = {
+										owner = {
+											has_authority = auth_machine_intelligence
+										}
+										has_building = building_machine_capital_2
+									}
+									has_building = building_capital_2
+								}
+							}
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					aai_suitable_planet_for_construction = yes
+					any_tile = {
+						OR = {
+							AND = {
+								owner = {
+									has_country_resource = {
+										type = minerals
+										amount > 350
+									}
+								}
+								planet = {
+									num_pops > 4
+								}
+								OR = {
+									AND = {
+										owner = {
+											has_authority = auth_machine_intelligence
+										}
+										has_building = building_deployment_post
+									}
+									has_building = building_colony_shelter
+								}
+							}
+							AND = {
+								owner = {
+									has_country_resource = {
+										type = minerals
+										amount > 500
+									}
+								}
+								planet = {
+									num_pops > 9
+								}
+								owner = {
+									has_technology = tech_colonial_centralization
+								}
+								OR = {
+									AND = {
+										owner = {
+											has_authority = auth_machine_intelligence
+										}
+										has_building = building_machine_capital_1
+									}
+									has_building = building_capital_1
+								}
+							}
+							AND = {
+								owner = {
+									has_country_resource = {
+										type = minerals
+										amount > 1000
+									}
+								}
+								owner = {
+									has_technology = tech_galactic_administration
+								}
+								planet = {
+									is_capital = yes
+								}
+								OR = {
+									AND = {
+										owner = {
+											has_authority = auth_machine_intelligence
+										}
+										has_building = building_machine_capital_2
+									}
+									has_building = building_capital_2
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						any_tile = {
+							planet = {
+								num_pops > 4
+							}
+							OR = {
+								AND = {
+									owner = {
+										has_authority = auth_machine_intelligence
+									}
+									has_building = building_deployment_post
+								}
+								has_building = building_colony_shelter
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							OR = {
+								AND = {
+									owner = {
+										has_authority = auth_machine_intelligence
+									}
+									has_building = building_deployment_post
+								}
+								has_building = building_colony_shelter
+							}
+						}
+						if = {
+							limit = {
+								owner = {
+									has_authority = auth_machine_intelligence
+								}
+							}
+							add_building_construction = building_machine_capital_1
+						}
+						else = {
+							add_building_construction = building_capital_1
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							planet = {
+								num_pops > 9
+							}
+							owner = {
+								has_technology = tech_colonial_centralization
+							}
+							OR = {
+								AND = {
+									owner = {
+										has_authority = auth_machine_intelligence
+									}
+									has_building = building_machine_capital_1
+								}
+								has_building = building_capital_1
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							OR = {
+								AND = {
+									owner = {
+										has_authority = auth_machine_intelligence
+									}
+									has_building = building_machine_capital_1
+								}
+								has_building = building_capital_1
+							}
+						}
+						if = {
+							limit = {
+								owner = {
+									has_authority = auth_machine_intelligence
+								}
+							}
+							add_building_construction = building_machine_capital_2
+						}
+						else = {
+							add_building_construction = building_capital_2
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							owner = {
+								has_technology = tech_galactic_administration
+							}
+							planet = {
+								is_capital = yes
+							}
+							OR = {
+								AND = {
+									owner = {
+										has_authority = auth_machine_intelligence
+									}
+									has_building = building_machine_capital_2
+								}
+								has_building = building_capital_2
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							OR = {
+								AND = {
+									owner = {
+										has_authority = auth_machine_intelligence
+									}
+									has_building = building_machine_capital_2
+								}
+								has_building = building_capital_2
+							}
+						}
+						if = {
+							limit = {
+								owner = {
+									has_authority = auth_machine_intelligence
+								}
+							}
+							add_building_construction = building_machine_capital_3
+						}
+						else = {
+							add_building_construction = building_capital_3
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_planet = {
+					aai_suitable_planet_for_construction = yes
+					gai_upgraded_capital = yes
+					any_tile = {
+						OR = {
+							AND = {
+								aai_upgrade_to_tier_2 = yes
+								has_building = building_mining_network_1
+								owner = {
+									has_technology = tech_mining_network_2
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_mining_network_2
+								owner = {
+									has_technology = tech_mining_network_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_mining_network_3
+								owner = {
+									has_technology = tech_mining_network_4
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_mining_network_4
+								owner = {
+									has_technology = tech_mining_network_4
+								}
+							}
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					aai_suitable_planet_for_construction = yes
+					gai_upgraded_capital = yes
+					any_tile = {
+						OR = {
+							AND = {
+								aai_upgrade_to_tier_2 = yes
+								has_building = building_mining_network_1
+								owner = {
+									has_technology = tech_mining_network_2
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_mining_network_2
+								owner = {
+									has_technology = tech_mining_network_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_mining_network_3
+								owner = {
+									has_technology = tech_mining_network_4
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_mining_network_4
+								owner = {
+									has_technology = tech_mining_network_4
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_2 = yes
+							has_building = building_mining_network_1
+							owner = {
+								has_technology = tech_mining_network_2
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_mining_network_1
+						}
+						add_building_construction = building_mining_network_2
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_3 = yes
+							has_building = building_mining_network_2
+							owner = {
+								has_technology = tech_mining_network_3
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_mining_network_2
+						}
+						add_building_construction = building_mining_network_3
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_4 = yes
+							has_building = building_mining_network_3
+							owner = {
+								has_technology = tech_mining_network_4
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_mining_network_3
+						}
+						add_building_construction = building_mining_network_4
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_5 = yes
+							has_building = building_mining_network_4
+							owner = {
+								has_technology = tech_mining_network_4
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_mining_network_4
+						}
+						add_building_construction = building_mining_network_5
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				minerals > 200
+				any_owned_planet = {
+					aai_planet_capital_tier_3 = yes
+					any_tile = {
+						OR = {
+							AND = {
+								owner = {
+									has_technology = tech_power_hub_2
+								}
+								has_building = building_power_hub_1
+							}
+							AND = {
+								owner = {
+									has_technology = tech_mineral_processing_2
+								}
+								has_building = building_mineral_processing_plant_1
+							}
+							AND = {
+								owner = {
+									has_technology = tech_frontier_hospital
+								}
+								has_building = building_clinic
+							}
+							AND = {
+								owner = {
+									has_technology = tech_intelligent_factories
+								}
+								has_building = building_spare_parts_depot
+							}
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					owner = {
+						minerals > 200
+					}
+					aai_planet_capital_tier_3 = yes
+					any_tile = {
+						OR = {
+							AND = {
+								owner = {
+									has_technology = tech_power_hub_2
+								}
+								has_building = building_power_hub_1
+							}
+							AND = {
+								owner = {
+									has_technology = tech_mineral_processing_2
+								}
+								has_building = building_mineral_processing_plant_1
+							}
+							AND = {
+								owner = {
+									has_technology = tech_frontier_hospital
+								}
+								has_building = building_clinic
+							}
+							AND = {
+								owner = {
+									has_technology = tech_intelligent_factories
+								}
+								has_building = building_spare_parts_depot
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						owner = {
+							has_technology = tech_power_hub_2
+						}
+						any_tile = {
+							has_building = building_power_hub_1
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_power_hub_1
+						}
+						add_building_construction = building_power_hub_2
+					}
+				}
+				else_if = {
+					limit = {
+						owner = {
+							has_technology = tech_mineral_processing_2
+						}
+						any_tile = {
+							has_building = building_mineral_processing_plant_1
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_mineral_processing_plant_1
+						}
+						add_building_construction = building_mineral_processing_plant_2
+					}
+				}
+				else_if = {
+					limit = {
+						owner = {
+							has_technology = tech_frontier_hospital
+						}
+						any_tile = {
+							has_building = building_clinic
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_clinic
+						}
+						add_building_construction = building_hospital
+					}
+				}
+				else_if = {
+					limit = {
+						owner = {
+							has_technology = tech_intelligent_factories
+						}
+						any_tile = {
+							has_building = building_spare_parts_depot
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_spare_parts_depot
+						}
+						add_building_construction = building_unit_assembly_plant
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_planet = {
+					aai_suitable_planet_for_construction = yes
+					OR = {
+						AND = {
+							aai_planet_capital_tier_2 = yes
+							owner = {
+								minerals > 200
+							}
+							any_tile = {
+								OR = {
+									AND = {
+										OR = {
+											has_building = building_autochthon_monument
+											has_building = building_uplink_node
+										}
+										owner = {
+											has_technology = tech_heritage_site
+										}
+									}
+									AND = {
+										has_building = building_temple
+										owner = {
+											has_technology = tech_holographic_rituals
+										}
+									}
+								}
+							}
+						}
+						AND = {
+							aai_planet_capital_tier_3 = yes
+							owner = {
+								minerals > 350
+							}
+							any_tile = {
+								OR = {
+									AND = {
+										OR = {
+											has_building = building_heritage_site
+											has_building = building_network_junction
+										}
+										owner = {
+											has_technology = tech_hypercomms_forum
+										}
+									}
+									AND = {
+										has_building = building_holotemple
+										owner = {
+											has_technology = tech_consecration_fields
+										}
+									}
+								}
+							}
+						}
+						AND = {
+							aai_planet_capital_tier_4 = yes
+							owner = {
+								minerals > 500
+							}
+							any_tile = {
+								OR = {
+									AND = {
+										OR = {
+											has_building = building_hypercomms_forum
+											has_building = building_system_conflux
+										}
+										owner = {
+											has_technology = tech_autocurating_vault
+										}
+									}
+									AND = {
+										has_building = building_sacred_nexus
+										owner = {
+											has_technology = tech_transcendent_faith
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					aai_suitable_planet_for_construction = yes
+					OR = {
+						AND = {
+							aai_planet_capital_tier_2 = yes
+							owner = {
+								minerals > 200
+							}
+							any_tile = {
+								OR = {
+									AND = {
+										OR = {
+											has_building = building_autochthon_monument
+											has_building = building_uplink_node
+										}
+										owner = {
+											has_technology = tech_heritage_site
+										}
+									}
+									AND = {
+										has_building = building_temple
+										owner = {
+											has_technology = tech_holographic_rituals
+										}
+									}
+								}
+							}
+						}
+						AND = {
+							aai_planet_capital_tier_3 = yes
+							owner = {
+								minerals > 350
+							}
+							any_tile = {
+								OR = {
+									AND = {
+										OR = {
+											has_building = building_heritage_site
+											has_building = building_network_junction
+										}
+										owner = {
+											has_technology = tech_hypercomms_forum
+										}
+									}
+									AND = {
+										has_building = building_holotemple
+										owner = {
+											has_technology = tech_consecration_fields
+										}
+									}
+								}
+							}
+						}
+						AND = {
+							aai_planet_capital_tier_4 = yes
+							owner = {
+								minerals > 500
+							}
+							any_tile = {
+								OR = {
+									AND = {
+										OR = {
+											has_building = building_hypercomms_forum
+											has_building = building_system_conflux
+										}
+										owner = {
+											has_technology = tech_autocurating_vault
+										}
+									}
+									AND = {
+										has_building = building_sacred_nexus
+										owner = {
+											has_technology = tech_transcendent_faith
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						aai_planet_capital_tier_2 = yes
+						owner = {
+							minerals > 200
+						}
+						any_tile = {
+							OR = {
+								AND = {
+									OR = {
+										has_building = building_autochthon_monument
+										has_building = building_uplink_node
+									}
+									owner = {
+										has_technology = tech_heritage_site
+									}
+								}
+								AND = {
+									has_building = building_temple
+									owner = {
+										has_technology = tech_holographic_rituals
+									}
+								}
+							}
+						}
+					}
+					if = {
+						limit = {
+							owner = {
+								has_technology = tech_heritage_site
+							}
+						}
+						if = {
+							limit = {
+								any_tile = {
+									has_building = building_autochthon_monument
+								}
+							}
+							random_tile = {
+								limit = {
+									has_building = building_autochthon_monument
+								}
+								add_building_construction = building_heritage_site
+							}
+						}
+						else_if = {
+							limit = {
+								any_tile = {
+									has_building = building_uplink_node
+								}
+							}
+							random_tile = {
+								limit = {
+									has_building = building_uplink_node
+								}
+								add_building_construction = building_network_junction
+							}
+						}
+					}
+					else_if = {
+						random_tile = {
+							limit = {
+								has_building = building_temple
+							}
+							add_building_construction = building_holotemple
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						aai_planet_capital_tier_3 = yes
+						owner = {
+							minerals > 350
+						}
+						any_tile = {
+							OR = {
+								AND = {
+									OR = {
+										has_building = building_heritage_site
+										has_building = building_network_junction
+									}
+									owner = {
+										has_technology = tech_hypercomms_forum
+									}
+								}
+								AND = {
+									has_building = building_holotemple
+									owner = {
+										has_technology = tech_consecration_fields
+									}
+								}
+							}
+						}
+					}
+					if = {
+						limit = {
+							owner = {
+								has_technology = tech_hypercomms_forum
+							}
+						}
+						if = {
+							limit = {
+								any_tile = {
+									has_building = building_heritage_site
+								}
+							}
+							random_tile = {
+								limit = {
+									has_building = building_heritage_site
+								}
+								add_building_construction = building_hypercomms_forum
+							}
+						}
+						else_if = {
+							limit = {
+								any_tile = {
+									has_building = building_network_junction
+								}
+							}
+							random_tile = {
+								limit = {
+									has_building = building_network_junction
+								}
+								add_building_construction = building_system_conflux
+							}
+						}
+					}
+					else_if = {
+						random_tile = {
+							limit = {
+								has_building = building_holotemple
+							}
+							add_building_construction = building_sacred_nexus
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						aai_planet_capital_tier_4 = yes
+						owner = {
+							minerals > 500
+						}
+						any_tile = {
+							OR = {
+								AND = {
+									OR = {
+										has_building = building_hypercomms_forum
+										has_building = building_system_conflux
+									}
+									owner = {
+										has_technology = tech_autocurating_vault
+									}
+								}
+								AND = {
+									has_building = building_sacred_nexus
+									owner = {
+										has_technology = tech_transcendent_faith
+									}
+								}
+							}
+						}
+					}
+					if = {
+						limit = {
+							owner = {
+								has_technology = tech_autocurating_vault
+							}
+						}
+						if = {
+							limit = {
+								any_tile = {
+									has_building = building_hypercomms_forum
+								}
+							}
+							random_tile = {
+								limit = {
+									has_building = building_hypercomms_forum
+								}
+								add_building_construction = building_autocurating_vault
+							}
+						}
+						else_if = {
+							limit = {
+								any_tile = {
+									has_building = building_system_conflux
+								}
+							}
+							random_tile = {
+								limit = {
+									has_building = building_system_conflux
+								}
+								add_building_construction = building_alpha_hub
+							}
+						}
+					}
+					else_if = {
+						random_tile = {
+							limit = {
+								has_building = building_sacred_nexus
+							}
+							add_building_construction = building_citadel_of_faith
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_planet = {
+					years_passed > 10
+					aai_suitable_planet_for_construction = yes
+					gai_upgraded_capital = yes
+					any_tile = {
+						OR = {
+							AND = {
+								aai_upgrade_to_tier_2 = yes
+								has_building = building_basic_science_lab_1
+								owner = {
+									AND = {
+										has_technology = tech_physics_lab_1
+										has_technology = tech_biolab_1
+										has_technology = tech_engineering_lab_1
+									}
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_physics_lab_1
+								owner = {
+									has_technology = tech_physics_lab_2
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_physics_lab_2
+								owner = {
+									has_technology = tech_physics_lab_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_physics_lab_3
+								owner = {
+									has_technology = tech_physics_lab_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_biolab_1
+								owner = {
+									has_technology = tech_biolab_2
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_biolab_2
+								owner = {
+									has_technology = tech_biolab_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_biolab_3
+								owner = {
+									has_technology = tech_biolab_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_engineering_facility_1
+								owner = {
+									has_technology = tech_engineering_lab_2
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_engineering_facility_2
+								owner = {
+									has_technology = tech_engineering_lab_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_engineering_facility_3
+								owner = {
+									has_technology = tech_engineering_lab_3
+								}
+							}
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					aai_suitable_planet_for_construction = yes
+					gai_upgraded_capital = yes
+					any_tile = {
+						OR = {
+							AND = {
+								aai_upgrade_to_tier_2 = yes
+								has_building = building_basic_science_lab_1
+								owner = {
+									AND = {
+										has_technology = tech_physics_lab_1
+										has_technology = tech_biolab_1
+										has_technology = tech_engineering_lab_1
+									}
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_physics_lab_1
+								owner = {
+									has_technology = tech_physics_lab_2
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_physics_lab_2
+								owner = {
+									has_technology = tech_physics_lab_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_physics_lab_3
+								owner = {
+									has_technology = tech_physics_lab_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_biolab_1
+								owner = {
+									has_technology = tech_biolab_2
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_biolab_2
+								owner = {
+									has_technology = tech_biolab_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_biolab_3
+								owner = {
+									has_technology = tech_biolab_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_engineering_facility_1
+								owner = {
+									has_technology = tech_engineering_lab_2
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_engineering_facility_2
+								owner = {
+									has_technology = tech_engineering_lab_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_engineering_facility_3
+								owner = {
+									has_technology = tech_engineering_lab_3
+								}
+							}
+						}
+					}
+				}
+				
+				# Upgrading basic labs
+				
+				if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_2 = yes
+							has_building = building_basic_science_lab_1
+							aai_tile_physics = yes
+							owner = {
+								has_technology = tech_physics_lab_1
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_basic_science_lab_1
+							aai_tile_physics = yes
+						}
+						add_building_construction = building_physics_lab_1
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_2 = yes
+							has_building = building_basic_science_lab_1
+							aai_tile_society = yes
+							owner = {
+								has_technology = tech_biolab_1
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_basic_science_lab_1
+							aai_tile_society = yes
+						}
+						add_building_construction = building_biolab_1
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_2 = yes
+							has_building = building_basic_science_lab_1
+							aai_tile_engineering = yes
+							owner = {
+								has_technology = tech_engineering_lab_1
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_basic_science_lab_1
+							aai_tile_engineering = yes
+						}
+						add_building_construction = building_engineering_facility_1
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_2 = yes
+							has_building = building_basic_science_lab_1
+							aai_tile_research = no
+							owner = {
+								has_technology = tech_physics_lab_1
+								has_technology = tech_biolab_1
+								has_technology = tech_engineering_lab_1
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_basic_science_lab_1
+							aai_tile_research = no
+						}
+						random_list = {
+							20 = {
+								add_building_construction = building_physics_lab_1
+							}
+							40 = {
+								add_building_construction = building_biolab_1
+							}
+							30 = {
+								add_building_construction = building_engineering_facility_1
+							}
+						}
+					}
+				}
+				
+				### Physics labs 
+				
+				# Tier 1 to 2
+				
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_3 = yes
+							has_building = building_physics_lab_1
+							owner = {
+								has_technology = tech_physics_lab_2
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_physics_lab_1
+						}
+						add_building_construction = building_physics_lab_2
+					}
+				}
+				
+				# Tier 2 to 3
+				
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_4 = yes
+							has_building = building_physics_lab_2
+							owner = {
+								has_technology = tech_physics_lab_3
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_physics_lab_2
+						}
+						add_building_construction = building_physics_lab_3
+					}
+				}
+				
+				# Tier 3 to 4
+				
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_5 = yes
+							has_building = building_physics_lab_3
+							owner = {
+								has_technology = tech_physics_lab_3
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_physics_lab_3
+						}
+						add_building_construction = building_physics_lab_4
+					}
+				}
+				
+				### Society labs
+				
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_3 = yes
+							has_building = building_biolab_1
+							owner = {
+								has_technology = tech_biolab_2
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_biolab_1
+						}
+						add_building_construction = building_biolab_2
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_4 = yes
+							has_building = building_biolab_2
+							owner = {
+								has_technology = tech_biolab_3
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_biolab_2
+						}
+						add_building_construction = building_biolab_3
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_5 = yes
+							has_building = building_biolab_3
+							owner = {
+								has_technology = tech_biolab_3
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_biolab_3
+						}
+						add_building_construction = building_biolab_4
+					}
+				}
+				
+				# Engineering labs
+				
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_3 = yes
+							has_building = building_engineering_facility_1
+							owner = {
+								has_technology = tech_engineering_lab_2
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_engineering_facility_1
+						}
+						add_building_construction = building_engineering_facility_2
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_4 = yes
+							has_building = building_engineering_facility_2
+							owner = {
+								has_technology = tech_engineering_lab_3
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_engineering_facility_2
+						}
+						add_building_construction = building_engineering_facility_3
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_5 = yes
+							has_building = building_engineering_facility_3
+							owner = {
+								has_technology = tech_engineering_lab_3
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_engineering_facility_3
+						}
+						add_building_construction = building_engineering_facility_4
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_planet = {
+					aai_suitable_planet_for_construction = yes
+					gai_upgraded_capital = yes
+					any_tile = {
+						OR = {
+							AND = {
+								aai_upgrade_to_tier_2 = yes
+								has_building = building_power_plant_1
+								owner = {
+									has_technology = tech_power_plant_2
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_power_plant_2
+								owner = {
+									has_technology = tech_power_plant_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_power_plant_3
+								owner = {
+									has_technology = tech_power_plant_4
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_power_plant_4
+								owner = {
+									has_technology = tech_power_plant_4
+								}
+							}
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					aai_suitable_planet_for_construction = yes
+					gai_upgraded_capital = yes
+					any_tile = {
+						OR = {
+							AND = {
+								aai_upgrade_to_tier_2 = yes
+								has_building = building_power_plant_1
+								owner = {
+									has_technology = tech_power_plant_2
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_power_plant_2
+								owner = {
+									has_technology = tech_power_plant_3
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_power_plant_3
+								owner = {
+									has_technology = tech_power_plant_4
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_power_plant_4
+								owner = {
+									has_technology = tech_power_plant_4
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_2 = yes
+							has_building = building_power_plant_1
+							owner = {
+								has_technology = tech_power_plant_2
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_power_plant_1
+							owner = {
+								has_technology = tech_power_plant_2
+							}
+						}
+						add_building_construction = building_power_plant_2
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_3 = yes
+							has_building = building_power_plant_2
+							owner = {
+								has_technology = tech_power_plant_3
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_power_plant_2
+							owner = {
+								has_technology = tech_power_plant_3
+							}
+						}
+						add_building_construction = building_power_plant_3
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_4 = yes
+							has_building = building_power_plant_3
+							owner = {
+								has_technology = tech_power_plant_4
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_power_plant_3
+							owner = {
+								has_technology = tech_power_plant_4
+							}
+						}
+						add_building_construction = building_power_plant_4
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_5 = yes
+							has_building = building_power_plant_4
+							owner = {
+								has_technology = tech_power_plant_4
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_power_plant_4
+							owner = {
+								has_technology = tech_power_plant_4
+							}
+						}
+						add_building_construction = building_power_plant_5
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_planet = {
+					aai_suitable_planet_for_construction = yes
+					gai_upgraded_capital = yes
+					any_tile = {
+						OR = {
+							AND = {
+								aai_upgrade_to_tier_2 = yes
+								has_building = building_hydroponics_farm_1
+								owner = {
+									has_technology = tech_hydroponics
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_hydroponics_farm_2
+								owner = {
+									has_technology = tech_gene_crops
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_hydroponics_farm_3
+								owner = {
+									has_technology = tech_nano_vitality_crops
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_hydroponics_farm_4
+								owner = {
+									has_technology = tech_nano_vitality_crops
+								}
+							}
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					aai_suitable_planet_for_construction = yes
+					gai_upgraded_capital = yes
+					any_tile = {
+						OR = {
+							AND = {
+								aai_upgrade_to_tier_2 = yes
+								has_building = building_hydroponics_farm_1
+								owner = {
+									has_technology = tech_hydroponics
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_3 = yes
+								has_building = building_hydroponics_farm_2
+								owner = {
+									has_technology = tech_gene_crops
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_4 = yes
+								has_building = building_hydroponics_farm_3
+								owner = {
+									has_technology = tech_nano_vitality_crops
+								}
+							}
+							AND = {
+								aai_upgrade_to_tier_5 = yes
+								has_building = building_hydroponics_farm_4
+								owner = {
+									has_technology = tech_nano_vitality_crops
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_2 = yes
+							has_building = building_hydroponics_farm_1
+							owner = {
+								has_technology = tech_hydroponics
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_hydroponics_farm_1
+							owner = {
+								has_technology = tech_hydroponics
+							}
+						}
+						add_building_construction = building_hydroponics_farm_2
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_3 = yes
+							has_building = building_hydroponics_farm_2
+							owner = {
+								has_technology = tech_gene_crops
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_hydroponics_farm_2
+							owner = {
+								has_technology = tech_gene_crops
+							}
+						}
+						add_building_construction = building_hydroponics_farm_3
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_4 = yes
+							has_building = building_hydroponics_farm_3
+							owner = {
+								has_technology = tech_nano_vitality_crops
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_hydroponics_farm_3
+							owner = {
+								has_technology = tech_nano_vitality_crops
+							}
+						}
+						add_building_construction = building_hydroponics_farm_4
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_upgrade_to_tier_5 = yes
+							has_building = building_hydroponics_farm_4
+							owner = {
+								has_technology = tech_nano_vitality_crops
+							}
+						}
+					}
+					random_tile = {
+						limit = {
+							has_building = building_hydroponics_farm_4
+							owner = {
+								has_technology = tech_nano_vitality_crops
+							}
+						}
+						add_building_construction = building_hydroponics_farm_5
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+country_event = {
+	id = aai_buildings.50
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_country_resource = {
+			type = minerals
+			amount > 250
+		}
+	}
+	
+	immediate = {
+		if = {
+			limit = {
+				any_owned_planet = {
+					aai_suitable_habitat_for_construction = yes
+					any_tile = {
+						OR = {
+							AND = {
+								has_building = no
+								has_blocker = no 
+							}
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					aai_suitable_habitat_for_construction = yes
+					any_tile = {
+						OR = {
+							AND = {
+								has_building = no
+								has_blocker = no 
+							}
+						}
+					}
+				}
+				aai_habitat_building_construction = yes
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_planet = {
+					aai_suitable_habitat_for_construction = yes
+					any_tile = {
+						has_blocker = no
+						OR = {
+							NOT = {
+								planet = {
+									any_tile = {
+										has_building = building_hab_capital
+									}
+								}
+							}
+							AND = {
+								planet = {
+									any_tile = {
+										has_building = building_hab_capital
+									}
+								}
+								OR = {
+									AND = {
+										owner = {
+											NOT = { has_authority = auth_machine_intelligence }
+										}
+										aai_food_income_low = yes
+										aai_has_agricultural_zone = no
+										owner = {
+											NOT = { has_country_flag = aai_rebuild_food }
+										}
+									}
+									AND = {
+										aai_energy_income_low = yes
+										aai_has_solar_power_processor = no
+										owner = {
+											NOT = { has_country_flag = aai_rebuild_energy }
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					aai_suitable_habitat_for_construction = yes
+					any_tile = {
+						has_blocker = no
+						OR = {
+							NOT = {
+								planet = {
+									any_tile = {
+										has_building = building_hab_capital
+									}
+								}
+							}
+							AND = {
+								planet = {
+									any_tile = {
+										has_building = building_hab_capital
+									}
+								}
+								OR = {
+									AND = {
+										aai_food_income_low = yes
+										aai_has_agricultural_zone = no
+										owner = {
+											NOT = { has_authority = auth_machine_intelligence }
+											NOT = { has_country_flag = aai_rebuild_food }
+										}
+									}
+									AND = {
+										aai_energy_income_low = yes
+										aai_has_solar_power_processor = no
+										owner = {
+											NOT = { has_country_flag = aai_rebuild_energy }
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							planet = {
+								any_tile = {
+									has_building = building_hab_capital
+								}
+							}
+						}
+					}
+					if = {
+						limit = {
+							any_tile = {
+								aai_has_solar_power_processor = yes
+								aai_energy_income_medium = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_solar_power_processor = yes
+								aai_energy_income_medium = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_habitat_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								aai_has_agricultural_zone = yes
+								aai_food_income_medium = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_agricultural_zone = yes
+								aai_food_income_medium = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_habitat_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						random_tile = {
+							remove_building = yes
+						}
+						planet = { aai_habitat_building_construction = yes }
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_food_income_low = yes
+							aai_has_agricultural_zone = no
+						}
+						owner = {
+							NOT = { has_authority = auth_machine_intelligence }
+							NOT = { has_country_flag = aai_rebuild_food }
+						}
+					}
+					if = {
+						limit = {
+							any_tile = {
+								aai_has_solar_power_processor = yes
+								aai_energy_income_medium = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_solar_power_processor = yes
+								aai_energy_income_medium = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_habitat_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								OR = {
+									aai_has_astro_mining_bay = yes
+									aai_has_laboratory_complex = yes
+								}
+							}
+						}
+						random_list = {
+							45 = {
+								random_tile = {
+									limit = {
+										aai_has_astro_mining_bay = yes
+									}
+									remove_building = yes
+								}
+							}
+							30 = {
+								random_tile = {
+									limit = {
+										aai_has_laboratory_complex = yes
+									}
+									remove_building = yes
+								}
+							}
+						}
+						planet = { aai_habitat_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_food days = 250 }
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_energy_income_low = yes
+							aai_has_solar_power_processor = no
+						}
+						owner = {
+							NOT = { has_country_flag = aai_rebuild_energy }
+						}
+					}
+					if = {
+						limit = {
+							any_tile = {
+								aai_has_agricultural_zone = yes
+								aai_energy_income_medium = yes
+							}
+						}
+						random_tile = {
+							limit = {
+								aai_has_agricultural_zone = yes
+								aai_energy_income_medium = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_habitat_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+					else_if = {
+						limit = {
+							any_tile = {
+								OR = {
+									aai_has_astro_mining_bay = yes
+									aai_has_laboratory_complex = yes
+								}
+							}
+						}
+						random_list = {
+							45 = {
+								random_tile = {
+									limit = {
+										aai_has_astro_mining_bay = yes
+									}
+									remove_building = yes
+								}
+							}
+							30 = {
+								random_tile = {
+									limit = {
+										aai_has_laboratory_complex = yes
+									}
+									remove_building = yes
+								}
+							}
+						}
+						planet = { aai_habitat_building_construction = yes }
+						owner = {
+							set_timed_country_flag = { flag = aai_rebuild_energy days = 250 }
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				
+				# Skip if purging, because it may influence food/energy income
+				
+				owner = {
+					NOT = {
+						any_owned_planet = {
+							any_pop = {
+								is_being_purged = yes
+							}
+						}
+					}
+				}
+				any_owned_planet = {
+					aai_suitable_habitat_for_construction = yes
+					any_tile = {
+						has_blocker = no
+						planet = {
+							any_tile = {
+								has_building = building_hab_capital
+							}
+						}
+						OR = {
+							AND = {
+								aai_food_income_high = yes
+								aai_has_agricultural_zone = yes
+								owner = {
+									NOT = { has_authority = auth_machine_intelligence }
+								}
+							}
+							AND = {
+								aai_energy_income_high = yes
+								aai_has_solar_power_processor = yes
+							}
+						}
+					}
+				}
+			}
+			#log = "replace habitat [This.GetName]"
+			random_owned_planet = {
+				limit = {
+					aai_suitable_habitat_for_construction = yes
+					any_tile = {
+						has_blocker = no
+						planet = {
+							any_tile = {
+								has_building = building_hab_capital
+							}
+						}
+						OR = {
+							AND = {
+								aai_food_income_high = yes
+								aai_has_agricultural_zone = yes
+								owner = {
+									NOT = { has_authority = auth_machine_intelligence }
+								}
+							}
+							AND = {
+								aai_energy_income_high = yes
+								aai_has_solar_power_processor = yes
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						any_tile = {
+							aai_food_income_high = yes
+							aai_has_agricultural_zone = yes
+						}
+						owner = {
+							NOT = { has_authority = auth_machine_intelligence }
+						}
+					}
+					if = {
+						limit = {
+							any_tile = {
+								aai_has_agricultural_zone = yes
+							}
+						}
+						#log = "replace food habitat [This.GetName]"
+						random_tile = {
+							limit = {
+								aai_has_agricultural_zone = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_habitat_building_construction = yes }
+					}
+				}
+				else_if = {
+					limit = {
+						any_tile = {
+							aai_energy_income_high = yes
+							aai_has_solar_power_processor = yes
+						}
+					}
+					if = {
+						limit = {
+							any_tile = {
+								aai_has_solar_power_processor = yes
+							}
+						}
+						#log = "replace energy habitat [This.GetName]"
+						random_tile = {
+							limit = {
+								aai_has_solar_power_processor = yes
+							}
+							remove_building = yes
+						}
+						planet = { aai_habitat_building_construction = yes }
+					}
+				}
+			}
+		}
+	}
+}

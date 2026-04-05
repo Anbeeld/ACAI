@@ -1,0 +1,19 @@
+namespace = ai_fixmod_plasma
+
+country_event = {
+	id = ai_fixmod_plasma.1	
+	hide_window = yes
+	fire_only_once = yes
+	is_triggered_only = yes 
+	
+	
+	immediate = {
+	set_country_flag = "ai_fixmod_arc_emitters"
+		give_technology = {
+			tech = tech_arc_emitter_1
+			message = no
+		}
+	}
+}
+
+

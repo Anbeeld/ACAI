@@ -1,0 +1,107 @@
+
+aai_has_capital = {
+	any_tile = {
+		OR = {
+			has_building = building_colony_shelter
+			has_building = building_deployment_post
+			has_building = building_machine_capital_1
+			has_building = building_capital_1
+			has_building = building_machine_capital_2
+			has_building = building_capital_2
+			has_building = building_machine_capital_3
+			has_building = building_capital_3
+			has_building_construction = building_colony_shelter
+			has_building_construction = building_deployment_post
+			has_building_construction = building_machine_capital_1
+			has_building_construction = building_capital_1
+			has_building_construction = building_machine_capital_2
+			has_building_construction = building_capital_2
+			has_building_construction = building_machine_capital_3
+			has_building_construction = building_capital_3
+		}
+	}
+}
+
+aai_planet_capital_tier_1 = {
+	any_tile = {
+		OR = {
+			has_building = building_colony_shelter
+			has_building = building_deployment_post
+			has_building = building_capital_1
+			has_building = building_machine_capital_1
+			has_building = building_capital_2
+			has_building = building_machine_capital_2
+			has_building = building_capital_3
+			has_building = building_machine_capital_3
+		}
+	}
+}
+
+aai_planet_capital_tier_2 = {
+	any_tile = {
+		OR = {
+			has_building = building_capital_1
+			has_building = building_machine_capital_1
+			has_building = building_capital_2
+			has_building = building_machine_capital_2
+			has_building = building_capital_3
+			has_building = building_machine_capital_3
+		}
+	}
+}
+
+aai_planet_capital_tier_3 = {
+	any_tile = {
+		OR = {
+			has_building = building_capital_2
+			has_building = building_machine_capital_2
+			has_building = building_capital_3
+			has_building = building_machine_capital_3
+		}
+	}
+}
+
+aai_planet_capital_tier_4 = {
+	any_tile = {
+		OR = {
+			has_building = building_capital_3
+			has_building = building_machine_capital_3
+		}
+	}
+}
+
+acai_rogue_servitors_not_organic = {
+	OR = {
+		owner = {
+			NOT = { has_civic = civic_machine_servitor }
+		}
+		AND = {
+			owner = {
+				has_civic = civic_machine_servitor
+			}
+			pop = {
+				is_robot_pop = yes
+			}
+		}
+	}
+}
+
+acai_buildings_empty_tile_conditions = {
+	aai_suitable_planet_for_construction = yes
+	any_tile = {
+		has_building = no
+		has_blocker = no
+		acai_rogue_servitors_not_organic = yes
+		OR = {
+			has_grown_pop = yes
+			has_growing_pop = yes
+			owner = {
+				minerals > 2000
+				NOR = { 
+					has_ascension_perk = ap_voidborn
+					has_ascension_perk = ap_galactic_wonders
+				}
+			}
+		}
+	}
+}

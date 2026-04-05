@@ -1,0 +1,978 @@
+
+aai_starbase_under_limit = {
+	check_variable = {
+		which = aai_boolean_starbase_under_limit
+		value = 2
+	}
+}
+
+aai_starbase_has_fortification = {
+	OR = {
+		has_starbase_module = gun_battery
+		has_starbase_module = missile_battery
+		has_starbase_module = hangar_bay
+	}
+}
+
+aai_starbase_has_no_modules = {
+	NAND = {
+		has_starbase_module = shipyard
+		has_starbase_module = anchorage
+		has_starbase_module = trading_hub
+		has_starbase_module = gun_battery
+		has_starbase_module = missile_battery
+		has_starbase_module = hangar_bay
+	}
+}
+
+
+aai_not_enough_shipyards = {
+	OR = {
+		AND = {
+			check_variable = {
+				which = aai_value_starbase_limit
+				value < 7
+			}
+			count_owned_starbase = {
+				limit = {
+					starbase = {
+						has_starbase_module = shipyard
+					}
+				}
+				count < 1
+			}
+		}
+		AND = {
+			check_variable = {
+				which = aai_value_starbase_limit
+				value >= 7
+			}
+			check_variable = {
+				which = aai_value_starbase_limit
+				value < 13
+			}
+			count_owned_starbase = {
+				limit = {
+					starbase = {
+						has_starbase_module = shipyard
+					}
+				}
+				count < 2
+			}
+		}
+		AND = {
+			check_variable = {
+				which = aai_value_starbase_limit
+				value >= 13
+			}
+			check_variable = {
+				which = aai_value_starbase_limit
+				value < 19
+			}
+			count_owned_starbase = {
+				limit = {
+					starbase = {
+						has_starbase_module = shipyard
+					}
+				}
+				count < 3
+			}
+		}
+		AND = {
+			check_variable = {
+				which = aai_value_starbase_limit
+				value >= 19
+			}
+			check_variable = {
+				which = aai_value_starbase_limit
+				value < 25
+			}
+			count_owned_starbase = {
+				limit = {
+					starbase = {
+						has_starbase_module = shipyard
+					}
+				}
+				count < 4
+			}
+		}
+		AND = {
+			check_variable = {
+				which = aai_value_starbase_limit
+				value >= 25
+			}
+			check_variable = {
+				which = aai_value_starbase_limit
+				value < 31
+			}
+			count_owned_starbase = {
+				limit = {
+					starbase = {
+						has_starbase_module = shipyard
+					}
+				}
+				count < 5
+			}
+		}
+		AND = {
+			check_variable = {
+				which = aai_value_starbase_limit
+				value >= 31
+			}
+			check_variable = {
+				which = aai_value_starbase_limit
+				value < 37
+			}
+			count_owned_starbase = {
+				limit = {
+					starbase = {
+						has_starbase_module = shipyard
+					}
+				}
+				count < 6
+			}
+		}
+		AND = {
+			check_variable = {
+				which = aai_value_starbase_limit
+				value >= 37
+			}
+			count_owned_starbase = {
+				limit = {
+					starbase = {
+						has_starbase_module = shipyard
+					}
+				}
+				count < 7
+			}
+		}
+	}
+}
+
+acai_starbases_not_enough_trading_hubs = {
+	owner = {
+		count_system_within_border = {
+			limit = {
+				starbase = {
+					has_starbase_module = trading_hub
+				}
+			}
+			count < 1
+		}
+	}
+}
+
+acai_starbases_can_replace_trading_hubs = {
+	owner = {
+		count_system_within_border = {
+			limit = {
+				starbase = {
+					has_starbase_module = trading_hub
+				}
+			}
+			count > 1
+		}
+	}
+}
+
+
+
+
+
+
+
+# Conditions for some shipyard construction
+
+	acai_starbase_shipyard_conditions = {
+		
+		years_passed > 12
+		has_starbase_size >= starbase_starport    # At least starport
+		acai_starbases_is_shipyard = yes
+		controller = {
+			is_same_value = owner
+		}
+					
+					OR = {
+						
+						# Not enough modules or buildings
+							
+							# Starport
+							
+								AND = {
+									has_starbase_size = starbase_starport
+									OR = {
+										count_starbase_modules = {
+											type = shipyard
+											count < 2
+										}
+										NOT = { has_starbase_building = crew_quarters }
+									}
+								}
+								
+							# Starhold
+								
+								AND = {
+									has_starbase_size = starbase_starhold
+									OR = {
+										count_starbase_modules = {
+											type = shipyard
+											count < 4
+										}
+										AND = {
+											NOT = { has_starbase_building = fleet_academy }
+											owner = {
+												has_technology = tech_interstellar_fleet_traditions
+												minerals > 200
+											}
+										}
+									}
+								}
+								
+							# Star Fortress
+								
+								AND = {
+									has_starbase_size >= starbase_starfortress
+									OR = {
+										count_starbase_modules = {
+											type = shipyard
+											count < 6
+										}
+										
+										# Can't build titan yards
+										
+											AND = {
+												owner = {
+													OR = {
+														NOT = { has_technology = tech_titans }
+														any_owned_starbase = {
+															has_starbase_building = titan_yards
+														}
+													}
+													minerals > 200
+													has_technology = tech_hyper_drive_2
+												}
+												NOT = { has_starbase_building = titan_yards }
+												NOT = { has_starbase_building = warp_fluctuator }
+											}
+											
+										#
+										
+									}
+									
+								}
+							
+							# Citadel
+								
+								AND = {
+								
+									has_starbase_size = starbase_citadel
+									
+									OR = {
+										
+										# Can build titan yards and there's no such in the empire
+										
+											AND = {
+												owner = {
+													has_technology = tech_titans
+													NOT = {
+														any_owned_starbase = {
+															has_starbase_building = titan_yards
+														}
+													}
+													minerals > 1000
+												}
+											}
+											
+										# Can build colossus yards and there's no such in the empire
+											
+											AND = {
+												owner = {
+													has_ascension_perk = ap_colossus
+													NOT = {
+														any_owned_starbase = {
+															has_starbase_building = colossus_yards
+														}
+													}
+													minerals > 2000
+												}
+											}
+											
+										# Can't build colossus yards
+											
+											AND = {
+												owner = {
+													OR = {
+														NOT = { has_ascension_perk = ap_colossus }
+														any_owned_starbase = {
+															has_starbase_building = colossus_yards
+														}
+													}
+												}
+												NOT = { has_starbase_building = colossus_yards }
+												NOT = { has_starbase_building = communications_jammer }
+											}
+											
+										#
+										
+									}
+									
+								}
+								
+							#
+							
+						#
+						
+					}
+		
+	}
+	
+#
+
+# Conditions for some anchorage construction
+
+	acai_starbase_anchorage_conditions = {
+	
+		has_starbase_size >= starbase_starport    # At least starport
+		acai_starbases_is_anchorage = yes
+		controller = {
+			is_same_value = owner
+		}
+					
+					OR = {
+						
+						# Starport
+						
+							AND = {
+								has_starbase_size = starbase_starport
+								OR = {
+									count_starbase_modules = {
+										type = anchorage
+										count < 2
+									}
+									NOT = { has_starbase_building = resource_silo }    # Won't have Naval Logistics Office for a long time, and limits should be raised
+								}
+							}
+						
+						# Starhold
+						
+							AND = {
+								has_starbase_size = starbase_starhold
+								OR = {
+									count_starbase_modules = {
+										type = anchorage
+										count < 4
+									}
+									AND = {
+										owner = { 
+											has_technology = tech_interstellar_fleet_traditions
+											minerals > 200
+										}
+										NOT = { has_starbase_building = naval_logistics_office }
+									}
+								}
+							}
+							
+						# Star Fortress
+							
+							AND = {
+								has_starbase_size >= starbase_starfortress
+								OR = {
+									count_starbase_modules = {
+										type = anchorage
+										count < 6
+									}
+									AND = {
+										OR = {
+											AND = {
+												owner = {
+													NOT = { has_authority = auth_machine_intelligence }
+												}
+												NOT = { has_starbase_building = hydroponics_bay }    # Food for non-machines
+											}
+											AND = {
+												owner = {
+													has_authority = auth_machine_intelligence
+													minerals > 200
+													has_technology = tech_hyper_drive_2
+												}
+												NOT = { has_starbase_building = warp_fluctuator }    # Faster travel for machines
+											}
+										}
+									}
+								}
+							}
+							
+						# Citadel
+							
+							AND = {
+								has_starbase_size = starbase_citadel
+								OR = {
+									AND = {
+										owner = {
+											NOT = { has_authority = auth_machine_intelligence }
+											minerals > 200
+											has_technology = tech_hyper_drive_2
+										}
+										NOT = { has_starbase_building = warp_fluctuator }    # Faster travel for non-machines
+									}
+									AND = {
+										owner = {
+											has_authority = auth_machine_intelligence
+										}
+										NOT = { has_starbase_building = communications_jammer }    # Slowing enemies for machines
+									}
+								}
+							}
+							
+						#
+						
+					}
+		
+	}
+
+# Conditions for some trading hub construction
+
+	acai_starbase_trading_hub_conditions = {
+		
+		has_starbase_size >= starbase_starport    # At least starport
+		acai_starbases_is_trading_hub = yes
+		controller = {
+			is_same_value = owner
+		}
+					
+					OR = {
+					
+						# Starport
+							
+							AND = {
+								has_starbase_size = starbase_starport
+								OR = {
+									count_starbase_modules = {
+										type = trading_hub
+										count < 2
+									}
+									AND = {
+										owner = { 
+											has_technology = tech_space_trading
+											minerals > 200
+										}
+										NOT = { has_starbase_building = offworld_trading_company }
+									}
+								}
+								
+							}
+						
+						# Starhold
+							
+							AND = {
+								has_starbase_size = starbase_starhold
+								OR = {
+									count_starbase_modules = {
+										type = trading_hub
+										count < 4
+									}
+									NOT = { has_starbase_building = resource_silo }
+								}
+							}
+							
+						# Star Fortress
+							
+							AND = {
+								has_starbase_size >= starbase_starfortress
+								OR = {
+									count_starbase_modules = {
+										type = trading_hub
+										count < 6
+									}
+									AND = {
+										OR = {
+										
+											# Organic empires
+											
+												AND = {
+												
+													owner = {
+														NOT = { has_authority = auth_machine_intelligence }
+													}
+													
+													OR = {
+														
+														# Not hive mind, has colony and minerals
+														
+															AND = {
+																acai_starbase_has_colony_in_system = yes
+																owner = {
+																	NOT = { has_ethic = ethic_gestalt_consciousness }
+																	has_technology = tech_living_state
+																	minerals > 200
+																}
+																NOT = { has_starbase_building = deep_space_black_site }    # Deep Space Black Site because it's too good
+															}
+														
+														# Either hive mind, or not has colony
+														
+															AND = {
+																OR = {
+																	acai_starbase_has_colony_in_system = no
+																	owner = {
+																		NOT = { has_ethic = ethic_gestalt_consciousness }
+																	}
+																	owner = {
+																		NOT = { has_technology = tech_living_state }
+																	}
+																}
+																NOT = { has_starbase_building = hydroponics_bay }
+															}
+															
+														#
+														
+													}
+													
+												}
+											
+											# Machine empires
+											
+												AND = {
+													owner = {
+														has_authority = auth_machine_intelligence
+														minerals > 200
+														has_technology = tech_hyper_drive_2
+													}
+													NOT = { has_starbase_building = warp_fluctuator }    # Faster travel for machines
+												}
+												
+											#
+											
+										}
+									}
+								}
+							}
+							
+						# Citadel
+							
+							AND = {
+								has_starbase_size = starbase_citadel
+								OR = {
+									AND = {
+										owner = {
+											NOT = { has_authority = auth_machine_intelligence }
+											minerals > 200
+											has_technology = tech_hyper_drive_2
+										}
+										NOT = { has_starbase_building = warp_fluctuator }    # Faster travel for non-machines
+									}
+									AND = {
+										owner = {
+											has_authority = auth_machine_intelligence
+										}
+										NOT = { has_starbase_building = communications_jammer }    # Slowing enemies for machines
+									}
+								}
+							}
+							
+						#
+						
+					}
+		
+	}
+
+acai_starbases_outpost_conditions = {
+	has_starbase_size = starbase_outpost
+	owner = {
+		OR = {
+			check_variable = {
+				which = acai_boolean_trading_hub_priority
+				value = 0
+			}
+			AND = {
+				check_variable = {
+					which = acai_boolean_trading_hub_priority
+					value = 1
+				}
+				prev = {
+					acai_starbases_suitable_for_trading_hub = yes
+				}
+			}
+			AND = {
+				check_variable = {
+					which = acai_boolean_trading_hub_priority
+					value = 2
+				}
+				OR = {
+					AND = {
+						any_system_within_border = {
+							acai_starbases_suitable_for_trading_hub = no
+							acai_starbases_potential_for_trading_hub = no
+						}
+						prev = {
+							acai_starbases_suitable_for_trading_hub = no
+							acai_starbases_potential_for_trading_hub = no
+						}
+					}
+					AND = {
+						NOT = {
+							any_system_within_border = {
+								acai_starbases_suitable_for_trading_hub = no
+								acai_starbases_potential_for_trading_hub = no
+							}
+						}
+						any_system_within_border = {
+							acai_starbases_suitable_for_trading_hub = no
+						}
+						prev = {
+							acai_starbases_suitable_for_trading_hub = no
+						}
+					}
+					NOT = {
+						any_system_within_border = {
+							acai_starbases_suitable_for_trading_hub = no
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+acai_starbases_no_enemy_neighbors = {
+	NOT = {
+		any_neighbor_system = {
+			OR = {
+				NOT = { exists = starbase }
+				AND = {
+					exists = starbase
+					starbase = {
+						owner = {
+							NOT = { is_same_value = root }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+acai_starbases_outpost_is_suitable = {
+	OR = {
+		AND = {
+			solar_system = {
+				starbase = {
+					acai_starbases_outpost_conditions = yes
+				}
+				NOR = {
+					any_neighbor_system = {
+						acai_starbases_no_enemy_neighbors = no
+					}
+					any_neighbor_system = {
+						any_neighbor_system = {
+							acai_starbases_no_enemy_neighbors = no
+						}
+					}
+				}
+			}
+		}
+		AND = {
+			owner = {
+				NOT = {
+					any_system_within_border = {
+						starbase = {
+							acai_starbases_outpost_conditions = yes
+						}
+						NOR = {
+							any_neighbor_system = {
+								acai_starbases_no_enemy_neighbors = no
+							}
+							any_neighbor_system = {
+								any_neighbor_system = {
+									acai_starbases_no_enemy_neighbors = no
+								}
+							}
+						}
+					}
+				}
+			}
+			solar_system = {
+				starbase = {
+					acai_starbases_outpost_conditions = yes
+				}
+				NOT = {
+					any_neighbor_system = {
+						acai_starbases_no_enemy_neighbors = no
+					}
+				}
+			}
+		}
+		AND = {
+			owner = {
+				NOR = {
+					any_system_within_border = {
+						starbase = {
+							acai_starbases_outpost_conditions = yes
+						}
+						NOR = {
+							any_neighbor_system = {
+								acai_starbases_no_enemy_neighbors = no
+							}
+							any_neighbor_system = {
+								any_neighbor_system = {
+									acai_starbases_no_enemy_neighbors = no
+								}
+							}
+						}
+					}
+					any_system_within_border = {
+						starbase = {
+							acai_starbases_outpost_conditions = yes
+						}
+						NOT = {
+							any_neighbor_system = {
+								acai_starbases_no_enemy_neighbors = no
+							}
+						}
+					}
+				}
+			}
+			solar_system = {
+				starbase = {
+					acai_starbases_outpost_conditions = yes
+				}
+				acai_starbases_no_enemy_neighbors = yes
+			}
+		}
+		AND = {
+			owner = {
+				NOT = {
+					any_system_within_border = {
+						starbase = {
+							acai_starbases_outpost_conditions = yes
+						}
+						acai_starbases_no_enemy_neighbors = yes
+					}
+				}
+			}
+			acai_starbases_outpost_conditions = yes
+		}
+	}
+}
+
+
+# Conditions for some starbase upgrading
+
+	acai_starbase_upgrading_conditions = {
+	
+		OR = {
+			years_passed > 20
+			AND = {
+				owner = {
+					count_system_within_border = {
+						limit = {
+							starbase = {
+								acai_starbases_suitable_for_trading_hub = yes
+							}
+						}
+						count > 0
+					}
+					count_system_within_border = {
+						limit = {
+							starbase = {
+								has_starbase_size >= starbase_starport
+							}
+						}
+						count < 1
+					}
+				}
+			}
+			AND = {
+				owner = {
+					count_system_within_border = {
+						limit = {
+							starbase = {
+								acai_starbases_suitable_for_trading_hub = yes
+							}
+						}
+						count > 1
+					}
+					count_system_within_border = {
+						limit = {
+							starbase = {
+								has_starbase_size >= starbase_starport
+							}
+						}
+						count < 2
+					}
+				}
+			}
+			AND = {
+				owner = {
+					count_system_within_border = {
+						limit = {
+							starbase = {
+								acai_starbases_suitable_for_trading_hub = yes
+							}
+						}
+						count > 2
+					}
+					count_system_within_border = {
+						limit = {
+							starbase = {
+								has_starbase_size >= starbase_starport
+							}
+						}
+						count < 3
+					}
+				}
+			}
+			AND = {
+				owner = {
+					count_system_within_border = {
+						limit = {
+							starbase = {
+								acai_starbases_suitable_for_trading_hub = yes
+							}
+						}
+						count > 2
+					}
+					count_system_within_border = {
+						limit = {
+							starbase = {
+								has_starbase_size >= starbase_starport
+							}
+						}
+						count > 2
+					}
+				}
+			}
+		}
+		
+		controller = {
+			is_same_value = owner
+		}
+
+		OR = {
+			
+			# Is outpost, has minerals and under limit. Either suitable for trading hub or there's no suitable outposts anymore
+			
+				AND = {
+					has_starbase_size = starbase_outpost
+					owner = {
+						minerals > 300
+						aai_starbase_under_limit = yes
+					}
+					acai_starbases_outpost_is_suitable = yes
+				}
+				
+			# Is starport and no outposts or no limit
+				
+				AND = {
+					has_starbase_size = starbase_starport
+					owner = { 
+						has_technology = tech_starbase_3
+						minerals > 750
+					}
+					owner = {
+						OR = {
+							AND = {
+								any_owned_starbase = {
+									has_starbase_size = starbase_outpost
+								}
+								aai_starbase_under_limit = no
+							}
+							NOT = {
+								any_owned_starbase = {
+									has_starbase_size = starbase_outpost
+								}
+							}
+						}
+					}
+				}
+				
+			# Is starhold and no outposts or no limit and no starposts
+				
+				AND = {
+					has_starbase_size = starbase_starhold
+					owner = { 
+						has_technology = tech_starbase_4
+						OR = {
+							AND = {
+								NOT = { has_ascension_perk = ap_voidborn }
+								minerals > 5000
+							}
+							AND = {
+								has_ascension_perk = ap_voidborn
+								minerals > 15000
+							}
+						}
+					}
+					owner = {
+						OR = {
+							AND = {
+								any_owned_starbase = {
+									has_starbase_size = starbase_outpost
+								}
+								aai_starbase_under_limit = no
+							}
+							NOT = {
+								any_owned_starbase = {
+									has_starbase_size = starbase_outpost
+								}
+							}
+						}
+						NOT = {
+							any_owned_starbase = {
+								has_starbase_size = starbase_starport
+							}
+						}
+					}
+				}
+				
+			# Is star fortress and no outposts or no limit and no starposts and to starholds
+			
+				AND = {
+					has_starbase_size = starbase_starfortress
+					owner = { 
+						has_technology = tech_starbase_5
+						OR = {
+							AND = {
+								NOT = { has_ascension_perk = ap_voidborn }
+								minerals > 12500
+							}
+							AND = {
+								has_ascension_perk = ap_voidborn
+								minerals > 22500
+							}
+						}
+					}
+					owner = {
+						OR = {
+							AND = {
+								any_owned_starbase = {
+									has_starbase_size = starbase_outpost
+								}
+								aai_starbase_under_limit = no
+							}
+							NOT = {
+								any_owned_starbase = {
+									has_starbase_size = starbase_outpost
+								}
+							}
+						}
+						NOT = {
+							any_owned_starbase = {
+								has_starbase_size = starbase_starport
+							}
+						}
+						NOT = {
+							any_owned_starbase = {
+								has_starbase_size = starbase_starhold
+							}
+						}
+					}
+				}
+				
+			#
+			
+		}
+	
+	}
+	
+#

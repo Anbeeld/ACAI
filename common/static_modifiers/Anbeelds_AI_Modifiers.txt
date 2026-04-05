@@ -1,0 +1,15 @@
+difficulty_grand_admiral = {
+	country_ship_upgrade_cost_mult = -1.00
+}
+difficulty_admiral = {
+	country_ship_upgrade_cost_mult = -1.00
+}
+difficulty_commodore = {
+	country_ship_upgrade_cost_mult = -1.00
+}
+difficulty_captain = {
+	country_ship_upgrade_cost_mult = -1.00
+}
+difficulty_ensign = {
+	country_ship_upgrade_cost_mult = -1.00
+}

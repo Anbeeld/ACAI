@@ -1,0 +1,53 @@
+
+acai_main_fleet_calculating = {
+	set_variable = { which = acai_value_main_fleet_identificator value = 1 }
+	every_owned_fleet = {
+		limit = {
+			num_ships > 0
+			any_owned_ship = {
+				OR = {
+					is_ship_size = corvette
+					is_ship_size = destroyer
+					is_ship_size = cruiser
+					is_ship_size = battleship
+				}
+			}
+		}
+		set_variable = { which = acai_value_main_fleet_current_power value = 0 }
+		if = { limit = { fleet_power >= 50 fleet_power < 100 } set_variable = { which = acai_value_main_fleet_current_power value = 50 } }
+		else_if = { limit = { fleet_power >= 50 fleet_power < 100 } set_variable = { which = acai_value_main_fleet_current_power value = 50 } }
+		else_if = { limit = { fleet_power >= 100 fleet_power < 150 } set_variable = { which = acai_value_main_fleet_current_power value = 100 } }
+		else_if = { limit = { fleet_power >= 150 fleet_power < 200 } set_variable = { which = acai_value_main_fleet_current_power value = 150 } }
+		else_if = { limit = { fleet_power >= 200 fleet_power < 300 } set_variable = { which = acai_value_main_fleet_current_power value = 200 } }
+		else_if = { limit = { fleet_power >= 300 fleet_power < 400 } set_variable = { which = acai_value_main_fleet_current_power value = 300 } }
+		else_if = { limit = { fleet_power >= 400 fleet_power < 600 } set_variable = { which = acai_value_main_fleet_current_power value = 400 } }
+		else_if = { limit = { fleet_power >= 600 fleet_power < 800 } set_variable = { which = acai_value_main_fleet_current_power value = 600 } }
+		else_if = { limit = { fleet_power >= 800 fleet_power < 1200 } set_variable = { which = acai_value_main_fleet_current_power value = 800 } }
+		else_if = { limit = { fleet_power >= 1200 fleet_power < 1600 } set_variable = { which = acai_value_main_fleet_current_power value = 1200 } }
+		else_if = { limit = { fleet_power >= 1600 fleet_power < 2400 } set_variable = { which = acai_value_main_fleet_current_power value = 1600 } }
+		else_if = { limit = { fleet_power >= 2400 fleet_power < 3200 } set_variable = { which = acai_value_main_fleet_current_power value = 2400 } }
+		else_if = { limit = { fleet_power >= 3200 fleet_power < 4800 } set_variable = { which = acai_value_main_fleet_current_power value = 3200 } }
+		else_if = { limit = { fleet_power >= 4800 fleet_power < 6400 } set_variable = { which = acai_value_main_fleet_current_power value = 4800 } }
+		else_if = { limit = { fleet_power >= 6400 fleet_power < 9600 } set_variable = { which = acai_value_main_fleet_current_power value = 6400 } }
+		else_if = { limit = { fleet_power >= 9600 fleet_power < 12800 } set_variable = { which = acai_value_main_fleet_current_power value = 9600 } }
+		else_if = { limit = { fleet_power >= 12800 fleet_power < 19200 } set_variable = { which = acai_value_main_fleet_current_power value = 12800 } }
+		else_if = { limit = { fleet_power >= 19200 fleet_power < 25600 } set_variable = { which = acai_value_main_fleet_current_power value = 19200 } }
+		else_if = { limit = { fleet_power >= 25600 fleet_power < 38400 } set_variable = { which = acai_value_main_fleet_current_power value = 25600 } }
+		else_if = { limit = { fleet_power >= 38400 fleet_power < 51200 } set_variable = { which = acai_value_main_fleet_current_power value = 38400 } }
+		else_if = { limit = { fleet_power >= 51200 fleet_power < 76800 } set_variable = { which = acai_value_main_fleet_current_power value = 51200 } }
+		else_if = { limit = { fleet_power >= 76800 } set_variable = { which = acai_value_main_fleet_current_power value = 76800 } }
+		
+		set_variable = {
+			which = acai_value_main_fleet_identificator
+			value = owner
+		}
+		
+		owner = {
+			change_variable = {
+				which = acai_value_main_fleet_identificator
+				value = 1
+			}
+		}
+		
+	}
+}

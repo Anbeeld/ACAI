@@ -1,0 +1,46 @@
+
+acai_upgrading_band_aid = {
+	country_ship_upgrade_cost_mult = -1.00
+	#country_core_sector_system_cap = 1000.00
+}
+
+acai_sectors_simulating_losses = {
+	#tile_resource_energy_mult = -0.25
+	#tile_resource_minerals_mult = -0.25
+	#tile_building_resource_energy_add = -1.5 #????
+	#tile_building_resource_minerals_add = -1.5 #????
+}
+
+acai_healing_locking_by_speed = {
+	ship_speed_mult = -1000.00
+	ship_speed_reduction = 1000.00
+}
+
+acai_healing_emulate_repairing = {
+	ship_hull_regen_add_perc = 1.5
+	ship_armor_regen_add_perc = 1.5
+}
+
+acai_sectors_losing_energy_1 = { static_planet_resource_energy_add = -1 }
+acai_sectors_losing_energy_2 = { static_planet_resource_energy_add = -2 }
+acai_sectors_losing_energy_4 = { static_planet_resource_energy_add = -4 }
+acai_sectors_losing_energy_8 = { static_planet_resource_energy_add = -8 }
+acai_sectors_losing_energy_16 = { static_planet_resource_energy_add = -16 }
+acai_sectors_losing_energy_32 = { static_planet_resource_energy_add = -32 }
+acai_sectors_losing_energy_64 = { static_planet_resource_energy_add = -64 }
+acai_sectors_losing_energy_128 = { static_planet_resource_energy_add = -128 }
+acai_sectors_losing_energy_256 = { static_planet_resource_energy_add = -256 }
+acai_sectors_losing_energy_512 = { static_planet_resource_energy_add = -512 }
+acai_sectors_losing_energy_1024 = { static_planet_resource_energy_add = -1024 }
+
+acai_sectors_losing_minerals_1 = { static_planet_resource_minerals_add = -1 }
+acai_sectors_losing_minerals_2 = { static_planet_resource_minerals_add = -2 }
+acai_sectors_losing_minerals_4 = { static_planet_resource_minerals_add = -4 }
+acai_sectors_losing_minerals_8 = { static_planet_resource_minerals_add = -8 }
+acai_sectors_losing_minerals_16 = { static_planet_resource_minerals_add = -16 }
+acai_sectors_losing_minerals_32 = { static_planet_resource_minerals_add = -32 }
+acai_sectors_losing_minerals_64 = { static_planet_resource_minerals_add = -64 }
+acai_sectors_losing_minerals_128 = { static_planet_resource_minerals_add = -128 }
+acai_sectors_losing_minerals_256 = { static_planet_resource_minerals_add = -256 }
+acai_sectors_losing_minerals_512 = { static_planet_resource_minerals_add = -512 }
+acai_sectors_losing_minerals_1024 = { static_planet_resource_minerals_add = -1024 }

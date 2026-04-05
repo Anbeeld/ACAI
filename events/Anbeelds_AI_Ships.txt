@@ -1,0 +1,1524 @@
+namespace = aai_ships
+
+country_event = {
+	id = aai_ships.1
+	hide_window = yes
+	is_triggered_only = yes
+	
+	# Choosing where and what to build
+	immediate = {
+	
+	##log = "[this.GetName] ships processing"
+		if = {
+			limit = {
+				any_country = {
+					is_at_war_with = root
+					relative_power = {
+						who = root
+						category = fleet
+						value >= superior
+					}
+				}
+			}
+			if = {
+				limit = {
+					aai_energy_income_low = no
+					acai_minerals_income_extreme_margin = no
+				}
+				acai_ships_build = yes
+			}
+			else_if = {
+				limit = {
+					acai_minerals_income_extreme = yes
+				}
+				acai_ships_destroy = yes
+			}
+		}
+		else_if = {
+			limit = {
+				any_country = {
+					acai_is_rival = yes
+					relative_power = {
+						who = root
+						category = fleet
+						value >= overwhelming
+					}
+				}
+			}
+			if = {
+				limit = {
+					aai_energy_income_low = no
+					acai_minerals_income_low_margin = no
+				}
+				acai_ships_build = yes
+			}
+			else_if = {
+				limit = {
+					acai_minerals_income_low = yes
+				}
+				acai_ships_destroy = yes
+			}
+		}
+		else_if = {
+			limit = {
+				any_country = {
+					OR = {
+						acai_is_rival = yes
+						is_at_war_with = root
+					}
+					relative_power = {
+						who = prev
+						category = fleet
+						value >= equivalent
+					}
+				}
+			}
+			if = {
+				limit = {
+					acai_naval_capacity_free_high = yes
+					aai_energy_income_low = no
+					acai_minerals_income_low_margin = no
+				}
+				acai_ships_build = yes
+			}
+			else_if = {
+				limit = {
+					is_at_war = yes
+					OR = {
+						acai_naval_capacity_delete_high = yes
+						acai_minerals_income_extreme = yes
+					}
+				}
+				acai_ships_destroy = yes
+			}
+			else_if = {
+				limit = {
+					is_at_war = no
+					OR = {
+						acai_naval_capacity_delete_high = yes
+						acai_minerals_income_low = yes
+					}
+				}
+				acai_ships_destroy = yes
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					any_country = {
+						has_defensive_pact = root
+					}
+					has_federation = yes
+					AND = {
+						any_neighbor_country = {
+							acai_is_rival = yes
+						}
+						NOT = {
+							any_neighbor_country = {
+								acai_is_rival = yes
+								relative_power = {
+									who = prev
+									category = fleet
+									value >= equivalent
+								}
+							}
+						}
+					}
+					is_at_war = yes
+				}
+			}
+			if = {
+				limit = {
+					acai_naval_capacity_free_medium = yes
+					aai_energy_income_low = no
+					acai_minerals_income_low_margin = no
+				}
+				acai_ships_build = yes
+			}
+			else_if = {
+				limit = {
+					is_at_war = yes
+					OR = {
+						acai_naval_capacity_delete_medium = yes
+						acai_minerals_income_low = yes
+					}
+				}
+				acai_ships_destroy = yes
+			}
+			else_if = {
+				limit = {
+					is_at_war = no
+					OR = {
+						acai_naval_capacity_delete_medium = yes
+						acai_minerals_income_low = yes
+					}
+				}
+				acai_ships_destroy = yes
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					acai_naval_capacity_free_low = yes
+					aai_energy_income_low = no
+					acai_minerals_income_low_margin = no
+				}
+				acai_ships_build = yes
+			}
+			else_if = {
+				limit = {
+					OR = {
+						acai_naval_capacity_delete_low = yes
+						acai_minerals_income_low = yes
+					}
+				}
+				acai_ships_destroy = yes
+			}
+		}
+	}
+}
+
+planet_event = {
+	id = aai_ships.2
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				solar_system = {
+					exists = starbase
+					starbase = {
+						owner = {
+							is_same_value = fromfrom
+						}
+						controller = {
+							is_same_value = fromfrom
+						}
+						has_starbase_module = shipyard
+					}
+				}
+			}
+			if = {
+				limit = {
+					fromfrom = {
+						acai_main_fleet_exists = yes
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_ships_creating_battleship
+							value > 0
+						}
+					}
+					subtract_variable = {
+						which = acai_value_ships_creating_battleship
+						value = 1
+					}
+					#solar_system = {
+					#	starbase = {
+					#		acai_ships_delivering_battleship = yes
+					#	}
+					#}
+					fromfrom = {
+						country_event = { id = aai_ships.63 }
+					}
+				}
+				else_if = {
+					limit = {
+						check_variable = {
+							which = acai_value_ships_creating_corvette
+							value > 0
+						}
+					}
+					subtract_variable = {
+						which = acai_value_ships_creating_corvette
+						value = 1
+					}
+					#solar_system = {
+						#starbase = {
+							#acai_ships_delivering_corvette = yes
+						#}
+						#star = { planet_event = { id = aai_ships.20 } }
+					#}
+					
+					fromfrom = {
+						country_event = { id = aai_ships.60 }
+					}
+					
+					
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_ships_creating_battleship
+							value > 0
+						}
+					}
+					subtract_variable = {
+						which = acai_value_ships_creating_battleship
+						value = 1
+					}
+					solar_system = {
+						starbase = {
+							create_fleet = {
+								effect = {
+									set_owner = fromfrom
+									set_location = prev
+									create_ship = {
+										name = random
+										random_existing_design = battleship
+										prefix = yes
+									}
+								}
+							}
+						}
+					}
+					fromfrom = {
+						if = {
+							limit = {
+								check_variable = {
+									which = acai_value_naval_capacity_expected
+									value >= 8
+								}
+							}
+							change_variable = {
+								which = acai_value_naval_capacity_processed
+								value = 8
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						check_variable = {
+							which = acai_value_ships_creating_corvette
+							value > 0
+						}
+					}
+					subtract_variable = {
+						which = acai_value_ships_creating_corvette
+						value = 1
+					}
+					solar_system = {
+						starbase = {
+							create_fleet = {
+								effect = {
+									set_owner = fromfrom
+									set_location = prev
+									create_ship = {
+										name = random
+										random_existing_design = corvette
+										prefix = yes
+									}
+								}
+							}
+						}
+					}
+					fromfrom = {
+						if = {
+							limit = {
+								check_variable = {
+									which = acai_value_naval_capacity_expected
+									value >= 1
+								}
+							}
+							change_variable = {
+								which = acai_value_naval_capacity_processed
+								value = 1
+							}
+						}
+					}
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					check_variable = {
+						which = acai_value_ships_creating_battleship
+						value > 0
+					}
+				}
+				subtract_variable = {
+					which = acai_value_ships_creating_battleship
+					value = 1
+				}
+				fromfrom = {
+					acai_ships_return_for_battleship = yes
+					if = {
+						limit = {
+							check_variable = {
+								which = acai_value_naval_capacity_expected
+								value >= 8
+							}
+						}
+						change_variable = {
+							which = acai_value_naval_capacity_processed
+							value = 8
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = acai_value_ships_creating_corvette
+						value > 0
+					}
+				}
+				subtract_variable = {
+					which = acai_value_ships_creating_corvette
+					value = 1
+				}
+				fromfrom = {
+					acai_ships_return_for_corvette = yes
+					if = {
+						limit = {
+							check_variable = {
+								which = acai_value_naval_capacity_expected
+								value >= 1
+							}
+						}
+						change_variable = {
+							which = acai_value_naval_capacity_processed
+							value = 1
+						}
+					}
+				}
+			}
+		}
+		
+		acai_ships_make_shipyard_free = yes
+	}
+}
+
+country_event = {
+	id = aai_ships.3
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				acai_main_fleet_exists = yes
+			}
+			if = {
+				limit = {
+					any_owned_fleet = {
+						acai_main_fleet_current_strongest = yes
+						OR = {
+							is_in_combat = yes
+							NOT = { exists = solar_system }
+						}
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_ships_delivering_battleship
+							value > 0
+						}
+					}
+					subtract_variable = {
+						which = acai_value_ships_delivering_battleship
+						value = 1
+					}
+					country_event = { id = aai_ships.23 days = 15 }
+				}
+				else_if = {
+					limit = {
+						check_variable = {
+							which = acai_value_ships_delivering_corvette
+							value > 0
+						}
+					}
+					subtract_variable = {
+						which = acai_value_ships_delivering_corvette
+						value = 1
+					}
+					#country_event = { id = aai_ships.20 days = 15 }
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_ships_delivering_battleship
+							value > 0
+						}
+					}
+					subtract_variable = {
+						which = acai_value_ships_delivering_battleship
+						value = 1
+					}
+					every_owned_fleet = {
+						limit = {
+							acai_main_fleet_current_strongest = yes
+						}
+						create_ship = {
+							name = random
+							random_existing_design = battleship
+							prefix = yes
+						}
+					}
+					#log = "[this.GetName] battleship delivered"
+				}
+				else_if = {
+					limit = {
+						check_variable = {
+							which = acai_value_ships_delivering_corvette
+							value > 0
+						}
+					}
+					subtract_variable = {
+						which = acai_value_ships_delivering_corvette
+						value = 1
+					}
+					every_owned_fleet = {
+						limit = {
+							acai_main_fleet_current_strongest = yes
+						}
+						create_ship = {
+							name = random
+							random_existing_design = corvette
+							prefix = yes
+						}
+					}
+					#log = "[this.GetName] corvette delivered"
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_starbase = {
+					has_starbase_module = shipyard
+				}
+			}
+			if = {
+				limit = {
+					check_variable = {
+						which = acai_value_ships_delivering_battleship
+						value > 0
+					}
+				}
+				subtract_variable = {
+					which = acai_value_ships_delivering_battleship
+					value = 1
+				}
+				random_owned_starbase = {
+					limit = {
+						has_starbase_module = shipyard
+					}
+					create_fleet = {
+						effect = {
+							set_owner = fromfrom
+							set_location = prev
+							create_ship = {
+								name = random
+								random_existing_design = battleship
+								prefix = yes
+							}
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = acai_value_ships_delivering_corvette
+						value > 0
+					}
+				}
+				subtract_variable = {
+					which = acai_value_ships_delivering_corvette
+					value = 1
+				}
+				random_owned_starbase = {
+					limit = {
+						has_starbase_module = shipyard
+					}
+					create_fleet = {
+						effect = {
+							set_owner = fromfrom
+							set_location = prev
+							create_ship = {
+								name = random
+								random_existing_design = corvette
+								prefix = yes
+							}
+						}
+					}
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					check_variable = {
+						which = acai_value_ships_delivering_battleship
+						value > 0
+					}
+				}
+				subtract_variable = {
+					which = acai_value_ships_delivering_battleship
+					value = 1
+				}
+				add_minerals = 2000
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = acai_value_ships_delivering_corvette
+						value > 0
+					}
+				}
+				subtract_variable = {
+					which = acai_value_ships_delivering_corvette
+					value = 1
+				}
+				acai_ships_return_for_corvette = yes
+			}
+		}
+	}
+}
+
+planet_event = {
+	id = aai_ships.10
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		change_variable = {
+			which = acai_value_ships_creating_corvette
+			value = 1
+		}
+		planet_event = { id = aai_ships.2 }
+	}
+}
+
+planet_event = {
+	id = aai_ships.11
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		change_variable = {
+			which = acai_value_ships_creating_destroyer
+			value = 1
+		}
+		planet_event = { id = aai_ships.2 }
+	}
+}
+
+planet_event = {
+	id = aai_ships.12
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		change_variable = {
+			which = acai_value_ships_creating_cruiser
+			value = 1
+		}
+		planet_event = { id = aai_ships.2 }
+	}
+}
+
+planet_event = {
+	id = aai_ships.13
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		change_variable = {
+			which = acai_value_ships_creating_battleship
+			value = 1
+		}
+		planet_event = { id = aai_ships.2 }
+	}
+}
+
+country_event = {
+	id = aai_ships.20
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#change_variable = {
+		#	which = acai_value_ships_delivering_corvette
+		#	value = 1
+		#}
+		#country_event = { id = aai_ships.3 }
+		from = { planet_event = { id = aai_ships.40 } }
+	}
+}
+
+country_event = {
+	id = aai_ships.21
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		change_variable = {
+			which = acai_value_ships_delivering_destroyer
+			value = 1
+		}
+		country_event = { id = aai_ships.3 }
+	}
+}
+
+country_event = {
+	id = aai_ships.22
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		change_variable = {
+			which = acai_value_ships_delivering_cruiser
+			value = 1
+		}
+		country_event = { id = aai_ships.3 }
+	}
+}
+
+country_event = {
+	id = aai_ships.23
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#change_variable = {
+		#	which = acai_value_ships_delivering_battleship
+		#	value = 1
+		#}
+		#country_event = { id = aai_ships.3 }
+		from = { planet_event = { id = aai_ships.43 } }
+	}
+}
+
+# Delivering events by ship type
+
+planet_event = {
+	id = aai_ships.40
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		from = {
+			country_event = { id = aai_ships.60 }
+		}
+	}
+}
+
+country_event = {
+	id = aai_ships.60
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				acai_main_fleet_exists = yes
+			}
+			every_owned_fleet = {
+				limit = {
+					acai_main_fleet_current_strongest = yes
+				}
+				if = {
+					limit = {
+						OR = {
+							NOT = { exists = solar_system }
+							AND = {
+								exists = solar_system
+								OR = {
+									solar_system = { is_same_value = from.solar_system }
+									solar_system = { is_same_value = fromfromfrom.solar_system }
+								}
+								is_in_combat = yes
+							}
+						}
+					}
+					from = { planet_event = { id = aai_ships.40 days = 15 } }
+				}
+				else_if = {
+					limit = {
+						OR = {
+							solar_system = { is_same_value = from.solar_system }
+							solar_system = { is_same_value = fromfromfrom.solar_system }
+						}
+					}
+					create_ship = {
+						name = random
+						random_existing_design = corvette
+						prefix = yes
+					}
+					prev = {
+						#log = "[this.GetName] corvette delivered"
+						if = {
+							limit = {
+								check_variable = {
+									which = acai_value_naval_capacity_expected
+									value >= 1
+								}
+							}
+							change_variable = {
+								which = acai_value_naval_capacity_processed
+								value = 1
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 1 max_jumps = 1 }
+					}
+					solar_system = {
+						star = { planet_event = { id = aai_ships.40 days = 70 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 1 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 2 max_jumps = 2 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 1 max_jumps = 1 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 1 max_jumps = 1 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 70 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 2 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 3 max_jumps = 3 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 2 max_jumps = 2 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 1 max_jumps = 1 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 140 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 3 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 4 max_jumps = 4 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 2 max_jumps = 2 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 2 max_jumps = 2 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 140 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 4 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 5 max_jumps = 5 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 3 max_jumps = 3 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 2 max_jumps = 2 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 210 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 5 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 6 max_jumps = 6 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 3 max_jumps = 3 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 3 max_jumps = 3 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 210 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 6 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 7 max_jumps = 7 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 4 max_jumps = 4 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 3 max_jumps = 3 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 280 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 7 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 8 max_jumps = 8 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 4 max_jumps = 4 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 4 max_jumps = 4 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 280 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 8 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 9 max_jumps = 9 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 5 max_jumps = 5 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 4 max_jumps = 4 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 350 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 9 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 10 max_jumps = 10 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 5 max_jumps = 5 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 5 max_jumps = 5 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 350 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 10 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 11 max_jumps = 11 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 6 max_jumps = 6 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 5 max_jumps = 5 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 420 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 11 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 12 max_jumps = 12 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 6 max_jumps = 6 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 6 max_jumps = 6 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 420 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 12 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 13 max_jumps = 13 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 7 max_jumps = 7 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 6 max_jumps = 6 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 490 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 13 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 14 max_jumps = 14 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 7 max_jumps = 7 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 7 max_jumps = 7 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 490 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 14 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 15 max_jumps = 15 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 8 max_jumps = 8 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 7 max_jumps = 7 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 560 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 15 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 16 max_jumps = 16 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 8 max_jumps = 8 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 8 max_jumps = 8 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 560 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 16 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 17 max_jumps = 17 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 9 max_jumps = 9 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 8 max_jumps = 8 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 630 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 17 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 18 max_jumps = 18 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 9 max_jumps = 9 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 9 max_jumps = 9 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 630 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 18 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 19 max_jumps = 19 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 10 max_jumps = 10 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 9 max_jumps = 9 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 700 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 19 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 20 max_jumps = 200 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 10 max_jumps = 100 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 10 max_jumps = 10 }
+						}
+						star = { planet_event = { id = aai_ships.40 days = 700 } }
+						prevprev = {
+							#log = "[this.GetName] corvette 20 jump"
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_starbase = {
+					has_starbase_module = shipyard
+				}
+			}
+			random_owned_starbase = {
+				limit = {
+					has_starbase_module = shipyard
+				}
+				create_fleet = {
+					effect = {
+						set_owner = prevprev
+						set_location = prev
+						create_ship = {
+							name = random
+							random_existing_design = corvette
+							prefix = yes
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					check_variable = {
+						which = acai_value_naval_capacity_expected
+						value >= 1
+					}
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_processed
+					value = 1
+				}
+			}
+		}
+		else = {
+			acai_ships_return_for_corvette = yes
+		}
+	}
+}
+
+
+# Delivering events by ship type
+
+planet_event = {
+	id = aai_ships.43
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		from = {
+			country_event = { id = aai_ships.63 }
+		}
+	}
+}
+
+country_event = {
+	id = aai_ships.63
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				acai_main_fleet_exists = yes
+			}
+			every_owned_fleet = {
+				limit = {
+					acai_main_fleet_current_strongest = yes
+				}
+				if = {
+					limit = {
+						OR = {
+							NOT = { exists = solar_system }
+							AND = {
+								exists = solar_system
+								OR = {
+									solar_system = { is_same_value = from.solar_system }
+									solar_system = { is_same_value = fromfromfrom.solar_system }
+								}
+								is_in_combat = yes
+							}
+						}
+					}
+					from = { planet_event = { id = aai_ships.43 days = 15 } }
+				}
+				else_if = {
+					limit = {
+						OR = {
+							solar_system = { is_same_value = from.solar_system }
+							solar_system = { is_same_value = fromfromfrom.solar_system }
+						}
+					}
+					create_ship = {
+						name = random
+						random_existing_design = battleship
+						prefix = yes
+					}
+					prev = {
+						#log = "[this.GetName] battleship delivered"
+						if = {
+							limit = {
+								check_variable = {
+									which = acai_value_naval_capacity_expected
+									value >= 8
+								}
+							}
+							change_variable = {
+								which = acai_value_naval_capacity_processed
+								value = 8
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 1 max_jumps = 1 }
+					}
+					solar_system = {
+						star = { planet_event = { id = aai_ships.43 days = 80 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 1 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 2 max_jumps = 2 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 1 max_jumps = 1 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 1 max_jumps = 1 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 80 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 2 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 3 max_jumps = 3 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 2 max_jumps = 2 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 1 max_jumps = 1 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 160 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 3 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 4 max_jumps = 4 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 2 max_jumps = 2 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 2 max_jumps = 2 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 160 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 4 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 5 max_jumps = 5 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 3 max_jumps = 3 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 2 max_jumps = 2 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 240 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 5 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 6 max_jumps = 6 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 3 max_jumps = 3 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 3 max_jumps = 3 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 240 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 6 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 7 max_jumps = 7 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 4 max_jumps = 4 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 3 max_jumps = 3 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 320 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 7 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 8 max_jumps = 8 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 4 max_jumps = 4 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 4 max_jumps = 4 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 320 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 8 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 9 max_jumps = 9 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 5 max_jumps = 5 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 4 max_jumps = 4 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 400 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 9 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 10 max_jumps = 10 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 5 max_jumps = 5 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 5 max_jumps = 5 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 400 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 10 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 11 max_jumps = 11 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 6 max_jumps = 6 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 5 max_jumps = 5 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 480 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 11 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 12 max_jumps = 12 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 6 max_jumps = 6 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 6 max_jumps = 6 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 480 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 12 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 13 max_jumps = 13 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 7 max_jumps = 7 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 6 max_jumps = 6 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 560 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 13 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 14 max_jumps = 14 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 7 max_jumps = 7 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 7 max_jumps = 7 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 560 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 14 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 15 max_jumps = 15 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 8 max_jumps = 8 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 7 max_jumps = 7 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 640 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 15 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 16 max_jumps = 16 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 8 max_jumps = 8 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 8 max_jumps = 8 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 640 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 16 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 17 max_jumps = 17 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 9 max_jumps = 9 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 8 max_jumps = 8 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 720 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 17 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 18 max_jumps = 18 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 9 max_jumps = 9 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 9 max_jumps = 9 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 720 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 18 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 19 max_jumps = 19 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 10 max_jumps = 10 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 9 max_jumps = 9 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 800 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 19 jump"
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 20 max_jumps = 200 }
+					}
+					random_system = {
+						limit = {
+							distance = { source = from use_bypasses = yes bypass_empire = root min_jumps = 10 max_jumps = 100 }
+							distance = { source = prev use_bypasses = yes bypass_empire = root min_jumps = 10 max_jumps = 10 }
+						}
+						star = { planet_event = { id = aai_ships.43 days = 800 } }
+						prevprev = {
+							#log = "[this.GetName] battleship 20 jump"
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_starbase = {
+					has_starbase_module = shipyard
+				}
+			}
+			random_owned_starbase = {
+				limit = {
+					has_starbase_module = shipyard
+				}
+				create_fleet = {
+					effect = {
+						set_owner = prevprev
+						set_location = prev
+						create_ship = {
+							name = random
+							random_existing_design = battleship
+							prefix = yes
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					check_variable = {
+						which = acai_value_naval_capacity_expected
+						value >= 8
+					}
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_processed
+					value = 8
+				}
+			}
+		}
+		else = {
+			acai_ships_return_for_battleship = yes
+		}
+	}
+}

@@ -1,0 +1,524 @@
+
+acai_sectors_resources_calculating = {
+	set_variable = {
+		which = acai_value_sectors_planet_energy
+		value = 0
+	}
+	set_variable = {
+		which = acai_value_sectors_planet_minerals
+		value = 0
+	}
+	every_tile = {
+		limit = {
+			has_grown_pop = yes
+		}
+		pop = {
+			if = {
+				limit = {
+					pop_produces_resource = { type = energy amount >= 1 }
+				}
+				if = { limit = { pop_produces_resource = { type = energy amount >= 1 } pop_produces_resource = { type = energy amount < 2 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 1 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 2 } pop_produces_resource = { type = energy amount < 3 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 2 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 3 } pop_produces_resource = { type = energy amount < 4 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 3 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 4 } pop_produces_resource = { type = energy amount < 5 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 4 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 5 } pop_produces_resource = { type = energy amount < 6 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 5 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 6 } pop_produces_resource = { type = energy amount < 7 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 6 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 7 } pop_produces_resource = { type = energy amount < 8 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 7 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 8 } pop_produces_resource = { type = energy amount < 9 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 8 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 9 } pop_produces_resource = { type = energy amount < 10 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 9 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 10 } pop_produces_resource = { type = energy amount < 11 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 10 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 11 } pop_produces_resource = { type = energy amount < 12 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 11 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 12 } pop_produces_resource = { type = energy amount < 13 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 12 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 13 } pop_produces_resource = { type = energy amount < 14 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 13 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 14 } pop_produces_resource = { type = energy amount < 15 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 14 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 15 } pop_produces_resource = { type = energy amount < 16 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 15 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 16 } pop_produces_resource = { type = energy amount < 17 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 16 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 17 } pop_produces_resource = { type = energy amount < 18 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 17 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 18 } pop_produces_resource = { type = energy amount < 19 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 18 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 19 } pop_produces_resource = { type = energy amount < 20 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 19 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 20 } pop_produces_resource = { type = energy amount < 21 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 20 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 21 } pop_produces_resource = { type = energy amount < 22 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 21 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 22 } pop_produces_resource = { type = energy amount < 23 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 22 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 23 } pop_produces_resource = { type = energy amount < 24 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 23 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 24 } pop_produces_resource = { type = energy amount < 25 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 24 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 25 } pop_produces_resource = { type = energy amount < 26 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 25 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 26 } pop_produces_resource = { type = energy amount < 27 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 26 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 27 } pop_produces_resource = { type = energy amount < 28 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 27 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 28 } pop_produces_resource = { type = energy amount < 29 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 28 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 29 } pop_produces_resource = { type = energy amount < 30 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 29 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 30 } pop_produces_resource = { type = energy amount < 31 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 30 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 31 } pop_produces_resource = { type = energy amount < 32 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 31 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 32 } pop_produces_resource = { type = energy amount < 33 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 32 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 33 } pop_produces_resource = { type = energy amount < 34 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 33 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 34 } pop_produces_resource = { type = energy amount < 35 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 34 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 35 } pop_produces_resource = { type = energy amount < 36 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 35 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 36 } pop_produces_resource = { type = energy amount < 37 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 36 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 37 } pop_produces_resource = { type = energy amount < 38 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 37 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 38 } pop_produces_resource = { type = energy amount < 39 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 38 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 39 } pop_produces_resource = { type = energy amount < 40 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 39 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 40 } pop_produces_resource = { type = energy amount < 41 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 40 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 41 } pop_produces_resource = { type = energy amount < 42 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 41 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 42 } pop_produces_resource = { type = energy amount < 43 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 42 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 43 } pop_produces_resource = { type = energy amount < 44 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 43 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 44 } pop_produces_resource = { type = energy amount < 45 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 44 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 45 } pop_produces_resource = { type = energy amount < 46 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 45 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 46 } pop_produces_resource = { type = energy amount < 47 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 46 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 47 } pop_produces_resource = { type = energy amount < 48 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 47 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 48 } pop_produces_resource = { type = energy amount < 49 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 48 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 49 } pop_produces_resource = { type = energy amount < 50 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 49 } } }
+				else_if = { limit = { pop_produces_resource = { type = energy amount >= 50 } } prevprev = { change_variable = { which = acai_value_sectors_planet_energy value = 50 } } }
+			}
+			if = {
+				limit = {
+					pop_produces_resource = { type = minerals amount >= 1 }
+				}
+				if = { limit = { pop_produces_resource = { type = minerals amount >= 1 } pop_produces_resource = { type = minerals amount < 2 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 1 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 2 } pop_produces_resource = { type = minerals amount < 3 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 2 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 3 } pop_produces_resource = { type = minerals amount < 4 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 3 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 4 } pop_produces_resource = { type = minerals amount < 5 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 4 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 5 } pop_produces_resource = { type = minerals amount < 6 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 5 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 6 } pop_produces_resource = { type = minerals amount < 7 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 6 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 7 } pop_produces_resource = { type = minerals amount < 8 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 7 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 8 } pop_produces_resource = { type = minerals amount < 9 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 8 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 9 } pop_produces_resource = { type = minerals amount < 10 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 9 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 10 } pop_produces_resource = { type = minerals amount < 11 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 10 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 11 } pop_produces_resource = { type = minerals amount < 12 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 11 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 12 } pop_produces_resource = { type = minerals amount < 13 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 12 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 13 } pop_produces_resource = { type = minerals amount < 14 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 13 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 14 } pop_produces_resource = { type = minerals amount < 15 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 14 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 15 } pop_produces_resource = { type = minerals amount < 16 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 15 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 16 } pop_produces_resource = { type = minerals amount < 17 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 16 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 17 } pop_produces_resource = { type = minerals amount < 18 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 17 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 18 } pop_produces_resource = { type = minerals amount < 19 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 18 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 19 } pop_produces_resource = { type = minerals amount < 20 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 19 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 20 } pop_produces_resource = { type = minerals amount < 21 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 20 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 21 } pop_produces_resource = { type = minerals amount < 22 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 21 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 22 } pop_produces_resource = { type = minerals amount < 23 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 22 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 23 } pop_produces_resource = { type = minerals amount < 24 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 23 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 24 } pop_produces_resource = { type = minerals amount < 25 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 24 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 25 } pop_produces_resource = { type = minerals amount < 26 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 25 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 26 } pop_produces_resource = { type = minerals amount < 27 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 26 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 27 } pop_produces_resource = { type = minerals amount < 28 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 27 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 28 } pop_produces_resource = { type = minerals amount < 29 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 28 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 29 } pop_produces_resource = { type = minerals amount < 30 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 29 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 30 } pop_produces_resource = { type = minerals amount < 31 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 30 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 31 } pop_produces_resource = { type = minerals amount < 32 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 31 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 32 } pop_produces_resource = { type = minerals amount < 33 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 32 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 33 } pop_produces_resource = { type = minerals amount < 34 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 33 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 34 } pop_produces_resource = { type = minerals amount < 35 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 34 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 35 } pop_produces_resource = { type = minerals amount < 36 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 35 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 36 } pop_produces_resource = { type = minerals amount < 37 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 36 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 37 } pop_produces_resource = { type = minerals amount < 38 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 37 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 38 } pop_produces_resource = { type = minerals amount < 39 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 38 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 39 } pop_produces_resource = { type = minerals amount < 40 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 39 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 40 } pop_produces_resource = { type = minerals amount < 41 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 40 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 41 } pop_produces_resource = { type = minerals amount < 42 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 41 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 42 } pop_produces_resource = { type = minerals amount < 43 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 42 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 43 } pop_produces_resource = { type = minerals amount < 44 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 43 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 44 } pop_produces_resource = { type = minerals amount < 45 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 44 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 45 } pop_produces_resource = { type = minerals amount < 46 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 45 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 46 } pop_produces_resource = { type = minerals amount < 47 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 46 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 47 } pop_produces_resource = { type = minerals amount < 48 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 47 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 48 } pop_produces_resource = { type = minerals amount < 49 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 48 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 49 } pop_produces_resource = { type = minerals amount < 50 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 49 } } }
+				else_if = { limit = { pop_produces_resource = { type = minerals amount >= 50 } } prevprev = { change_variable = { which = acai_value_sectors_planet_minerals value = 50 } } }
+			}
+		}
+	}
+}
+
+acai_sectors_apply_modifiers = {
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_value_sectors_planet_energy
+				value >= 1
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 1024
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_1024
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -1024
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 512
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_512
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -512
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 256
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_256
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -256
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 128
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_128
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -128
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 64
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_64
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -64
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 32
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_32
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -32
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 16
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_16
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -16
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 8
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_8
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -8
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 4
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_4
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -4
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 2
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_2
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -2
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_energy
+					value >= 1
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_energy_1
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_energy
+				value = -1
+			}
+		}
+	}
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_value_sectors_planet_minerals
+				value >= 1
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 1024
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_1024
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -1024
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 512
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_512
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -512
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 256
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_256
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -256
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 128
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_128
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -128
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 64
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_64
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -64
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 32
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_32
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -32
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 16
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_16
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -16
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 8
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_8
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -8
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 4
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_4
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -4
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 2
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_2
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -2
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_planet_minerals
+					value >= 1
+				}
+			}
+			add_modifier = {
+				modifier = acai_sectors_losing_minerals_1
+				days = -1
+			}
+			change_variable = {
+				which = acai_value_sectors_planet_minerals
+				value = -1
+			}
+		}
+	}
+}
+
+acai_sectors_remove_modifiers = {
+	remove_modifier = acai_sectors_losing_energy_1
+	remove_modifier = acai_sectors_losing_energy_2
+	remove_modifier = acai_sectors_losing_energy_4
+	remove_modifier = acai_sectors_losing_energy_8
+	remove_modifier = acai_sectors_losing_energy_16
+	remove_modifier = acai_sectors_losing_energy_32
+	remove_modifier = acai_sectors_losing_energy_64
+	remove_modifier = acai_sectors_losing_energy_128
+	remove_modifier = acai_sectors_losing_energy_256
+	remove_modifier = acai_sectors_losing_energy_512
+	remove_modifier = acai_sectors_losing_energy_1024
+	remove_modifier = acai_sectors_losing_minerals_1
+	remove_modifier = acai_sectors_losing_minerals_2
+	remove_modifier = acai_sectors_losing_minerals_4
+	remove_modifier = acai_sectors_losing_minerals_8
+	remove_modifier = acai_sectors_losing_minerals_16
+	remove_modifier = acai_sectors_losing_minerals_32
+	remove_modifier = acai_sectors_losing_minerals_64
+	remove_modifier = acai_sectors_losing_minerals_128
+	remove_modifier = acai_sectors_losing_minerals_256
+	remove_modifier = acai_sectors_losing_minerals_512
+	remove_modifier = acai_sectors_losing_minerals_1024
+}

@@ -1,0 +1,25 @@
+
+utility_component_template = {
+	key = "FIRE_CONTROL_1"
+	size = aux
+	icon = "GFX_ship_part_computer_default"
+	icon_frame = 1
+	power = -10
+	cost = 10
+
+	ship_modifier = {
+		ship_accuracy_add = 5
+	}
+	
+	prerequisites = { tech_auxiliary_fire_control }
+	component_set = "FIRE_CONTROL_1"
+	
+	ai_weight = {
+		weight = 10
+		modifier = {
+			has_country_flag = acai_battleship_preference
+			has_technology = tech_battleships
+			factor = 60
+		}		
+	}
+}

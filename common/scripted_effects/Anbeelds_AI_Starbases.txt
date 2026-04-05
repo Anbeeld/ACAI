@@ -1,0 +1,349 @@
+
+acai_starbases_count_by_type = {
+
+	every_system_within_border = {
+		limit = {
+			starbase = {
+				has_starbase_size = starbase_outpost
+				acai_starbases_has_no_use = no
+			}
+		}
+		starbase = {
+			acai_starbases_clear_use = yes
+		}
+	}
+	
+	set_variable = { which = acai_value_starbases_upgraded_amount value = 0 }
+	every_owned_starbase = {
+		limit = {
+			has_starbase_size >= starbase_starport
+		}
+		owner = {
+			change_variable = {
+				which = acai_value_starbases_upgraded_amount
+				value = 1
+			}
+		}
+	}
+	
+	set_variable = { which = acai_value_starbases_shipyards_amount value = 0 }
+	every_owned_starbase = {
+		limit = {
+			acai_starbases_is_shipyard = yes
+		}
+		owner = {
+			change_variable = {
+				which = acai_value_starbases_shipyards_amount
+				value = 1
+			}
+		}
+	}
+	
+	set_variable = { which = acai_value_starbases_trading_hubs_amount value = 0 }
+	every_owned_starbase = {
+		limit = {
+			acai_starbases_is_trading_hub = yes
+		}
+		owner = {
+			change_variable = {
+				which = acai_value_starbases_trading_hubs_amount
+				value = 1
+			}
+		}
+	}
+	
+}
+
+aai_calc_starbases = {
+
+	acai_starbases_count_by_type = yes
+
+	set_variable = {
+		which = aai_value_starbase_limit
+		value = aai_value_num_pops
+	}
+	divide_variable = {
+		which = aai_value_starbase_limit
+		value = 40
+	}
+	change_variable = {
+		which = aai_value_starbase_limit
+		value = 3
+	}
+	if = {
+		limit = {
+			has_technology = tech_galactic_ambitions
+		}
+		change_variable = {
+			which = aai_value_starbase_limit
+			value = 2
+		}
+	}
+	if = {
+		limit = {
+			has_technology = tech_manifest_destiny
+		}
+		change_variable = {
+			which = aai_value_starbase_limit
+			value = 2
+		}
+	}
+	
+	if = {
+		limit = {
+			has_technology = tech_repeatable_improved_starbase_capacity
+		}
+		change_variable = {
+			which = aai_value_starbase_limit
+			value = 1
+		}
+	}
+	
+	if = {
+		limit = {
+			has_tradition = tr_supremacy_adopt
+		}
+		change_variable = {
+			which = aai_value_starbase_limit
+			value = 2
+		}
+	}
+	
+	if = {
+		limit = {
+			has_ascension_perk = ap_grasp_the_void
+		}
+		change_variable = {
+			which = aai_value_starbase_limit
+			value = 5
+		}
+	}
+	
+	set_variable = {
+		which = aai_value_num_systems
+		value = 0
+	}
+	if = { limit = { num_starbases >= 20 num_starbases < 40 } set_variable = { which = aai_value_num_systems value = 20 } }
+	else_if = { limit = { num_starbases >= 40 num_starbases < 60 } set_variable = { which = aai_value_num_systems value = 40 } }
+	else_if = { limit = { num_starbases >= 60 num_starbases < 80 } set_variable = { which = aai_value_num_systems value = 60 } }
+	else_if = { limit = { num_starbases >= 80 num_starbases < 100 } set_variable = { which = aai_value_num_systems value = 80 } }
+	else_if = { limit = { num_starbases >= 100 num_starbases < 120 } set_variable = { which = aai_value_num_systems value = 100 } }
+	else_if = { limit = { num_starbases >= 120 num_starbases < 140 } set_variable = { which = aai_value_num_systems value = 120 } }
+	else_if = { limit = { num_starbases >= 140 num_starbases < 160 } set_variable = { which = aai_value_num_systems value = 140 } }
+	else_if = { limit = { num_starbases >= 160 num_starbases < 180 } set_variable = { which = aai_value_num_systems value = 160 } }
+	else_if = { limit = { num_starbases >= 180 num_starbases < 200 } set_variable = { which = aai_value_num_systems value = 180 } }
+	else_if = { limit = { num_starbases >= 200 num_starbases < 220 } set_variable = { which = aai_value_num_systems value = 200 } }
+	else_if = { limit = { num_starbases >= 220 num_starbases < 240 } set_variable = { which = aai_value_num_systems value = 220 } }
+	else_if = { limit = { num_starbases >= 240 num_starbases < 260 } set_variable = { which = aai_value_num_systems value = 240 } }
+	else_if = { limit = { num_starbases >= 260 num_starbases < 280 } set_variable = { which = aai_value_num_systems value = 260 } }
+	else_if = { limit = { num_starbases >= 280 num_starbases < 300 } set_variable = { which = aai_value_num_systems value = 280 } }
+	else_if = { limit = { num_starbases >= 300 num_starbases < 320 } set_variable = { which = aai_value_num_systems value = 300 } }
+	else_if = { limit = { num_starbases >= 320 num_starbases < 340 } set_variable = { which = aai_value_num_systems value = 320 } }
+	else_if = { limit = { num_starbases >= 340 num_starbases < 360 } set_variable = { which = aai_value_num_systems value = 340 } }
+	else_if = { limit = { num_starbases >= 360 num_starbases < 380 } set_variable = { which = aai_value_num_systems value = 360 } }
+	else_if = { limit = { num_starbases >= 380 num_starbases < 400 } set_variable = { which = aai_value_num_systems value = 380 } }
+	else_if = { limit = { num_starbases >= 400 } set_variable = { which = aai_value_num_systems value = 400 } }
+	
+	
+	set_variable = {
+		which = aai_value_starbases_limit_from_systems
+		value = aai_value_num_systems
+	}
+	
+	divide_variable = {
+		which = aai_value_starbases_limit_from_systems
+		value = 20
+	}
+	
+	change_variable = {
+		which = aai_value_starbase_limit
+		value = aai_value_starbases_limit_from_systems
+	}
+	
+	if = {
+		limit = {
+			check_variable = {
+				which = aai_value_starbase_limit
+				value > aai_value_num_systems
+			}
+		}
+		set_variable = {
+			which = aai_value_starbases_limit_by_system
+			value = 0
+		}
+		every_system_within_border = {
+			prev = {
+				change_variable = {
+					which = aai_value_starbases_limit_by_system
+					value = 1
+				}
+			}
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = aai_value_starbases_limit_by_system
+					value < aai_value_starbase_limit
+				}
+			}
+			set_variable = {
+				which = aai_value_starbase_limit
+				value = aai_value_starbases_limit_by_system
+			}
+		}
+	}
+	
+	if = {
+		limit = {
+			OR = {
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 3 }  check_variable = { which = aai_value_starbase_limit value < 4 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 3 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 4 }  check_variable = { which = aai_value_starbase_limit value < 5 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 4 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 5 }  check_variable = { which = aai_value_starbase_limit value < 6 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 5 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 6 }  check_variable = { which = aai_value_starbase_limit value < 7 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 6 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 7 }  check_variable = { which = aai_value_starbase_limit value < 8 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 7 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 8 }  check_variable = { which = aai_value_starbase_limit value < 9 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 8 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 9 }  check_variable = { which = aai_value_starbase_limit value < 10 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 9 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 10 }  check_variable = { which = aai_value_starbase_limit value < 11 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 10 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 11 }  check_variable = { which = aai_value_starbase_limit value < 12 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 11 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 12 }  check_variable = { which = aai_value_starbase_limit value < 13 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 12 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 13 }  check_variable = { which = aai_value_starbase_limit value < 14 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 13 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 14 }  check_variable = { which = aai_value_starbase_limit value < 15 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 14 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 15 }  check_variable = { which = aai_value_starbase_limit value < 16 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 15 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 16 }  check_variable = { which = aai_value_starbase_limit value < 17 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 16 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 17 }  check_variable = { which = aai_value_starbase_limit value < 18 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 17 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 18 }  check_variable = { which = aai_value_starbase_limit value < 19 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 18 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 19 }  check_variable = { which = aai_value_starbase_limit value < 20 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 19 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 20 }  check_variable = { which = aai_value_starbase_limit value < 21 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 20 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 21 }  check_variable = { which = aai_value_starbase_limit value < 22 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 21 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 22 }  check_variable = { which = aai_value_starbase_limit value < 23 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 22 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 23 }  check_variable = { which = aai_value_starbase_limit value < 24 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 23 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 24 }  check_variable = { which = aai_value_starbase_limit value < 25 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 24 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 25 }  check_variable = { which = aai_value_starbase_limit value < 26 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 25 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 26 }  check_variable = { which = aai_value_starbase_limit value < 27 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 26 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 27 }  check_variable = { which = aai_value_starbase_limit value < 28 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 27 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 28 }  check_variable = { which = aai_value_starbase_limit value < 29 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 28 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 29 }  check_variable = { which = aai_value_starbase_limit value < 30 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 29 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 30 }  check_variable = { which = aai_value_starbase_limit value < 31 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 30 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 31 }  check_variable = { which = aai_value_starbase_limit value < 32 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 31 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 32 }  check_variable = { which = aai_value_starbase_limit value < 33 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 32 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 33 }  check_variable = { which = aai_value_starbase_limit value < 34 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 33 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 34 }  check_variable = { which = aai_value_starbase_limit value < 35 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 34 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 35 }  check_variable = { which = aai_value_starbase_limit value < 36 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 35 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 36 }  check_variable = { which = aai_value_starbase_limit value < 37 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 36 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 37 }  check_variable = { which = aai_value_starbase_limit value < 38 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 37 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 38 }  check_variable = { which = aai_value_starbase_limit value < 39 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 38 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 39 }  check_variable = { which = aai_value_starbase_limit value < 40 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 39 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 40 }  check_variable = { which = aai_value_starbase_limit value < 41 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 40 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 41 }  check_variable = { which = aai_value_starbase_limit value < 42 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 41 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 42 }  check_variable = { which = aai_value_starbase_limit value < 43 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 42 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 43 }  check_variable = { which = aai_value_starbase_limit value < 44 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 43 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 44 }  check_variable = { which = aai_value_starbase_limit value < 45 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 44 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 45 }  check_variable = { which = aai_value_starbase_limit value < 46 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 45 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 46 }  check_variable = { which = aai_value_starbase_limit value < 47 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 46 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 47 }  check_variable = { which = aai_value_starbase_limit value < 48 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 47 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 48 }  check_variable = { which = aai_value_starbase_limit value < 49 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 48 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 49 }  check_variable = { which = aai_value_starbase_limit value < 50 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 49 } }
+				AND = { check_variable = { which = aai_value_starbase_limit value >= 50 } count_owned_starbase = { limit = { has_starbase_size >= starbase_starport } count < 50 } }
+			}
+		}
+		set_variable = {
+			which = aai_boolean_starbase_under_limit
+			value = 2
+		}
+	}
+	else = {
+		set_variable = {
+			which = aai_boolean_starbase_under_limit
+			value = 1
+		}
+	}
+	
+	# Calculating how many shipyards do we need
+		
+		#if = {
+		#	limit = {
+		#		check_variable = {
+		#			which = acai_value_starbases_upgraded_amount
+		#			value > aai_value_starbase_limit
+		#		}
+		#	}
+			set_variable = {
+				which = acai_service_starbases_limit_for_shipyard
+				value = aai_value_starbase_limit
+			}
+		#}
+		#else = {
+		#	set_variable = {
+		#		which = acai_service_starbases_limit_for_shipyard
+		#		value = acai_value_starbases_upgraded_amount
+		#	}
+		#}
+		
+		set_variable = {
+			which = acai_value_starbases_shipyards_wanted
+			value = 1
+		}
+		
+		while = {
+			limit = {
+				check_variable = {
+					which = acai_service_starbases_limit_for_shipyard
+					value >= 11
+				}
+			}
+			subtract_variable = {
+				which = acai_service_starbases_limit_for_shipyard
+				value = 10
+			}
+			change_variable = {
+				which = acai_value_starbases_shipyards_wanted
+				value = 1
+			}
+		}
+	
+	# Calculating how many trading hubs do we need
+		
+		#if = {
+		#	limit = {
+		#		check_variable = {
+		#			which = acai_value_starbases_upgraded_amount
+		#			value > aai_value_starbase_limit
+		#		}
+		#	}
+			set_variable = {
+				which = acai_service_starbases_limit_for_trading_hubs
+				value = aai_value_starbase_limit
+			}
+		#}
+		#else = {
+		#	set_variable = {
+		#		which = acai_service_starbases_limit_for_trading_hubs
+		#		value = acai_value_starbases_upgraded_amount
+		#	}
+		#}
+		
+		set_variable = {
+			which = acai_value_starbases_trading_hubs_wanted
+			value = 2
+		}
+		
+		while = {
+			limit = {
+				check_variable = {
+					which = acai_service_starbases_limit_for_trading_hubs
+					value >= 7
+				}
+			}
+			subtract_variable = {
+				which = acai_service_starbases_limit_for_trading_hubs
+				value = 4
+			}
+			change_variable = {
+				which = acai_value_starbases_trading_hubs_wanted
+				value = 1
+			}
+		}
+	
+	#
+	
+}

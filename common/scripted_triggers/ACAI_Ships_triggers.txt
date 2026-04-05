@@ -1,0 +1,176 @@
+
+acai_ships_check_busy_shipyards = {
+	OR = {
+		AND = {
+			count_starbase_modules = {
+				type = shipyard
+				count = 1
+			}
+			solar_system = {
+				star = {
+					NOT = { has_planet_flag = acai_ships_busy_shipyards_1 }
+				}
+			}
+		}
+		AND = {
+			count_starbase_modules = {
+				type = shipyard
+				count = 2
+			}
+			solar_system = {
+				star = {
+					NOT = { has_planet_flag = acai_ships_busy_shipyards_2 }
+				}
+			}
+		}
+		AND = {
+			count_starbase_modules = {
+				type = shipyard
+				count = 3
+			}
+			solar_system = {
+				star = {
+					NOT = { has_planet_flag = acai_ships_busy_shipyards_3 }
+				}
+			}
+		}
+		AND = {
+			count_starbase_modules = {
+				type = shipyard
+				count = 4
+			}
+			solar_system = {
+				star = {
+					NOT = { has_planet_flag = acai_ships_busy_shipyards_4 }
+				}
+			}
+		}
+		AND = {
+			count_starbase_modules = {
+				type = shipyard
+				count = 5
+			}
+			solar_system = {
+				star = {
+					NOT = { has_planet_flag = acai_ships_busy_shipyards_5 }
+				}
+			}
+		}
+		AND = {
+			count_starbase_modules = {
+				type = shipyard
+				count = 6
+			}
+			solar_system = {
+				star = {
+					NOT = { has_planet_flag = acai_ships_busy_shipyards_6 }
+				}
+			}
+		}
+	}
+}
+
+acai_naval_capacity_free_low = {
+	check_variable = {
+		which = acai_value_naval_capacity_free_low
+		value > acai_value_naval_capacity_expected
+	}
+}
+
+acai_naval_capacity_free_medium = {
+	check_variable = {
+		which = acai_value_naval_capacity_free_medium
+		value > acai_value_naval_capacity_expected
+	}
+}
+
+acai_naval_capacity_free_high = {
+	check_variable = {
+		which = acai_value_naval_capacity_free_high
+		value > acai_value_naval_capacity_expected
+	}
+}
+
+acai_naval_capacity_delete_low = {
+	check_variable = {
+		which = acai_value_naval_capacity_ratio_low_delete
+		value < acai_value_naval_capacity_ratio
+	}
+}
+
+acai_naval_capacity_delete_medium = {
+	check_variable = {
+		which = acai_value_naval_capacity_ratio_medium_delete
+		value < acai_value_naval_capacity_ratio
+	}
+}
+
+acai_naval_capacity_delete_high = {
+	check_variable = {
+		which = acai_value_naval_capacity_ratio_high_delete
+		value < acai_value_naval_capacity_ratio
+	}
+}
+
+acai_ships_has_minerals_for_corvette = {
+	OR = {
+		AND = {
+			years_passed < 15
+			minerals >= 140
+		}
+		AND = {
+			years_passed >= 15
+			years_passed < 30
+			minerals >= 150
+		}
+		AND = {
+			years_passed >= 30
+			years_passed < 45
+			minerals >= 160
+		}
+		AND = {
+			years_passed >= 45
+			years_passed < 60
+			minerals >= 170
+		}
+		AND = {
+			years_passed >= 60
+			years_passed < 75
+			minerals >= 180
+		}
+		AND = {
+			years_passed >= 75
+			years_passed < 90
+			minerals >= 200
+		}
+		AND = {
+			years_passed >= 90
+			years_passed < 105
+			minerals >= 220
+		}
+		AND = {
+			years_passed >= 105
+			years_passed < 120
+			minerals >= 240
+		}
+		AND = {
+			years_passed >= 120
+			years_passed < 135
+			minerals >= 260
+		}
+		AND = {
+			years_passed >= 135
+			years_passed < 150
+			minerals >= 280
+		}
+		AND = {
+			years_passed >= 150
+			years_passed < 165
+			minerals >= 300
+		}
+		AND = {
+			years_passed >= 165
+			minerals >= 320
+		}
+	}
+}

@@ -1,0 +1,90 @@
+
+aai_energy_income_low = {
+	owner = {
+		check_variable = {
+			which = aai_boolean_energy_income_low
+			value = 2
+		}
+	}
+}
+
+aai_energy_income_medium = {
+	owner = {
+		check_variable = {
+			which = aai_boolean_energy_income_medium
+			value = 2
+		}
+	}
+}
+
+aai_energy_income_high = {
+	owner = {
+		check_variable = {
+			which = aai_boolean_energy_income_high
+			value = 2
+		}
+	}
+}
+
+aai_food_income_low = {
+	owner = {
+		check_variable = {
+			which = aai_boolean_food_income_low
+			value = 2
+		}
+	}
+}
+
+aai_food_income_medium = {
+	owner = {
+		check_variable = {
+			which = aai_boolean_food_income_medium
+			value = 2
+		}
+	}
+}
+
+aai_food_income_high = {
+	owner = {
+		check_variable = {
+			which = aai_boolean_food_income_high
+			value = 2
+		}
+	}
+}
+
+acai_minerals_income_extreme = {
+	owner = {
+		check_variable = {
+			which = acai_boolean_minerals_income_extreme
+			value = 2
+		}
+	}
+}
+
+acai_minerals_income_extreme_margin = {
+	owner = {
+		check_variable = {
+			which = acai_boolean_minerals_income_extreme_margin
+			value = 2
+		}
+	}
+}
+
+acai_minerals_income_low = {
+	owner = {
+		check_variable = {
+			which = acai_boolean_minerals_income_low
+			value = 2
+		}
+	}
+}
+
+acai_minerals_income_low_margin = {
+	owner = {
+		check_variable = {
+			which = acai_boolean_minerals_income_low_margin
+			value = 2
+		}
+	}
+}

@@ -1,0 +1,9 @@
+
+acai_is_rival = {
+	OR = {
+		is_rival = prev
+		prev = {
+			is_rival = prev
+		}
+	}
+}

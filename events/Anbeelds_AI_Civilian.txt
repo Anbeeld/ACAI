@@ -1,0 +1,116 @@
+namespace = aai_civilian
+
+country_event = {
+	id = aai_civilian.1
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				minerals > 100
+				OR = {
+					AND = {
+						years_passed < 5
+						count_owned_ships = {
+							limit = {
+								is_ship_class = shipclass_constructor
+							}
+							count < 1
+						}
+					}
+					AND = {
+						years_passed >= 5
+						years_passed < 10
+						count_owned_ships = {
+							limit = {
+								is_ship_class = shipclass_constructor
+							}
+							count < 2
+						}
+					}
+					AND = {
+						years_passed >= 10
+						count_owned_ships = {
+							limit = {
+								is_ship_class = shipclass_constructor
+							}
+							count < 3
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					is_occupied_flag = no
+					has_orbital_bombardment = no
+				}
+				create_fleet = {
+					effect = {
+						set_owner = root
+						create_ship = {
+							name = random
+							random_existing_design = constructor
+						}
+						set_fleet_stance = evasive
+						set_location = prev
+					}
+				}
+			}
+			add_minerals = -100
+		}
+		if = {
+			limit = {
+				minerals > 100
+				OR = {
+					AND = {
+						years_passed < 5
+						count_owned_ships = {
+							limit = {
+								is_ship_class = shipclass_science_ship
+							}
+							count < 1
+						}
+					}
+					AND = {
+						years_passed >= 5
+						years_passed < 10
+						count_owned_ships = {
+							limit = {
+								is_ship_class = shipclass_science_ship
+							}
+							count < 2
+						}
+					}
+					AND = {
+						years_passed >= 10
+						count_owned_ships = {
+							limit = {
+								is_ship_class = shipclass_science_ship
+							}
+							count < 3
+						}
+					}
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					is_occupied_flag = no
+					has_orbital_bombardment = no
+				}
+				create_fleet = {
+					effect = {
+						set_owner = root
+						create_ship = {
+							name = random
+							random_existing_design = science
+						}
+						set_fleet_stance = evasive
+						set_location = prev
+					}			
+				}
+			}
+			add_minerals = -100
+		}
+	}
+}

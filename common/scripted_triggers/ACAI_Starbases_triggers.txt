@@ -1,0 +1,70 @@
+
+acai_starbase_has_colony_in_system = {
+	solar_system = {
+		any_planet = {
+			OR = {
+				is_colony = yes
+				is_under_colonization = yes
+			}
+			exists = owner
+			owner = {
+				is_same_value = prevprev.starbase.owner
+			}
+		}
+	}
+}
+
+acai_starbases_suitable_for_trading_hub = {
+	OR = {
+		acai_starbase_has_colony_in_system = yes
+		solar_system = {
+			has_star_flag = enclave
+			any_ship_in_system = {
+				exists = owner
+				owner = {
+					has_country_flag = trader_enclave_country
+				}
+			}
+		}
+	}
+}
+
+acai_starbases_potential_for_trading_hub = {
+	solar_system = {
+		any_planet = {
+			is_colonizable = yes
+		}
+	}
+}
+
+acai_starbases_is_shipyard = {
+	solar_system = {
+		star = {
+			has_planet_flag = acai_starbases_shipyard
+		}
+	}
+}
+
+acai_starbases_is_trading_hub = {
+	solar_system = {
+		star = {
+			has_planet_flag = acai_starbases_trading_hub
+		}
+	}
+}
+
+acai_starbases_is_anchorage = {
+	solar_system = {
+		star = {
+			has_planet_flag = acai_starbases_anchorage
+		}
+	}
+}
+
+acai_starbases_has_no_use = {
+	NOR = {
+		acai_starbases_is_shipyard = yes
+		acai_starbases_is_trading_hub = yes
+		acai_starbases_is_anchorage = yes
+	}
+}

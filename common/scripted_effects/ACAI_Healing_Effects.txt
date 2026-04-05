@@ -1,0 +1,82 @@
+
+acai_healing_remove_going_to_system = {
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_boolean_healing_going_to_system
+				value = 2
+			}
+		}
+		clear_fleet_actions = this
+		clear_orders = yes
+		set_variable = {
+			which = acai_boolean_healing_going_to_system
+			value = 1
+		}
+	}
+}
+
+acai_healing_remove_fleet_locking = {
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_boolean_healing_fleet_is_locked
+				value = 2
+			}
+		}
+		remove_modifier = acai_healing_locking_by_speed
+		remove_modifier = acai_healing_emulate_repairing
+		set_variable = {
+			which = acai_boolean_healing_fleet_is_locked
+			value = 1
+		}
+	}
+}
+
+acai_healing_remove_everything = {
+	set_variable = {
+		which = acai_boolean_healing_triggered
+		value = 1
+	}
+	acai_healing_remove_going_to_system = yes
+	acai_healing_remove_fleet_locking = yes
+}
+
+#acai_healing_moving_fleet_to_system = {
+#	star = {
+#		save_event_target_as = acai_healing_chosen_star
+#	}
+#	prev = {
+#		clear_fleet_actions = this
+#		clear_orders = yes
+#		auto_move_to_planet = {
+#			target = event_target:acai_healing_chosen_star
+#			clear_auto_move_on_arrival = yes
+#		}
+#		fleet_event = { id = acai_healing.1 days = 30 }
+#	}
+#}
+
+#limit = {
+							#solar_system = {
+								#star = {
+									#distance = { source = root min = 1 max = 10 }
+									#distance = { source = root min = 1 max = 10 type = euclidean use_bypasses = no bypass_empire = root.owner min_jumps = 0 max_jumps = 0 }
+									#distance = { source = <target> min = 50 max = 120 type=<hyperlane/euclidean> use_bypasses=<yes/no> bypass_empire=<empire> min_jumps = 2 max_jumps = 10 }
+								#}
+							#}
+						#}
+					#else = {
+					#	clear_fleet_actions = this
+					#	clear_orders = yes
+					#	auto_move_to_planet = {
+					#		target = solar_system.star
+					#		clear_auto_move_on_arrival = yes
+					#	}
+					#}
+					
+					#auto_move_to_planet = {
+					#	target = solar_system.star
+						#clear_auto_move_on_arrival = yes
+					#}
+					#queue_actions = { repeat = { repair_ship_fleet_order } }

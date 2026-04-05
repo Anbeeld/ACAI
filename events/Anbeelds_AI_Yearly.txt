@@ -1,0 +1,733 @@
+namespace = aai_yearly
+
+# Yearly performance distribution.
+# Year is ([360]). Year has 20 margin making it (20 + [320] + 20). Year has 2 halves with 20 margin making it (20 + [150] + 20 + [150] + 20).
+
+# Events distribution is:
+# Food and pops: day 0 (random 50)
+# Civilian: day 50 (random 10)
+# Armies: day 60 (random 10)
+# Starbases: day 70 (random 80)
+
+# Anbeeld's AI: Yearly Hub
+event = {
+	id = aai_yearly.1
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		every_country = {
+			
+			country_event = { id = aai_yearly.10 days = 5 random = 5 }
+			
+			#country_event = { id = aai_yearly.20 days = 10 random = 10 }
+			#country_event = { id = aai_yearly.20 days = 180 random = 10 }
+			
+			# Food and pops
+				
+				country_event = { id = aai_yearly.2 days = 20 random = 50 }
+				country_event = { id = aai_yearly.2 days = 190 random = 50 }
+				
+			# End food and pops
+			
+			# Civilian
+				
+				country_event = { id = aai_yearly.3 days = 70 random = 10 }
+				country_event = { id = aai_yearly.3 days = 240 random = 10 }
+			
+			# End civilian
+			
+			# Armies
+				
+				country_event = { id = aai_yearly.4 days = 80 random = 10 }
+				country_event = { id = aai_yearly.4 days = 250 random = 10 }
+				
+				country_event = { id = aai_armies.10 days = 80 random = 10 }
+				country_event = { id = aai_armies.10 days = 250 random = 10 }
+			
+			# End armies
+			
+			# Starbases
+				
+				country_event = { id = aai_yearly.5 days = 90 random = 40 }
+				country_event = { id = aai_yearly.5 days = 260 random = 40 }
+			
+			# End starbases
+			
+			# Capacity
+				
+				country_event = { id = aai_yearly.6 days = 150 random = 20 }
+				country_event = { id = aai_yearly.6 days = 320 random = 20 }
+			
+			# Debug
+				
+				#country_event = { id = aai_yearly.100 days = 340 random = 20 }
+				
+			# End Debug
+			
+		}
+	}
+}
+
+# Anbeeld's AI: Pops and food
+country_event = {
+	id = aai_yearly.2
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		is_country_type = default
+	}
+	
+	immediate = {
+		aai_calc_pops_and_food = yes
+	}
+}
+
+# Anbeeld's AI: Sectors
+country_event = {
+	id = aai_yearly.20
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		is_country_type = default
+	}
+	
+	immediate = {
+		set_variable = {
+			which = acai_value_sectors_core_systems
+			value = 3
+		}
+		
+		if = {
+			limit = {
+				OR = {
+					has_valid_civic = civic_efficient_bureaucracy
+					has_valid_civic = civic_hive_divided_attention
+					has_valid_civic = civic_machine_delegated_functions
+				}
+			}
+			change_variable = {
+				which = acai_value_sectors_core_systems
+				value = 2
+			}
+		}
+		
+		if = {
+			limit = {
+				has_technology = tech_colonial_bureaucracy
+			}
+			change_variable = {
+				which = acai_value_sectors_core_systems
+				value = 1
+			}
+		}
+		
+		if = {
+			limit = {
+				has_technology = tech_galactic_bureaucracy
+			}
+			change_variable = {
+				which = acai_value_sectors_core_systems
+				value = 1
+			}
+		}
+		
+		if = {
+			limit = {
+				has_technology = tech_repeatable_improved_core_system_cap
+			}
+			change_variable = {
+				which = acai_value_sectors_core_systems
+				value = 1
+			}
+		}
+		
+		if = {
+			limit = {
+				has_tradition = tr_expansion_finish
+			}
+			change_variable = {
+				which = acai_value_sectors_core_systems
+				value = 2
+			}
+		}
+		
+		if = {
+			limit = {
+				has_ascension_perk = ap_imperial_prerogative
+			}
+			change_variable = {
+				which = acai_value_sectors_core_systems
+				value = 5
+			}
+		}
+		
+		set_variable = {
+			which = acai_value_sectors_systems_amount
+			value = 0
+		}
+		
+		every_system_within_border = {
+			limit = {
+				root = {
+					any_planet_within_border = {
+						acai_sectors_colony_in_system = yes
+					}
+				}
+			}
+			root = {
+				change_variable = {
+					which = acai_value_sectors_systems_amount
+					value = 1
+				}
+			}
+		}
+		
+		every_planet_within_border = {
+			limit = {
+				has_planet_flag = acai_sectors_modified_planet
+			}
+			remove_planet_flag = acai_sectors_modified_planet
+			acai_sectors_remove_modifiers = yes
+		}
+		
+		if = {
+			limit = {
+				check_variable = {
+					which = acai_value_sectors_systems_amount
+					value > acai_value_sectors_core_systems
+				}
+			}
+			
+			every_system_within_border = {
+				limit = {
+					NOT = { is_same_value = root.capital_scope.solar_system }
+					OR = {
+						check_variable = {
+							which = acai_value_sectors_system_tiles
+							value > 0
+						}
+						root = {
+							any_planet_within_border = {
+								acai_sectors_colony_in_system = yes
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_sectors_system_tiles
+							value > 0
+						}
+					}
+					set_variable = {
+						which = acai_value_sectors_system_tiles
+						value = 0
+					}
+				}
+				root = {
+					every_planet_within_border = {
+						limit = {
+							acai_sectors_colony_in_system = yes
+						}
+						every_tile = {
+							limit = {
+								has_grown_pop = yes
+							}
+							prevprevprev = {
+								change_variable = {
+									which = acai_value_sectors_system_tiles
+									value = 1
+								}
+							}
+						}
+					}
+				}
+				#log = "[root.GetName] system size [this.acai_value_sectors_system_tiles]"
+			}
+			#every_planet_within_border = {
+			#	limit = {
+			#		has_modifier = acai_sectors_simulating_losses
+			#	}
+			#	remove_modifier = acai_sectors_simulating_losses
+			#}
+			
+			subtract_variable = {
+				which = acai_value_sectors_systems_amount
+				value = acai_value_sectors_core_systems
+			}
+			
+			#log = "[root.GetName] count [this.acai_value_sectors_systems_amount]"
+			
+			while = {
+				count = acai_value_sectors_systems_amount
+				random_system_within_border = {
+					limit = {
+						check_variable = {
+							which = acai_value_sectors_system_tiles
+							value > 0
+						}
+						NOT = {
+							root = {
+								any_planet_within_border = {
+									acai_sectors_colony_in_system = yes
+									has_planet_flag = acai_sectors_modified_planet
+								}
+							}
+						}
+						NOT = {
+							root = {
+								any_system_within_border = {
+									check_variable = {
+										which = acai_value_sectors_system_tiles
+										value > 0
+									}
+									NOT = {
+										root = {
+											any_planet_within_border = {
+												acai_sectors_colony_in_system = yes
+												has_planet_flag = acai_sectors_modified_planet
+											}
+										}
+									}
+									check_variable = {
+										which = acai_value_sectors_system_tiles
+										value < prevprev
+									}
+								}
+							}
+						}
+					}
+					#log = "[root.GetName] apply [this.acai_value_sectors_system_tiles]"
+					root = {
+						every_planet_within_border = {
+							limit = {
+								acai_sectors_colony_in_system = yes
+							}
+							set_planet_flag = acai_sectors_modified_planet
+							acai_sectors_resources_calculating = yes
+							acai_sectors_apply_modifiers = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Anbeeld's AI: Ships
+country_event = {
+	id = aai_yearly.10
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_country_type = default
+	}
+	
+	immediate = {
+		if = {
+			limit = {
+				is_ai = yes
+				NOR = {
+					has_country_flag = acai_corvette_preference
+					#has_country_flag = acai_destroyer_preference
+					has_country_flag = acai_battleship_preference
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = acai_destroyer_preference
+				}
+				remove_country_flag = acai_destroyer_preference
+			}
+			random_list = {
+				30 = {
+					set_country_flag = acai_corvette_preference
+					log = "[This.GetName] want corvs"
+				}
+				#30 = {
+				#	set_country_flag = acai_destroyer_preference
+				#	log = "[This.GetName] want dstr"
+				#}
+				30 = {
+					set_country_flag = acai_battleship_preference
+					log = "[This.GetName] want bs"
+				}
+			}
+		}
+		if = {
+			limit = {
+				is_ai = yes
+				NOT = { has_modifier = acai_upgrading_band_aid }
+			}
+			add_modifier = {
+				modifier = acai_upgrading_band_aid
+				days = -1
+			}
+		}
+		else_if = {
+			limit = {
+				is_ai = no
+				has_modifier = acai_upgrading_band_aid
+			}
+			remove_modifier = acai_upgrading_band_aid
+		}
+	}
+}
+
+# Anbeeld's AI: Civilian
+country_event = {
+	id = aai_yearly.3
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		is_country_type = default
+		minerals > 100
+		OR = {
+			AND = {
+				years_passed < 5
+				count_owned_ships = {
+					limit = {
+						is_ship_class = shipclass_constructor
+					}
+					count < 1
+				}
+			}
+			AND = {
+				years_passed >= 5
+				years_passed < 10
+				count_owned_ships = {
+					limit = {
+						is_ship_class = shipclass_constructor
+					}
+					count < 2
+				}
+			}
+			AND = {
+				years_passed >= 10
+				count_owned_ships = {
+					limit = {
+						is_ship_class = shipclass_constructor
+					}
+					count < 3
+				}
+			}
+			AND = {
+				years_passed < 5
+				count_owned_ships = {
+					limit = {
+						is_ship_class = shipclass_science_ship
+					}
+					count < 1
+				}
+			}
+			AND = {
+				years_passed >= 5
+				years_passed < 10
+				count_owned_ships = {
+					limit = {
+						is_ship_class = shipclass_science_ship
+					}
+					count < 2
+				}
+			}
+			AND = {
+				years_passed >= 10
+				count_owned_ships = {
+					limit = {
+						is_ship_class = shipclass_science_ship
+					}
+					count < 3
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		country_event = { id = aai_civilian.1 }
+	}
+}
+
+# Anbeeld's AI: Armies
+country_event = {
+	id = aai_yearly.4
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		OR = {
+			is_country_type = default
+			is_country_type = awakened_fallen_empire
+		}
+		OR = {
+			AND = {
+				is_at_war = yes
+				minerals > 100
+			}
+			AND = {
+				is_at_war = no
+				minerals > 3000
+				aai_energy_income_low = no
+			}
+		}
+		count_armies = {
+			limit = { army_type = assault_army }
+			count < 15
+		}
+	}
+	
+	immediate = {
+		country_event = { id = aai_armies.1 }
+	}
+}
+
+# Anbeeld's AI: Starbases
+country_event = {
+	id = aai_yearly.5
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		is_country_type = default
+		OR = {
+			AND = {
+				is_at_war = no
+				minerals > 100
+			}
+			AND = {
+				is_at_war = yes
+				OR = {
+					AND = {
+						NOT = { has_technology = tech_starbase_3 }
+						minerals > 5000
+					}
+					AND = {
+						NOT = { has_technology = tech_starbase_4 }
+						minerals > 10000
+					}
+					AND = {
+						NOT = { has_technology = tech_starbase_5 }
+						minerals > 17500
+					}
+					minerals > 27500
+				}
+			}
+		}
+		
+	}
+	
+	immediate = {
+		aai_calc_starbases = yes
+		country_event = { id = aai_starbases.1 }
+		country_event = { id = aai_starbases.2 days = 5 }
+		country_event = { id = aai_starbases.3 days = 10 }
+		country_event = { id = aai_starbases.4 days = 15 }
+		country_event = { id = aai_starbases.5 days = 20 }
+	}
+}
+
+country_event = {
+	id = aai_yearly.6
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		is_country_type = default
+	}
+	
+	immediate = {
+		#log = "[this.GetName] [this.acai_value_naval_capacity_maximum] [this.acai_value_naval_capacity_used] [this.acai_value_naval_capacity_free_low] [this.acai_value_naval_capacity_free_medium] [this.acai_value_naval_capacity_free_high] [this.acai_value_naval_capacity_expected] [this.acai_value_naval_capacity_processed]"
+		acai_naval_capacity_calculating = yes
+		#log = "[this.GetName] [this.acai_value_naval_capacity_maximum] [this.acai_value_naval_capacity_used] [this.acai_value_naval_capacity_free_low] [this.acai_value_naval_capacity_free_medium] [this.acai_value_naval_capacity_free_high] [this.acai_value_naval_capacity_expected] [this.acai_value_naval_capacity_processed]"
+		acai_naval_capacity_usage_calculating = yes
+	}
+}
+
+# Anbeeld's AI: Debug
+country_event = {
+	id = aai_yearly.100
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_ai = yes
+		is_country_type = default
+	}
+	
+	immediate = {
+		if = {
+			limit = {
+				NOT = { has_authority = auth_machine_intelligence }
+			}
+			if = {
+				limit = {
+					check_variable = {
+						which = aai_value_energy_produced
+						value > 0
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							which = aai_value_num_systems
+							value > 0
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = aai_value_num_pops
+								value > 0
+							}
+						}
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems >= [This.aai_value_num_systems] . Number of pops >= [This.aai_value_num_pops] . ENERGY . Energy produced >= [This.aai_value_energy_produced] . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . FOOD . Food low = [This.aai_value_food_income_low] . Is food low? [This.aai_boolean_food_income_low] . Food medium = [This.aai_value_food_income_medium] . Is food medium? [This.aai_boolean_food_income_medium] . Food high = [This.aai_value_food_income_high] . Is food high? [This.aai_boolean_food_income_high] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+					else = {
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems >= [This.aai_value_num_systems] . Number of pops < 40 . ENERGY . Energy produced >= [This.aai_value_energy_produced] . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . FOOD . Food low = [This.aai_value_food_income_low] . Is food low? [This.aai_boolean_food_income_low] . Food medium = [This.aai_value_food_income_medium] . Is food medium? [This.aai_boolean_food_income_medium] . Food high = [This.aai_value_food_income_high] . Is food high? [This.aai_boolean_food_income_high] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+				}
+				else = {
+					if = {
+						limit = {
+							check_variable = {
+								which = aai_value_num_pops
+								value > 0
+							}
+						}
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems < 20 . Number of pops >= [This.aai_value_num_pops] . ENERGY . Energy produced >= [This.aai_value_energy_produced] . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . FOOD . Food low = [This.aai_value_food_income_low] . Is food low? [This.aai_boolean_food_income_low] . Food medium = [This.aai_value_food_income_medium] . Is food medium? [This.aai_boolean_food_income_medium] . Food high = [This.aai_value_food_income_high] . Is food high? [This.aai_boolean_food_income_high] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+					else = {
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems < 20 . Number of pops < 40 . ENERGY . Energy produced >= [This.aai_value_energy_produced] . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . FOOD . Food low = [This.aai_value_food_income_low] . Is food low? [This.aai_boolean_food_income_low] . Food medium = [This.aai_value_food_income_medium] . Is food medium? [This.aai_boolean_food_income_medium] . Food high = [This.aai_value_food_income_high] . Is food high? [This.aai_boolean_food_income_high] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						check_variable = {
+							which = aai_value_num_systems
+							value > 0
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = aai_value_num_pops
+								value > 0
+							}
+						}
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems >= [This.aai_value_num_systems] . Number of pops >= [This.aai_value_num_pops] . ENERGY . Energy produced < 50 . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . FOOD . Food low = [This.aai_value_food_income_low] . Is food low? [This.aai_boolean_food_income_low] . Food medium = [This.aai_value_food_income_medium] . Is food medium? [This.aai_boolean_food_income_medium] . Food high = [This.aai_value_food_income_high] . Is food high? [This.aai_boolean_food_income_high] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+					else = {
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems >= [This.aai_value_num_systems] . Number of pops < 40 . ENERGY . Energy produced < 50 . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . FOOD . Food low = [This.aai_value_food_income_low] . Is food low? [This.aai_boolean_food_income_low] . Food medium = [This.aai_value_food_income_medium] . Is food medium? [This.aai_boolean_food_income_medium] . Food high = [This.aai_value_food_income_high] . Is food high? [This.aai_boolean_food_income_high] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+				}
+				else = {
+					if = {
+						limit = {
+							check_variable = {
+								which = aai_value_num_pops
+								value > 0
+							}
+						}
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems < 20 . Number of pops >= [This.aai_value_num_pops] . ENERGY . Energy produced < 50 . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . FOOD . Food low = [This.aai_value_food_income_low] . Is food low? [This.aai_boolean_food_income_low] . Food medium = [This.aai_value_food_income_medium] . Is food medium? [This.aai_boolean_food_income_medium] . Food high = [This.aai_value_food_income_high] . Is food high? [This.aai_boolean_food_income_high] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+					else = {
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems < 20 . Number of pops < 40 . ENERGY . Energy produced < 50 . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . FOOD . Food low = [This.aai_value_food_income_low] . Is food low? [This.aai_boolean_food_income_low] . Food medium = [This.aai_value_food_income_medium] . Is food medium? [This.aai_boolean_food_income_medium] . Food high = [This.aai_value_food_income_high] . Is food high? [This.aai_boolean_food_income_high] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					check_variable = {
+						which = aai_value_energy_produced
+						value > 0
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							which = aai_value_num_systems
+							value > 0
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = aai_value_num_pops
+								value > 0
+							}
+						}
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems >= [This.aai_value_num_systems] . Number of pops >= [This.aai_value_num_pops] . ENERGY . Energy produced >= [This.aai_value_energy_produced] . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+					else = {
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems >= [This.aai_value_num_systems] . Number of pops < 40 . ENERGY . Energy produced >= [This.aai_value_energy_produced] . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+				}
+				else = {
+					if = {
+						limit = {
+							check_variable = {
+								which = aai_value_num_pops
+								value > 0
+							}
+						}
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems < 20 . Number of pops >= [This.aai_value_num_pops] . ENERGY . Energy produced >= [This.aai_value_energy_produced] . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+					else = {
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems < 20 . Number of pops < 40 . ENERGY . Energy produced >= [This.aai_value_energy_produced] . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						check_variable = {
+							which = aai_value_num_systems
+							value > 0
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = aai_value_num_pops
+								value > 0
+							}
+						}
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems >= [This.aai_value_num_systems] . Number of pops >= [This.aai_value_num_pops] . ENERGY . Energy produced < 50 . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+					else = {
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems >= [This.aai_value_num_systems] . Number of pops < 40 . ENERGY . Energy produced < 50 . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+				}
+				else = {
+					if = {
+						limit = {
+							check_variable = {
+								which = aai_value_num_pops
+								value > 0
+							}
+						}
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems < 20 . Number of pops >= [This.aai_value_num_pops] . ENERGY . Energy produced < 50 . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+					else = {
+						log = " ----- [This.GetName] stats ----- EMPIRE . Number of systems < 20 . Number of pops < 40 . ENERGY . Energy produced < 50 . Energy low = [This.aai_value_energy_income_low] . Is energy low? [This.aai_boolean_energy_income_low] . Energy medium = [This.aai_value_energy_income_medium] . Is energy medium? [This.aai_boolean_energy_income_medium] . Energy high = [This.aai_value_energy_income_high] . Is energy high? [This.aai_boolean_energy_income_high] . MINERALS . Minerals extreme = [This.acai_value_minerals_income_extreme] . Are minerals extreme? [This.acai_boolean_minerals_income_extreme] . Minerals low = [This.acai_value_minerals_income_low] . Are minerals low? [This.acai_boolean_minerals_income_low] . STARBASES . Starbase limit = [This.aai_value_starbase_limit] . Are starbases under limit? [This.aai_boolean_starbase_under_limit]"
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,793 @@
+
+acai_starbases_clear_use = {
+	solar_system = {
+		star = {
+			if = {
+				limit = {
+					has_planet_flag = acai_starbases_shipyard
+				}
+				remove_planet_flag = acai_starbases_shipyard
+			}
+			if = {
+				limit = {
+					has_planet_flag = acai_starbases_trading_hub
+				}
+				remove_planet_flag = acai_starbases_trading_hub
+			}
+			if = {
+				limit = {
+					has_planet_flag = acai_starbases_anchorage
+				}
+				remove_planet_flag = acai_starbases_anchorage
+			}
+		}
+	}
+}
+
+acai_starbases_set_shipyard = {
+	acai_starbases_clear_use = yes
+	solar_system = {
+		star = {
+			set_planet_flag = acai_starbases_shipyard
+		}
+	}
+}
+
+acai_starbases_set_trading_hub = {
+	acai_starbases_clear_use = yes
+	solar_system = {
+		star = {
+			set_planet_flag = acai_starbases_trading_hub
+		}
+	}
+}
+
+acai_starbases_set_anchorage = {
+	acai_starbases_clear_use = yes
+	solar_system = {
+		star = {
+			set_planet_flag = acai_starbases_anchorage
+		}
+	}
+}
+
+# Performing shipyard construction
+
+acai_starbase_shipyard_construction = {
+	
+	if = {
+		limit = {
+			count_starbase_modules = {
+				type = shipyard
+				count < 1
+			}
+			owner = {
+				minerals > 100
+			}
+		}
+		set_starbase_module = {
+			slot = 0
+			module = shipyard
+		}
+		owner = {
+			add_minerals = -100
+		}
+	}
+	if = {
+		limit = {
+			count_starbase_modules = {
+				type = shipyard
+				count < 2
+			}
+			owner = {
+				minerals > 100
+			}
+		}
+		set_starbase_module = {
+			slot = 1
+			module = shipyard
+		}
+		owner = {
+			add_minerals = -100
+		}
+	}
+	if = {
+		limit = {
+			NOT = { has_starbase_building = crew_quarters }
+			owner = {
+				minerals > 100
+			}
+		}
+		set_starbase_building = {
+			slot = 0
+			building = crew_quarters
+		}
+		owner = {
+			add_minerals = -100
+		}
+	}
+	
+	if = {
+		limit = {
+			has_starbase_size >= starbase_starport
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = shipyard
+					count < 3
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 2
+				module = shipyard
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = shipyard
+					count < 4
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 3
+				module = shipyard
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					has_technology = tech_interstellar_fleet_traditions
+					minerals > 200
+				}
+				NOT = { has_starbase_building = fleet_academy }
+			}
+			set_starbase_building = {
+				slot = 1
+				building = fleet_academy
+			}
+			owner = {
+				add_minerals = -200
+			}
+		}
+	}
+	
+	if = {
+		limit = {
+			has_starbase_size >= starbase_starfortress
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = shipyard
+					count < 5
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 4
+				module = shipyard
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = shipyard
+					count < 6
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 5
+				module = shipyard
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						NOT = { has_technology = tech_titans }
+						any_owned_starbase = {
+							has_starbase_building = titan_yards
+						}
+					}
+					minerals > 200
+					has_technology = tech_hyper_drive_2
+				}
+				NOT = { has_starbase_building = titan_yards }
+				NOT = { has_starbase_building = warp_fluctuator }
+			}
+			set_starbase_building = {
+				slot = 2
+				building = warp_fluctuator
+			}
+			owner = {
+				add_minerals = -200
+			}
+		}
+	}
+	
+	if = {
+		limit = {
+			has_starbase_size = starbase_citadel
+		}
+		if = {
+			limit = {
+				owner = {
+					has_technology = tech_titans
+					NOT = {
+						any_owned_starbase = {
+							has_starbase_building = titan_yards
+						}
+					}
+					minerals > 1000
+				}
+			}
+			set_starbase_building = {
+				slot = 2
+				building = titan_yards
+			}
+			owner = {
+				add_minerals = -1000
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					has_ascension_perk = ap_colossus
+					NOT = {
+						any_owned_starbase = {
+							has_starbase_building = colossus_yards
+						}
+					}
+					minerals > 2000
+				}
+			}
+			set_starbase_building = {
+				slot = 3
+				building = colossus_yards
+			}
+			owner = {
+				add_minerals = -2000
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+					OR = {
+						NOT = { has_ascension_perk = ap_colossus }
+						any_owned_starbase = {
+							has_starbase_building = colossus_yards
+						}
+					}
+					minerals > 100
+				}
+				NOT = { has_starbase_building = colossus_yards }
+				NOT = { has_starbase_building = communications_jammer }
+			}
+			set_starbase_building = {
+				slot = 3
+				building = communications_jammer
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+	}
+}
+
+# Performing anchorage construction
+
+acai_starbase_anchorage_construction = {
+	
+	if = {
+		limit = {
+			count_starbase_modules = {
+				type = anchorage
+				count < 1
+			}
+			owner = {
+				minerals > 100
+			}
+		}
+		set_starbase_module = {
+			slot = 0
+			module = anchorage
+		}
+		owner = {
+			add_minerals = -100
+		}
+	}
+	if = {
+		limit = {
+			count_starbase_modules = {
+				type = anchorage
+				count < 2
+			}
+			owner = {
+				minerals > 100
+			}
+		}
+		set_starbase_module = {
+			slot = 1
+			module = anchorage
+		}
+		owner = {
+			add_minerals = -100
+		}
+	}
+	if = {
+		limit = {
+			owner = {
+				minerals > 100
+			}
+			NOT = { has_starbase_building = resource_silo }
+		}
+		set_starbase_building = {
+			slot = 0
+			building = resource_silo
+		}
+		owner = {
+			add_minerals = -100
+		}
+	}
+	
+	if = {
+		limit = {
+			has_starbase_size >= starbase_starport
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = anchorage
+					count < 3
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 2
+				module = anchorage
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = anchorage
+					count < 4
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 3
+				module = anchorage
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				owner = { 
+					has_technology = tech_interstellar_fleet_traditions
+					minerals > 200
+				}
+				NOT = { has_starbase_building = naval_logistics_office }
+			}
+			set_starbase_building = {
+				slot = 1
+				building = naval_logistics_office
+			}
+			owner = {
+				add_minerals = -200
+			}
+		}
+	}
+	
+	if = {
+		limit = {
+			has_starbase_size >= starbase_starfortress
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = anchorage
+					count < 5
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 4
+				module = anchorage
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = anchorage
+					count < 6
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 5
+				module = anchorage
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					NOT = { has_authority = auth_machine_intelligence }
+					minerals > 100
+				}
+				NOT = { has_starbase_building = hydroponics_bay }
+			}
+			set_starbase_building = {
+				slot = 2
+				building = hydroponics_bay
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+					has_authority = auth_machine_intelligence
+					minerals > 200
+					has_technology = tech_hyper_drive_2
+				}
+				NOT = { has_starbase_building = warp_fluctuator }
+			}
+			set_starbase_building = {
+				slot = 2
+				building = warp_fluctuator
+			}
+			owner = {
+				add_minerals = -200
+			}
+		}
+	}
+	
+	if = {
+		limit = {
+			has_starbase_size = starbase_citadel
+		}
+		if = {
+			limit = {
+				owner = {
+					NOT = { has_authority = auth_machine_intelligence }
+					minerals > 200
+					has_technology = tech_hyper_drive_2
+				}
+				NOT = { has_starbase_building = warp_fluctuator }
+			}
+			set_starbase_building = {
+				slot = 3
+				building = warp_fluctuator
+			}
+			owner = {
+				add_minerals = -200
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+					has_authority = auth_machine_intelligence
+					minerals > 100
+				}
+				NOT = { has_starbase_building = communications_jammer }
+			}
+			set_starbase_building = {
+				slot = 3
+				building = communications_jammer
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+	}
+}
+
+# Performing trading hub construction
+
+acai_starbase_trading_hub_construction = {
+	
+	if = {
+		limit = {
+			count_starbase_modules = {
+				type = trading_hub
+				count < 1
+			}
+			owner = {
+				minerals > 100
+			}
+		}
+		set_starbase_module = {
+			slot = 0
+			module = trading_hub
+		}
+		owner = {
+			add_minerals = -100
+		}
+	}
+	if = {
+		limit = {
+			count_starbase_modules = {
+				type = trading_hub
+				count < 2
+			}
+			owner = {
+				minerals > 100
+			}
+		}
+		set_starbase_module = {
+			slot = 1
+			module = trading_hub
+		}
+		owner = {
+			add_minerals = -100
+		}
+	}
+	if = {
+		limit = {
+			owner = { 
+				has_technology = tech_space_trading
+				minerals > 200
+			}
+			NOT = { has_starbase_building = offworld_trading_company }
+		}
+		set_starbase_building = {
+			slot = 0
+			building = offworld_trading_company
+		}
+		owner = {
+			add_minerals = -200
+		}
+	}
+	
+	if = {
+		limit = {
+			has_starbase_size >= starbase_starport
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = trading_hub
+					count < 3
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 2
+				module = trading_hub
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = trading_hub
+					count < 4
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 3
+				module = trading_hub
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					minerals > 100
+				}
+				NOT = { has_starbase_building = resource_silo }
+			}
+			set_starbase_building = {
+				slot = 1
+				building = resource_silo
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+	}
+	
+	if = {
+		limit = {
+			has_starbase_size >= starbase_starfortress
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = trading_hub
+					count < 5
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 4
+				module = trading_hub
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				count_starbase_modules = {
+					type = trading_hub
+					count < 6
+				}
+				owner = {
+					minerals > 100
+				}
+			}
+			set_starbase_module = {
+				slot = 5
+				module = trading_hub
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					NOT = { has_authority = auth_machine_intelligence }
+				}
+			}
+			if = {
+				limit = {
+					acai_starbase_has_colony_in_system = yes
+					owner = {
+						NOT = { has_ethic = ethic_gestalt_consciousness }
+						has_technology = tech_living_state
+						minerals > 200
+					}
+					NOT = { has_starbase_building = deep_space_black_site }
+				}
+				set_starbase_building = {
+					slot = 2
+					building = deep_space_black_site
+				}
+				owner = {
+					add_minerals = -200
+				}
+			}
+			else_if = {
+				limit = {
+					OR = {
+						acai_starbase_has_colony_in_system = no
+						owner = {
+							NOT = { has_ethic = ethic_gestalt_consciousness }
+						}
+						owner = {
+							NOT = { has_technology = tech_living_state }
+						}
+					}
+					owner = {
+						minerals > 100
+					}
+					NOT = { has_starbase_building = hydroponics_bay }
+				}
+				set_starbase_building = {
+					slot = 2
+					building = hydroponics_bay
+				}
+				owner = {
+					add_minerals = -100
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+					has_authority = auth_machine_intelligence
+					minerals > 200
+					has_technology = tech_hyper_drive_2
+				}
+				NOT = { has_starbase_building = warp_fluctuator }
+			}
+			set_starbase_building = {
+				slot = 2
+				building = warp_fluctuator
+			}
+			owner = {
+				add_minerals = -200
+			}
+		}
+	}
+	
+	if = {
+		limit = {
+			has_starbase_size = starbase_citadel
+		}
+		if = {
+			limit = {
+				owner = {
+					NOT = { has_authority = auth_machine_intelligence }
+					minerals > 200
+					has_technology = tech_hyper_drive_2
+				}
+				NOT = { has_starbase_building = warp_fluctuator }
+			}
+			set_starbase_building = {
+				slot = 3
+				building = warp_fluctuator
+			}
+			owner = {
+				add_minerals = -200
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+					has_authority = auth_machine_intelligence
+					minerals > 100
+				}
+				NOT = { has_starbase_building = communications_jammer }
+			}
+			set_starbase_building = {
+				slot = 3
+				building = communications_jammer
+			}
+			owner = {
+				add_minerals = -100
+			}
+		}
+	}
+}
+
+#

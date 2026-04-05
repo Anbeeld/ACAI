@@ -1,0 +1,265 @@
+namespace = aai_armies
+
+country_event = {
+	id = aai_armies.1
+	hide_window = yes
+    is_triggered_only = yes 
+	
+	immediate = {
+		if = {
+			limit = {
+				capital_scope = {
+					is_occupied_flag = no
+					has_orbital_bombardment = no
+				}
+			}
+			capital_scope = {
+				while = {
+					count = 20
+					limit = {
+						owner = {
+							minerals > 100
+						}
+					}
+					create_army = {
+						owner = root
+						type = assault_army
+					}
+					owner = {
+						add_minerals = -100
+					}
+				}
+			}
+		}
+		else = {
+			random_owned_planet = {
+				limit = {
+					is_occupied_flag = no
+					has_orbital_bombardment = no
+				}
+				while = {
+					count = 20
+					limit = {
+						owner = {
+							minerals > 100
+						}
+					}
+					create_army = {
+						owner = root
+						type = assault_army
+					}
+					owner = {
+						add_minerals = -100
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = aai_armies.10
+	hide_window = yes
+    is_triggered_only = yes 
+	
+	immediate = {
+		if = {
+			limit = {
+				is_at_war = no
+				any_owned_fleet = {
+					is_in_combat = no
+					NOT = {
+						any_owned_ship = {
+							NOT = { is_ship_size = transport }
+						}
+					}
+					exists = solar_system
+					solar_system = {
+						NOT = {
+							any_neighbor_system = {
+								exists = starbase
+								starbase = {
+									controller = {
+										is_same_value = root
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			random_owned_fleet = {
+				limit = {
+					is_in_combat = no
+					NOT = {
+						any_owned_ship = {
+							NOT = { is_ship_size = transport }
+						}
+					}
+					exists = solar_system
+					solar_system = {
+						NOT = {
+							any_neighbor_system = {
+								exists = starbase
+								starbase = {
+									controller = {
+										is_same_value = root
+									}
+								}
+							}
+						}
+					}
+				}
+				set_location = owner.capital_scope
+			}
+		}
+	}
+}
+
+country_event = {
+	id = aai_armies.2
+	hide_window = yes
+    is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				is_at_war = yes
+			}
+			if = {
+				limit = {
+					any_owned_fleet = {
+						NOT = {
+							any_owned_ship = {
+								NOT = { is_ship_size = transport }
+							}
+						}
+						is_in_combat = no
+						has_fleet_order = land_armies_order
+						NOT = { exists = solar_system }
+					}
+				}
+				log = "[this.GetName] no, it's moving"
+				acai_armies_stuckfix_cancel = yes
+			}
+			else = {
+				
+				#log = "[owner.GetName] it is stuck!!!"
+				
+				if = {
+					limit = {
+						check_variable = {
+							which = acai_value_armies_stuck_1
+							value <= 35
+						}
+					}
+					change_variable = {
+						which = acai_value_armies_stuck_1
+						value = 1
+					}
+					if = {
+						limit = {
+							any_owned_fleet = {
+								NOT = {
+									any_owned_ship = {
+										NOT = { is_ship_size = transport }
+									}
+								}
+								is_in_combat = no
+								has_fleet_order = land_armies_order
+							}
+						}
+						change_variable = {
+							which = acai_value_armies_stuck_2
+							value = 1
+						}
+					}
+					acai_armies_stuckfix_call = yes
+				}
+				else = {
+					if = {
+						limit = {
+							check_variable = {
+								which = acai_value_armies_stuck_2
+								value >= 20
+							}
+						}
+						if = {
+							limit = {
+								check_variable = {
+									which = acai_value_armies_stuck_1
+									value < 40
+								}
+							}
+							if = {
+								limit = {
+									any_owned_fleet = {
+										NOT = {
+											any_owned_ship = {
+												NOT = { is_ship_size = transport }
+											}
+										}
+										is_in_combat = no
+										has_fleet_order = land_armies_order
+									}
+								}
+								log = "[owner.GetName] it's stuck, delete"
+								random_owned_fleet = {
+									limit = {
+										NOT = {
+											any_owned_ship = {
+												NOT = { is_ship_size = transport }
+											}
+										}
+										is_in_combat = no
+										has_fleet_order = land_armies_order
+									}
+									save_event_target_as = acai_armies_stuck_old_fleet
+									create_fleet = {
+										effect = {
+											set_owner = root
+											set_location = event_target:acai_armies_stuck_old_fleet
+											save_event_target_as = acai_armies_stuck_new_fleet
+											root = {
+												every_owned_ship = {
+													limit = {
+														fleet = {
+															is_same_value = event_target:acai_armies_stuck_old_fleet
+														}
+													}
+													event_target:acai_armies_stuck_new_fleet = {
+														create_army_transport = {
+															army_type = assault_army
+														}
+													}
+												}
+											}
+										}
+									}
+									delete_fleet = this
+								}
+								acai_armies_stuckfix_cancel = yes
+							}
+							else = {
+								#log = "[owner.GetName] double checking ..."
+								change_variable = {
+									which = acai_value_armies_stuck_1
+									value = 1
+								}
+								acai_armies_stuckfix_call = yes
+							}
+						} else = {
+							acai_armies_stuckfix_cancel = yes
+						}
+					}
+					else = {
+						acai_armies_stuckfix_cancel = yes
+					}
+				}
+			}
+		}
+		else = {
+			acai_armies_stuckfix_cancel = yes
+		}
+	}
+}

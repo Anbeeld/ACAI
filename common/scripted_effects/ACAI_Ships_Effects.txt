@@ -1,0 +1,407 @@
+
+acai_ships_build = {
+	#log = "[This.GetName] ships building"
+	# Choosing starbase
+	random_owned_starbase = {
+		limit = {
+			has_starbase_module = shipyard
+			acai_ships_check_busy_shipyards = yes
+			#OR = {
+			#	acai_main_fleet_exists = no
+			#	AND = {
+			#		acai_main_fleet_exists = yes
+			#		NOT = {
+			#			any_owned_starbase = {
+			#				
+			#			}
+			#		}
+			#	}
+			#}
+		}
+		solar_system = {
+			star = {
+				if = {
+					limit = {
+						root = {
+							has_technology = tech_battleships
+							has_country_flag = acai_battleship_preference
+						}
+					}
+					if = {
+						limit = {
+							root = {
+								minerals > 2000
+							}
+						}
+						planet_event = { id = aai_ships.13 days = 480 }
+						acai_ships_make_shipyard_busy = yes
+						root = {
+						add_minerals = -2000
+							change_variable = {
+								which = acai_value_naval_capacity_expected
+								value = 8
+							}
+						}
+					}
+				}
+				#else_if = {
+				#	limit = {
+				#		root = {
+				#			has_technology = tech_destroyers
+				#			OR = {
+				#				AND = {
+				#					NOT = { has_technology = tech_battleships }
+				#					has_country_flag = acai_battleship_preference
+				#				}
+				#				has_country_flag = acai_destroyer_preference
+				#			}
+				#		}
+				#	}
+				#	if = {
+				#		limit = {
+				#			root = {
+				#				minerals > 360
+				#			}
+				#		}
+				#		planet_event = { id = aai_ships.4 days = 160 }
+				#		root = {
+				#		add_minerals = -360
+				#			change_variable = {
+				#				which = acai_value_naval_capacity_expected
+				#				value = 2
+				#			}
+				#		}
+				#	}
+				#}
+				else_if = {
+					limit = {
+						root = {
+							acai_ships_has_minerals_for_corvette = yes
+						}
+					}
+					planet_event = { id = aai_ships.10 days = 60 }
+					acai_ships_make_shipyard_busy = yes
+					root = {
+						acai_ships_pay_for_corvette = yes
+						change_variable = {
+							which = acai_value_naval_capacity_expected
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+acai_ships_make_shipyard_busy = {
+	if = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_5
+		}
+		set_planet_flag = acai_ships_busy_shipyards_6
+	}
+	else_if = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_4
+		}
+		set_planet_flag = acai_ships_busy_shipyards_5
+	}
+	else_if = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_3
+		}
+		set_planet_flag = acai_ships_busy_shipyards_4
+	}
+	else_if = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_2
+		}
+		set_planet_flag = acai_ships_busy_shipyards_3
+	}
+	else_if = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_1
+		}
+		set_planet_flag = acai_ships_busy_shipyards_2
+	}
+	else = {
+		set_planet_flag = acai_ships_busy_shipyards_1
+	}
+}
+
+acai_ships_make_shipyard_free = {
+	if = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_6
+		}
+		remove_planet_flag = acai_ships_busy_shipyards_6
+	}
+	else_if = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_5
+		}
+		remove_planet_flag = acai_ships_busy_shipyards_5
+	}
+	else_if = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_4
+		}
+		remove_planet_flag = acai_ships_busy_shipyards_4
+	}
+	else_if = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_3
+		}
+		remove_planet_flag = acai_ships_busy_shipyards_3
+	}
+	else_if = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_2
+		}
+		remove_planet_flag = acai_ships_busy_shipyards_2
+	}
+	else = {
+		limit = {
+			has_planet_flag = acai_ships_busy_shipyards_1
+		}
+		remove_planet_flag = acai_ships_busy_shipyards_1
+	}
+}
+
+acai_ships_destroy = {
+	#log = "[This.GetName] disband ships"
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					acai_main_fleet_exists = yes
+					any_owned_fleet = {
+						acai_main_fleet_current_strongest = yes
+						is_in_combat = no
+					}
+				}
+				acai_main_fleet_exists = no
+			}
+		}
+		random_owned_ship = {
+			limit = {
+				OR = {
+					is_ship_size = corvette
+					AND = {
+						NOT = {
+							owner = {
+								any_owned_ship = {
+									is_ship_size = corvette
+								}
+							}
+						}
+						is_ship_size = destroyer
+					}
+					AND = {
+						NOT = {
+							owner = {
+								any_owned_ship = {
+									OR = {
+										is_ship_size = corvette
+										is_ship_size = destroyer
+									}
+								}
+							}
+						}
+						is_ship_size = cruiser
+					}
+					AND = {
+						NOT = {
+							owner = {
+								any_owned_ship = {
+									OR = {
+										is_ship_size = corvette
+										is_ship_size = destroyer
+										is_ship_size = cruiser
+									}
+								}
+							}
+						}
+						is_ship_size = battleship
+					}
+				}
+			}
+			destroy_ship = this
+		}
+	}
+}
+
+acai_ships_pay_for_corvette = {
+	if = {
+		limit = {
+			years_passed < 15
+		}
+		add_minerals = -140
+	}
+	else_if = {
+		limit = {
+			years_passed >= 15
+			years_passed < 30
+		}
+		add_minerals = -150
+	}
+	else_if = {
+		limit = {
+			years_passed >= 30
+			years_passed < 45
+		}
+		add_minerals = -160
+	}
+	else_if = {
+		limit = {
+			years_passed >= 45
+			years_passed < 60
+		}
+		add_minerals = -170
+	}
+	else_if = {
+		limit = {
+			years_passed >= 60
+			years_passed < 75
+		}
+		add_minerals = -180
+	}
+	else_if = {
+		limit = {
+			years_passed >= 75
+			years_passed < 90
+		}
+		add_minerals = -200
+	}
+	else_if = {
+		limit = {
+			years_passed >= 90
+			years_passed < 105
+		}
+		add_minerals = -220
+	}
+	else_if = {
+		limit = {
+			years_passed >= 105
+			years_passed < 120
+		}
+		add_minerals = -240
+	}
+	else_if = {
+		limit = {
+			years_passed >= 120
+			years_passed < 135
+		}
+		add_minerals = -260
+	}
+	else_if = {
+		limit = {
+			years_passed >= 135
+			years_passed < 150
+		}
+		add_minerals = -280
+	}
+	else_if = {
+		limit = {
+			years_passed >= 150
+			years_passed < 165
+		}
+		add_minerals = -300
+	}
+	else_if = {
+		limit = {
+			years_passed >= 165
+		}
+		add_minerals = -320
+	}
+}
+
+acai_ships_return_for_corvette = {
+	if = {
+		limit = {
+			years_passed < 15
+		}
+		add_minerals = 140
+	}
+	else_if = {
+		limit = {
+			years_passed >= 15
+			years_passed < 30
+		}
+		add_minerals = 150
+	}
+	else_if = {
+		limit = {
+			years_passed >= 30
+			years_passed < 45
+		}
+		add_minerals = 160
+	}
+	else_if = {
+		limit = {
+			years_passed >= 45
+			years_passed < 60
+		}
+		add_minerals = 170
+	}
+	else_if = {
+		limit = {
+			years_passed >= 60
+			years_passed < 75
+		}
+		add_minerals = 180
+	}
+	else_if = {
+		limit = {
+			years_passed >= 75
+			years_passed < 90
+		}
+		add_minerals = 200
+	}
+	else_if = {
+		limit = {
+			years_passed >= 90
+			years_passed < 105
+		}
+		add_minerals = 220
+	}
+	else_if = {
+		limit = {
+			years_passed >= 105
+			years_passed < 120
+		}
+		add_minerals = 240
+	}
+	else_if = {
+		limit = {
+			years_passed >= 120
+			years_passed < 135
+		}
+		add_minerals = 260
+	}
+	else_if = {
+		limit = {
+			years_passed >= 135
+			years_passed < 150
+		}
+		add_minerals = 280
+	}
+	else_if = {
+		limit = {
+			years_passed >= 150
+			years_passed < 165
+		}
+		add_minerals = 300
+	}
+	else_if = {
+		limit = {
+			years_passed >= 165
+		}
+		add_minerals = 320
+	}
+}
+
+acai_ships_return_for_battleship = {
+	add_minerals = 2000
+}

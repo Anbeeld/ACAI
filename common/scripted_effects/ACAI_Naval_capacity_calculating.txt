@@ -1,0 +1,748 @@
+
+acai_naval_capacity_calculating = {
+
+	set_variable = { which = acai_value_naval_capacity_maximum value = 0 }
+	if = { limit = { max_naval_capacity >= 1 max_naval_capacity < 2 } set_variable = { which = acai_value_naval_capacity_maximum value = 1 } }
+	else_if = { limit = { max_naval_capacity >= 2 max_naval_capacity < 3 } set_variable = { which = acai_value_naval_capacity_maximum value = 2 } }
+	else_if = { limit = { max_naval_capacity >= 3 max_naval_capacity < 4 } set_variable = { which = acai_value_naval_capacity_maximum value = 3 } }
+	else_if = { limit = { max_naval_capacity >= 4 max_naval_capacity < 5 } set_variable = { which = acai_value_naval_capacity_maximum value = 4 } }
+	else_if = { limit = { max_naval_capacity >= 5 max_naval_capacity < 6 } set_variable = { which = acai_value_naval_capacity_maximum value = 5 } }
+	else_if = { limit = { max_naval_capacity >= 6 max_naval_capacity < 7 } set_variable = { which = acai_value_naval_capacity_maximum value = 6 } }
+	else_if = { limit = { max_naval_capacity >= 7 max_naval_capacity < 8 } set_variable = { which = acai_value_naval_capacity_maximum value = 7 } }
+	else_if = { limit = { max_naval_capacity >= 8 max_naval_capacity < 9 } set_variable = { which = acai_value_naval_capacity_maximum value = 8 } }
+	else_if = { limit = { max_naval_capacity >= 9 max_naval_capacity < 10 } set_variable = { which = acai_value_naval_capacity_maximum value = 9 } }
+	else_if = { limit = { max_naval_capacity >= 10 max_naval_capacity < 11 } set_variable = { which = acai_value_naval_capacity_maximum value = 10 } }
+	else_if = { limit = { max_naval_capacity >= 11 max_naval_capacity < 12 } set_variable = { which = acai_value_naval_capacity_maximum value = 11 } }
+	else_if = { limit = { max_naval_capacity >= 12 max_naval_capacity < 13 } set_variable = { which = acai_value_naval_capacity_maximum value = 12 } }
+	else_if = { limit = { max_naval_capacity >= 13 max_naval_capacity < 14 } set_variable = { which = acai_value_naval_capacity_maximum value = 13 } }
+	else_if = { limit = { max_naval_capacity >= 14 max_naval_capacity < 15 } set_variable = { which = acai_value_naval_capacity_maximum value = 14 } }
+	else_if = { limit = { max_naval_capacity >= 15 max_naval_capacity < 16 } set_variable = { which = acai_value_naval_capacity_maximum value = 15 } }
+	else_if = { limit = { max_naval_capacity >= 16 max_naval_capacity < 17 } set_variable = { which = acai_value_naval_capacity_maximum value = 16 } }
+	else_if = { limit = { max_naval_capacity >= 17 max_naval_capacity < 18 } set_variable = { which = acai_value_naval_capacity_maximum value = 17 } }
+	else_if = { limit = { max_naval_capacity >= 18 max_naval_capacity < 19 } set_variable = { which = acai_value_naval_capacity_maximum value = 18 } }
+	else_if = { limit = { max_naval_capacity >= 19 max_naval_capacity < 20 } set_variable = { which = acai_value_naval_capacity_maximum value = 19 } }
+	else_if = { limit = { max_naval_capacity >= 20 max_naval_capacity < 22 } set_variable = { which = acai_value_naval_capacity_maximum value = 20 } }
+	else_if = { limit = { max_naval_capacity >= 22 max_naval_capacity < 24 } set_variable = { which = acai_value_naval_capacity_maximum value = 22 } }
+	else_if = { limit = { max_naval_capacity >= 24 max_naval_capacity < 26 } set_variable = { which = acai_value_naval_capacity_maximum value = 24 } }
+	else_if = { limit = { max_naval_capacity >= 26 max_naval_capacity < 28 } set_variable = { which = acai_value_naval_capacity_maximum value = 26 } }
+	else_if = { limit = { max_naval_capacity >= 28 max_naval_capacity < 30 } set_variable = { which = acai_value_naval_capacity_maximum value = 28 } }
+	else_if = { limit = { max_naval_capacity >= 30 max_naval_capacity < 32 } set_variable = { which = acai_value_naval_capacity_maximum value = 30 } }
+	else_if = { limit = { max_naval_capacity >= 32 max_naval_capacity < 34 } set_variable = { which = acai_value_naval_capacity_maximum value = 32 } }
+	else_if = { limit = { max_naval_capacity >= 34 max_naval_capacity < 36 } set_variable = { which = acai_value_naval_capacity_maximum value = 34 } }
+	else_if = { limit = { max_naval_capacity >= 36 max_naval_capacity < 38 } set_variable = { which = acai_value_naval_capacity_maximum value = 36 } }
+	else_if = { limit = { max_naval_capacity >= 38 max_naval_capacity < 40 } set_variable = { which = acai_value_naval_capacity_maximum value = 38 } }
+	else_if = { limit = { max_naval_capacity >= 40 max_naval_capacity < 43 } set_variable = { which = acai_value_naval_capacity_maximum value = 40 } }
+	else_if = { limit = { max_naval_capacity >= 43 max_naval_capacity < 46 } set_variable = { which = acai_value_naval_capacity_maximum value = 43 } }
+	else_if = { limit = { max_naval_capacity >= 46 max_naval_capacity < 49 } set_variable = { which = acai_value_naval_capacity_maximum value = 46 } }
+	else_if = { limit = { max_naval_capacity >= 49 max_naval_capacity < 52 } set_variable = { which = acai_value_naval_capacity_maximum value = 49 } }
+	else_if = { limit = { max_naval_capacity >= 52 max_naval_capacity < 55 } set_variable = { which = acai_value_naval_capacity_maximum value = 52 } }
+	else_if = { limit = { max_naval_capacity >= 55 max_naval_capacity < 58 } set_variable = { which = acai_value_naval_capacity_maximum value = 55 } }
+	else_if = { limit = { max_naval_capacity >= 58 max_naval_capacity < 61 } set_variable = { which = acai_value_naval_capacity_maximum value = 58 } }
+	else_if = { limit = { max_naval_capacity >= 61 max_naval_capacity < 65 } set_variable = { which = acai_value_naval_capacity_maximum value = 61 } }
+	else_if = { limit = { max_naval_capacity >= 65 max_naval_capacity < 69 } set_variable = { which = acai_value_naval_capacity_maximum value = 65 } }
+	else_if = { limit = { max_naval_capacity >= 69 max_naval_capacity < 73 } set_variable = { which = acai_value_naval_capacity_maximum value = 69 } }
+	else_if = { limit = { max_naval_capacity >= 73 max_naval_capacity < 77 } set_variable = { which = acai_value_naval_capacity_maximum value = 73 } }
+	else_if = { limit = { max_naval_capacity >= 77 max_naval_capacity < 81 } set_variable = { which = acai_value_naval_capacity_maximum value = 77 } }
+	else_if = { limit = { max_naval_capacity >= 81 max_naval_capacity < 86 } set_variable = { which = acai_value_naval_capacity_maximum value = 81 } }
+	else_if = { limit = { max_naval_capacity >= 86 max_naval_capacity < 91 } set_variable = { which = acai_value_naval_capacity_maximum value = 86 } }
+	else_if = { limit = { max_naval_capacity >= 91 max_naval_capacity < 96 } set_variable = { which = acai_value_naval_capacity_maximum value = 91 } }
+	else_if = { limit = { max_naval_capacity >= 96 max_naval_capacity < 101 } set_variable = { which = acai_value_naval_capacity_maximum value = 96 } }
+	else_if = { limit = { max_naval_capacity >= 101 max_naval_capacity < 107 } set_variable = { which = acai_value_naval_capacity_maximum value = 101 } }
+	else_if = { limit = { max_naval_capacity >= 107 max_naval_capacity < 113 } set_variable = { which = acai_value_naval_capacity_maximum value = 107 } }
+	else_if = { limit = { max_naval_capacity >= 113 max_naval_capacity < 119 } set_variable = { which = acai_value_naval_capacity_maximum value = 113 } }
+	else_if = { limit = { max_naval_capacity >= 119 max_naval_capacity < 125 } set_variable = { which = acai_value_naval_capacity_maximum value = 119 } }
+	else_if = { limit = { max_naval_capacity >= 125 max_naval_capacity < 132 } set_variable = { which = acai_value_naval_capacity_maximum value = 125 } }
+	else_if = { limit = { max_naval_capacity >= 132 max_naval_capacity < 139 } set_variable = { which = acai_value_naval_capacity_maximum value = 132 } }
+	else_if = { limit = { max_naval_capacity >= 139 max_naval_capacity < 146 } set_variable = { which = acai_value_naval_capacity_maximum value = 139 } }
+	else_if = { limit = { max_naval_capacity >= 146 max_naval_capacity < 154 } set_variable = { which = acai_value_naval_capacity_maximum value = 146 } }
+	else_if = { limit = { max_naval_capacity >= 154 max_naval_capacity < 162 } set_variable = { which = acai_value_naval_capacity_maximum value = 154 } }
+	else_if = { limit = { max_naval_capacity >= 162 max_naval_capacity < 171 } set_variable = { which = acai_value_naval_capacity_maximum value = 162 } }
+	else_if = { limit = { max_naval_capacity >= 171 max_naval_capacity < 180 } set_variable = { which = acai_value_naval_capacity_maximum value = 171 } }
+	else_if = { limit = { max_naval_capacity >= 180 max_naval_capacity < 190 } set_variable = { which = acai_value_naval_capacity_maximum value = 180 } }
+	else_if = { limit = { max_naval_capacity >= 190 max_naval_capacity < 200 } set_variable = { which = acai_value_naval_capacity_maximum value = 190 } }
+	else_if = { limit = { max_naval_capacity >= 200 max_naval_capacity < 211 } set_variable = { which = acai_value_naval_capacity_maximum value = 200 } }
+	else_if = { limit = { max_naval_capacity >= 211 max_naval_capacity < 222 } set_variable = { which = acai_value_naval_capacity_maximum value = 211 } }
+	else_if = { limit = { max_naval_capacity >= 222 max_naval_capacity < 234 } set_variable = { which = acai_value_naval_capacity_maximum value = 222 } }
+	else_if = { limit = { max_naval_capacity >= 234 max_naval_capacity < 246 } set_variable = { which = acai_value_naval_capacity_maximum value = 234 } }
+	else_if = { limit = { max_naval_capacity >= 246 max_naval_capacity < 259 } set_variable = { which = acai_value_naval_capacity_maximum value = 246 } }
+	else_if = { limit = { max_naval_capacity >= 259 max_naval_capacity < 272 } set_variable = { which = acai_value_naval_capacity_maximum value = 259 } }
+	else_if = { limit = { max_naval_capacity >= 272 max_naval_capacity < 286 } set_variable = { which = acai_value_naval_capacity_maximum value = 272 } }
+	else_if = { limit = { max_naval_capacity >= 286 max_naval_capacity < 301 } set_variable = { which = acai_value_naval_capacity_maximum value = 286 } }
+	else_if = { limit = { max_naval_capacity >= 301 max_naval_capacity < 317 } set_variable = { which = acai_value_naval_capacity_maximum value = 301 } }
+	else_if = { limit = { max_naval_capacity >= 317 max_naval_capacity < 333 } set_variable = { which = acai_value_naval_capacity_maximum value = 317 } }
+	else_if = { limit = { max_naval_capacity >= 333 max_naval_capacity < 350 } set_variable = { which = acai_value_naval_capacity_maximum value = 333 } }
+	else_if = { limit = { max_naval_capacity >= 350 max_naval_capacity < 368 } set_variable = { which = acai_value_naval_capacity_maximum value = 350 } }
+	else_if = { limit = { max_naval_capacity >= 368 max_naval_capacity < 387 } set_variable = { which = acai_value_naval_capacity_maximum value = 368 } }
+	else_if = { limit = { max_naval_capacity >= 387 max_naval_capacity < 407 } set_variable = { which = acai_value_naval_capacity_maximum value = 387 } }
+	else_if = { limit = { max_naval_capacity >= 407 max_naval_capacity < 428 } set_variable = { which = acai_value_naval_capacity_maximum value = 407 } }
+	else_if = { limit = { max_naval_capacity >= 428 max_naval_capacity < 450 } set_variable = { which = acai_value_naval_capacity_maximum value = 428 } }
+	else_if = { limit = { max_naval_capacity >= 450 max_naval_capacity < 473 } set_variable = { which = acai_value_naval_capacity_maximum value = 450 } }
+	else_if = { limit = { max_naval_capacity >= 473 max_naval_capacity < 497 } set_variable = { which = acai_value_naval_capacity_maximum value = 473 } }
+	else_if = { limit = { max_naval_capacity >= 497 max_naval_capacity < 522 } set_variable = { which = acai_value_naval_capacity_maximum value = 497 } }
+	else_if = { limit = { max_naval_capacity >= 522 max_naval_capacity < 548 } set_variable = { which = acai_value_naval_capacity_maximum value = 522 } }
+	else_if = { limit = { max_naval_capacity >= 548 max_naval_capacity < 575 } set_variable = { which = acai_value_naval_capacity_maximum value = 548 } }
+	else_if = { limit = { max_naval_capacity >= 575 max_naval_capacity < 603 } set_variable = { which = acai_value_naval_capacity_maximum value = 575 } }
+	else_if = { limit = { max_naval_capacity >= 603 max_naval_capacity < 632 } set_variable = { which = acai_value_naval_capacity_maximum value = 603 } }
+	else_if = { limit = { max_naval_capacity >= 632 max_naval_capacity < 662 } set_variable = { which = acai_value_naval_capacity_maximum value = 632 } }
+	else_if = { limit = { max_naval_capacity >= 662 max_naval_capacity < 693 } set_variable = { which = acai_value_naval_capacity_maximum value = 662 } }
+	else_if = { limit = { max_naval_capacity >= 693 max_naval_capacity < 725 } set_variable = { which = acai_value_naval_capacity_maximum value = 693 } }
+	else_if = { limit = { max_naval_capacity >= 725 max_naval_capacity < 758 } set_variable = { which = acai_value_naval_capacity_maximum value = 725 } }
+	else_if = { limit = { max_naval_capacity >= 758 max_naval_capacity < 792 } set_variable = { which = acai_value_naval_capacity_maximum value = 758 } }
+	else_if = { limit = { max_naval_capacity >= 792 max_naval_capacity < 827 } set_variable = { which = acai_value_naval_capacity_maximum value = 792 } }
+	else_if = { limit = { max_naval_capacity >= 827 max_naval_capacity < 863 } set_variable = { which = acai_value_naval_capacity_maximum value = 827 } }
+	else_if = { limit = { max_naval_capacity >= 863 max_naval_capacity < 900 } set_variable = { which = acai_value_naval_capacity_maximum value = 863 } }
+	else_if = { limit = { max_naval_capacity >= 900 max_naval_capacity < 938 } set_variable = { which = acai_value_naval_capacity_maximum value = 900 } }
+	else_if = { limit = { max_naval_capacity >= 938 max_naval_capacity < 977 } set_variable = { which = acai_value_naval_capacity_maximum value = 938 } }
+	else_if = { limit = { max_naval_capacity >= 977 max_naval_capacity < 1017 } set_variable = { which = acai_value_naval_capacity_maximum value = 977 } }
+	else_if = { limit = { max_naval_capacity >= 1017 max_naval_capacity < 1058 } set_variable = { which = acai_value_naval_capacity_maximum value = 1017 } }
+	else_if = { limit = { max_naval_capacity >= 1058 max_naval_capacity < 1100 } set_variable = { which = acai_value_naval_capacity_maximum value = 1058 } }
+	else_if = { limit = { max_naval_capacity >= 1100 max_naval_capacity < 1143 } set_variable = { which = acai_value_naval_capacity_maximum value = 1100 } }
+	else_if = { limit = { max_naval_capacity >= 1143 max_naval_capacity < 1187 } set_variable = { which = acai_value_naval_capacity_maximum value = 1143 } }
+	else_if = { limit = { max_naval_capacity >= 1187 max_naval_capacity < 1232 } set_variable = { which = acai_value_naval_capacity_maximum value = 1187 } }
+	else_if = { limit = { max_naval_capacity >= 1232 max_naval_capacity < 1278 } set_variable = { which = acai_value_naval_capacity_maximum value = 1232 } }
+	else_if = { limit = { max_naval_capacity >= 1278 max_naval_capacity < 1325 } set_variable = { which = acai_value_naval_capacity_maximum value = 1278 } }
+	else_if = { limit = { max_naval_capacity >= 1325 max_naval_capacity < 1373 } set_variable = { which = acai_value_naval_capacity_maximum value = 1325 } }
+	else_if = { limit = { max_naval_capacity >= 1373 max_naval_capacity < 1422 } set_variable = { which = acai_value_naval_capacity_maximum value = 1373 } }
+	else_if = { limit = { max_naval_capacity >= 1422 max_naval_capacity < 1472 } set_variable = { which = acai_value_naval_capacity_maximum value = 1422 } }
+	else_if = { limit = { max_naval_capacity >= 1472 max_naval_capacity < 1523 } set_variable = { which = acai_value_naval_capacity_maximum value = 1472 } }
+	else_if = { limit = { max_naval_capacity >= 1523 max_naval_capacity < 1575 } set_variable = { which = acai_value_naval_capacity_maximum value = 1523 } }
+	else_if = { limit = { max_naval_capacity >= 1575 max_naval_capacity < 1628 } set_variable = { which = acai_value_naval_capacity_maximum value = 1575 } }
+	else_if = { limit = { max_naval_capacity >= 1628 max_naval_capacity < 1682 } set_variable = { which = acai_value_naval_capacity_maximum value = 1628 } }
+	else_if = { limit = { max_naval_capacity >= 1682 max_naval_capacity < 1737 } set_variable = { which = acai_value_naval_capacity_maximum value = 1682 } }
+	else_if = { limit = { max_naval_capacity >= 1737 max_naval_capacity < 1793 } set_variable = { which = acai_value_naval_capacity_maximum value = 1737 } }
+	else_if = { limit = { max_naval_capacity >= 1793 max_naval_capacity < 1850 } set_variable = { which = acai_value_naval_capacity_maximum value = 1793 } }
+	else_if = { limit = { max_naval_capacity >= 1850 max_naval_capacity < 1908 } set_variable = { which = acai_value_naval_capacity_maximum value = 1850 } }
+	else_if = { limit = { max_naval_capacity >= 1908 max_naval_capacity < 1967 } set_variable = { which = acai_value_naval_capacity_maximum value = 1908 } }
+	else_if = { limit = { max_naval_capacity >= 1967 } set_variable = { which = acai_value_naval_capacity_maximum value = 1967 } }
+
+	set_variable = { which = acai_value_naval_capacity_used value = 0 }
+	if = { limit = { used_naval_capacity_integer >= 1 used_naval_capacity_integer < 2 } set_variable = { which = acai_value_naval_capacity_used value = 1 } }
+	else_if = { limit = { used_naval_capacity_integer >= 2 used_naval_capacity_integer < 3 } set_variable = { which = acai_value_naval_capacity_used value = 2 } }
+	else_if = { limit = { used_naval_capacity_integer >= 3 used_naval_capacity_integer < 4 } set_variable = { which = acai_value_naval_capacity_used value = 3 } }
+	else_if = { limit = { used_naval_capacity_integer >= 4 used_naval_capacity_integer < 5 } set_variable = { which = acai_value_naval_capacity_used value = 4 } }
+	else_if = { limit = { used_naval_capacity_integer >= 5 used_naval_capacity_integer < 6 } set_variable = { which = acai_value_naval_capacity_used value = 5 } }
+	else_if = { limit = { used_naval_capacity_integer >= 6 used_naval_capacity_integer < 7 } set_variable = { which = acai_value_naval_capacity_used value = 6 } }
+	else_if = { limit = { used_naval_capacity_integer >= 7 used_naval_capacity_integer < 8 } set_variable = { which = acai_value_naval_capacity_used value = 7 } }
+	else_if = { limit = { used_naval_capacity_integer >= 8 used_naval_capacity_integer < 9 } set_variable = { which = acai_value_naval_capacity_used value = 8 } }
+	else_if = { limit = { used_naval_capacity_integer >= 9 used_naval_capacity_integer < 10 } set_variable = { which = acai_value_naval_capacity_used value = 9 } }
+	else_if = { limit = { used_naval_capacity_integer >= 10 used_naval_capacity_integer < 11 } set_variable = { which = acai_value_naval_capacity_used value = 10 } }
+	else_if = { limit = { used_naval_capacity_integer >= 11 used_naval_capacity_integer < 12 } set_variable = { which = acai_value_naval_capacity_used value = 11 } }
+	else_if = { limit = { used_naval_capacity_integer >= 12 used_naval_capacity_integer < 13 } set_variable = { which = acai_value_naval_capacity_used value = 12 } }
+	else_if = { limit = { used_naval_capacity_integer >= 13 used_naval_capacity_integer < 14 } set_variable = { which = acai_value_naval_capacity_used value = 13 } }
+	else_if = { limit = { used_naval_capacity_integer >= 14 used_naval_capacity_integer < 15 } set_variable = { which = acai_value_naval_capacity_used value = 14 } }
+	else_if = { limit = { used_naval_capacity_integer >= 15 used_naval_capacity_integer < 16 } set_variable = { which = acai_value_naval_capacity_used value = 15 } }
+	else_if = { limit = { used_naval_capacity_integer >= 16 used_naval_capacity_integer < 17 } set_variable = { which = acai_value_naval_capacity_used value = 16 } }
+	else_if = { limit = { used_naval_capacity_integer >= 17 used_naval_capacity_integer < 18 } set_variable = { which = acai_value_naval_capacity_used value = 17 } }
+	else_if = { limit = { used_naval_capacity_integer >= 18 used_naval_capacity_integer < 19 } set_variable = { which = acai_value_naval_capacity_used value = 18 } }
+	else_if = { limit = { used_naval_capacity_integer >= 19 used_naval_capacity_integer < 20 } set_variable = { which = acai_value_naval_capacity_used value = 19 } }
+	else_if = { limit = { used_naval_capacity_integer >= 20 used_naval_capacity_integer < 22 } set_variable = { which = acai_value_naval_capacity_used value = 20 } }
+	else_if = { limit = { used_naval_capacity_integer >= 22 used_naval_capacity_integer < 24 } set_variable = { which = acai_value_naval_capacity_used value = 22 } }
+	else_if = { limit = { used_naval_capacity_integer >= 24 used_naval_capacity_integer < 26 } set_variable = { which = acai_value_naval_capacity_used value = 24 } }
+	else_if = { limit = { used_naval_capacity_integer >= 26 used_naval_capacity_integer < 28 } set_variable = { which = acai_value_naval_capacity_used value = 26 } }
+	else_if = { limit = { used_naval_capacity_integer >= 28 used_naval_capacity_integer < 30 } set_variable = { which = acai_value_naval_capacity_used value = 28 } }
+	else_if = { limit = { used_naval_capacity_integer >= 30 used_naval_capacity_integer < 32 } set_variable = { which = acai_value_naval_capacity_used value = 30 } }
+	else_if = { limit = { used_naval_capacity_integer >= 32 used_naval_capacity_integer < 34 } set_variable = { which = acai_value_naval_capacity_used value = 32 } }
+	else_if = { limit = { used_naval_capacity_integer >= 34 used_naval_capacity_integer < 36 } set_variable = { which = acai_value_naval_capacity_used value = 34 } }
+	else_if = { limit = { used_naval_capacity_integer >= 36 used_naval_capacity_integer < 38 } set_variable = { which = acai_value_naval_capacity_used value = 36 } }
+	else_if = { limit = { used_naval_capacity_integer >= 38 used_naval_capacity_integer < 40 } set_variable = { which = acai_value_naval_capacity_used value = 38 } }
+	else_if = { limit = { used_naval_capacity_integer >= 40 used_naval_capacity_integer < 43 } set_variable = { which = acai_value_naval_capacity_used value = 40 } }
+	else_if = { limit = { used_naval_capacity_integer >= 43 used_naval_capacity_integer < 46 } set_variable = { which = acai_value_naval_capacity_used value = 43 } }
+	else_if = { limit = { used_naval_capacity_integer >= 46 used_naval_capacity_integer < 49 } set_variable = { which = acai_value_naval_capacity_used value = 46 } }
+	else_if = { limit = { used_naval_capacity_integer >= 49 used_naval_capacity_integer < 52 } set_variable = { which = acai_value_naval_capacity_used value = 49 } }
+	else_if = { limit = { used_naval_capacity_integer >= 52 used_naval_capacity_integer < 55 } set_variable = { which = acai_value_naval_capacity_used value = 52 } }
+	else_if = { limit = { used_naval_capacity_integer >= 55 used_naval_capacity_integer < 58 } set_variable = { which = acai_value_naval_capacity_used value = 55 } }
+	else_if = { limit = { used_naval_capacity_integer >= 58 used_naval_capacity_integer < 61 } set_variable = { which = acai_value_naval_capacity_used value = 58 } }
+	else_if = { limit = { used_naval_capacity_integer >= 61 used_naval_capacity_integer < 65 } set_variable = { which = acai_value_naval_capacity_used value = 61 } }
+	else_if = { limit = { used_naval_capacity_integer >= 65 used_naval_capacity_integer < 69 } set_variable = { which = acai_value_naval_capacity_used value = 65 } }
+	else_if = { limit = { used_naval_capacity_integer >= 69 used_naval_capacity_integer < 73 } set_variable = { which = acai_value_naval_capacity_used value = 69 } }
+	else_if = { limit = { used_naval_capacity_integer >= 73 used_naval_capacity_integer < 77 } set_variable = { which = acai_value_naval_capacity_used value = 73 } }
+	else_if = { limit = { used_naval_capacity_integer >= 77 used_naval_capacity_integer < 81 } set_variable = { which = acai_value_naval_capacity_used value = 77 } }
+	else_if = { limit = { used_naval_capacity_integer >= 81 used_naval_capacity_integer < 86 } set_variable = { which = acai_value_naval_capacity_used value = 81 } }
+	else_if = { limit = { used_naval_capacity_integer >= 86 used_naval_capacity_integer < 91 } set_variable = { which = acai_value_naval_capacity_used value = 86 } }
+	else_if = { limit = { used_naval_capacity_integer >= 91 used_naval_capacity_integer < 96 } set_variable = { which = acai_value_naval_capacity_used value = 91 } }
+	else_if = { limit = { used_naval_capacity_integer >= 96 used_naval_capacity_integer < 101 } set_variable = { which = acai_value_naval_capacity_used value = 96 } }
+	else_if = { limit = { used_naval_capacity_integer >= 101 used_naval_capacity_integer < 107 } set_variable = { which = acai_value_naval_capacity_used value = 101 } }
+	else_if = { limit = { used_naval_capacity_integer >= 107 used_naval_capacity_integer < 113 } set_variable = { which = acai_value_naval_capacity_used value = 107 } }
+	else_if = { limit = { used_naval_capacity_integer >= 113 used_naval_capacity_integer < 119 } set_variable = { which = acai_value_naval_capacity_used value = 113 } }
+	else_if = { limit = { used_naval_capacity_integer >= 119 used_naval_capacity_integer < 125 } set_variable = { which = acai_value_naval_capacity_used value = 119 } }
+	else_if = { limit = { used_naval_capacity_integer >= 125 used_naval_capacity_integer < 132 } set_variable = { which = acai_value_naval_capacity_used value = 125 } }
+	else_if = { limit = { used_naval_capacity_integer >= 132 used_naval_capacity_integer < 139 } set_variable = { which = acai_value_naval_capacity_used value = 132 } }
+	else_if = { limit = { used_naval_capacity_integer >= 139 used_naval_capacity_integer < 146 } set_variable = { which = acai_value_naval_capacity_used value = 139 } }
+	else_if = { limit = { used_naval_capacity_integer >= 146 used_naval_capacity_integer < 154 } set_variable = { which = acai_value_naval_capacity_used value = 146 } }
+	else_if = { limit = { used_naval_capacity_integer >= 154 used_naval_capacity_integer < 162 } set_variable = { which = acai_value_naval_capacity_used value = 154 } }
+	else_if = { limit = { used_naval_capacity_integer >= 162 used_naval_capacity_integer < 171 } set_variable = { which = acai_value_naval_capacity_used value = 162 } }
+	else_if = { limit = { used_naval_capacity_integer >= 171 used_naval_capacity_integer < 180 } set_variable = { which = acai_value_naval_capacity_used value = 171 } }
+	else_if = { limit = { used_naval_capacity_integer >= 180 used_naval_capacity_integer < 190 } set_variable = { which = acai_value_naval_capacity_used value = 180 } }
+	else_if = { limit = { used_naval_capacity_integer >= 190 used_naval_capacity_integer < 200 } set_variable = { which = acai_value_naval_capacity_used value = 190 } }
+	else_if = { limit = { used_naval_capacity_integer >= 200 used_naval_capacity_integer < 211 } set_variable = { which = acai_value_naval_capacity_used value = 200 } }
+	else_if = { limit = { used_naval_capacity_integer >= 211 used_naval_capacity_integer < 222 } set_variable = { which = acai_value_naval_capacity_used value = 211 } }
+	else_if = { limit = { used_naval_capacity_integer >= 222 used_naval_capacity_integer < 234 } set_variable = { which = acai_value_naval_capacity_used value = 222 } }
+	else_if = { limit = { used_naval_capacity_integer >= 234 used_naval_capacity_integer < 246 } set_variable = { which = acai_value_naval_capacity_used value = 234 } }
+	else_if = { limit = { used_naval_capacity_integer >= 246 used_naval_capacity_integer < 259 } set_variable = { which = acai_value_naval_capacity_used value = 246 } }
+	else_if = { limit = { used_naval_capacity_integer >= 259 used_naval_capacity_integer < 272 } set_variable = { which = acai_value_naval_capacity_used value = 259 } }
+	else_if = { limit = { used_naval_capacity_integer >= 272 used_naval_capacity_integer < 286 } set_variable = { which = acai_value_naval_capacity_used value = 272 } }
+	else_if = { limit = { used_naval_capacity_integer >= 286 used_naval_capacity_integer < 301 } set_variable = { which = acai_value_naval_capacity_used value = 286 } }
+	else_if = { limit = { used_naval_capacity_integer >= 301 used_naval_capacity_integer < 317 } set_variable = { which = acai_value_naval_capacity_used value = 301 } }
+	else_if = { limit = { used_naval_capacity_integer >= 317 used_naval_capacity_integer < 333 } set_variable = { which = acai_value_naval_capacity_used value = 317 } }
+	else_if = { limit = { used_naval_capacity_integer >= 333 used_naval_capacity_integer < 350 } set_variable = { which = acai_value_naval_capacity_used value = 333 } }
+	else_if = { limit = { used_naval_capacity_integer >= 350 used_naval_capacity_integer < 368 } set_variable = { which = acai_value_naval_capacity_used value = 350 } }
+	else_if = { limit = { used_naval_capacity_integer >= 368 used_naval_capacity_integer < 387 } set_variable = { which = acai_value_naval_capacity_used value = 368 } }
+	else_if = { limit = { used_naval_capacity_integer >= 387 used_naval_capacity_integer < 407 } set_variable = { which = acai_value_naval_capacity_used value = 387 } }
+	else_if = { limit = { used_naval_capacity_integer >= 407 used_naval_capacity_integer < 428 } set_variable = { which = acai_value_naval_capacity_used value = 407 } }
+	else_if = { limit = { used_naval_capacity_integer >= 428 used_naval_capacity_integer < 450 } set_variable = { which = acai_value_naval_capacity_used value = 428 } }
+	else_if = { limit = { used_naval_capacity_integer >= 450 used_naval_capacity_integer < 473 } set_variable = { which = acai_value_naval_capacity_used value = 450 } }
+	else_if = { limit = { used_naval_capacity_integer >= 473 used_naval_capacity_integer < 497 } set_variable = { which = acai_value_naval_capacity_used value = 473 } }
+	else_if = { limit = { used_naval_capacity_integer >= 497 used_naval_capacity_integer < 522 } set_variable = { which = acai_value_naval_capacity_used value = 497 } }
+	else_if = { limit = { used_naval_capacity_integer >= 522 used_naval_capacity_integer < 548 } set_variable = { which = acai_value_naval_capacity_used value = 522 } }
+	else_if = { limit = { used_naval_capacity_integer >= 548 used_naval_capacity_integer < 575 } set_variable = { which = acai_value_naval_capacity_used value = 548 } }
+	else_if = { limit = { used_naval_capacity_integer >= 575 used_naval_capacity_integer < 603 } set_variable = { which = acai_value_naval_capacity_used value = 575 } }
+	else_if = { limit = { used_naval_capacity_integer >= 603 used_naval_capacity_integer < 632 } set_variable = { which = acai_value_naval_capacity_used value = 603 } }
+	else_if = { limit = { used_naval_capacity_integer >= 632 used_naval_capacity_integer < 662 } set_variable = { which = acai_value_naval_capacity_used value = 632 } }
+	else_if = { limit = { used_naval_capacity_integer >= 662 used_naval_capacity_integer < 693 } set_variable = { which = acai_value_naval_capacity_used value = 662 } }
+	else_if = { limit = { used_naval_capacity_integer >= 693 used_naval_capacity_integer < 725 } set_variable = { which = acai_value_naval_capacity_used value = 693 } }
+	else_if = { limit = { used_naval_capacity_integer >= 725 used_naval_capacity_integer < 758 } set_variable = { which = acai_value_naval_capacity_used value = 725 } }
+	else_if = { limit = { used_naval_capacity_integer >= 758 used_naval_capacity_integer < 792 } set_variable = { which = acai_value_naval_capacity_used value = 758 } }
+	else_if = { limit = { used_naval_capacity_integer >= 792 used_naval_capacity_integer < 827 } set_variable = { which = acai_value_naval_capacity_used value = 792 } }
+	else_if = { limit = { used_naval_capacity_integer >= 827 used_naval_capacity_integer < 863 } set_variable = { which = acai_value_naval_capacity_used value = 827 } }
+	else_if = { limit = { used_naval_capacity_integer >= 863 used_naval_capacity_integer < 900 } set_variable = { which = acai_value_naval_capacity_used value = 863 } }
+	else_if = { limit = { used_naval_capacity_integer >= 900 used_naval_capacity_integer < 938 } set_variable = { which = acai_value_naval_capacity_used value = 900 } }
+	else_if = { limit = { used_naval_capacity_integer >= 938 used_naval_capacity_integer < 977 } set_variable = { which = acai_value_naval_capacity_used value = 938 } }
+	else_if = { limit = { used_naval_capacity_integer >= 977 used_naval_capacity_integer < 1017 } set_variable = { which = acai_value_naval_capacity_used value = 977 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1017 used_naval_capacity_integer < 1058 } set_variable = { which = acai_value_naval_capacity_used value = 1017 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1058 used_naval_capacity_integer < 1100 } set_variable = { which = acai_value_naval_capacity_used value = 1058 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1100 used_naval_capacity_integer < 1143 } set_variable = { which = acai_value_naval_capacity_used value = 1100 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1143 used_naval_capacity_integer < 1187 } set_variable = { which = acai_value_naval_capacity_used value = 1143 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1187 used_naval_capacity_integer < 1232 } set_variable = { which = acai_value_naval_capacity_used value = 1187 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1232 used_naval_capacity_integer < 1278 } set_variable = { which = acai_value_naval_capacity_used value = 1232 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1278 used_naval_capacity_integer < 1325 } set_variable = { which = acai_value_naval_capacity_used value = 1278 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1325 used_naval_capacity_integer < 1373 } set_variable = { which = acai_value_naval_capacity_used value = 1325 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1373 used_naval_capacity_integer < 1422 } set_variable = { which = acai_value_naval_capacity_used value = 1373 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1422 used_naval_capacity_integer < 1472 } set_variable = { which = acai_value_naval_capacity_used value = 1422 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1472 used_naval_capacity_integer < 1523 } set_variable = { which = acai_value_naval_capacity_used value = 1472 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1523 used_naval_capacity_integer < 1575 } set_variable = { which = acai_value_naval_capacity_used value = 1523 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1575 used_naval_capacity_integer < 1628 } set_variable = { which = acai_value_naval_capacity_used value = 1575 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1628 used_naval_capacity_integer < 1682 } set_variable = { which = acai_value_naval_capacity_used value = 1628 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1682 used_naval_capacity_integer < 1737 } set_variable = { which = acai_value_naval_capacity_used value = 1682 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1737 used_naval_capacity_integer < 1793 } set_variable = { which = acai_value_naval_capacity_used value = 1737 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1793 used_naval_capacity_integer < 1850 } set_variable = { which = acai_value_naval_capacity_used value = 1793 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1850 used_naval_capacity_integer < 1908 } set_variable = { which = acai_value_naval_capacity_used value = 1850 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1908 used_naval_capacity_integer < 1967 } set_variable = { which = acai_value_naval_capacity_used value = 1908 } }
+	else_if = { limit = { used_naval_capacity_integer >= 1967 } set_variable = { which = acai_value_naval_capacity_used value = 1967 } }
+	
+	set_variable = {
+		which = acai_value_naval_capacity_ratio
+		value = acai_value_naval_capacity_used
+	}
+	divide_variable = {
+		which = acai_value_naval_capacity_ratio
+		value = acai_value_naval_capacity_maximum
+	}
+	
+	# Clearing expected capacity
+	
+	subtract_variable = {
+		which = acai_value_naval_capacity_expected
+		value = acai_value_naval_capacity_processed
+	}
+	
+	set_variable = {
+		which = acai_value_naval_capacity_processed
+		value = 0
+	}
+	
+}
+
+acai_naval_capacity_usage_calculating = {
+	
+	# Default ratios
+		
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_high_war
+			value = 1.10
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_high_peace
+			value = 1.00
+		}
+		
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_medium_war
+			value = 0.90
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_medium_peace
+			value = 0.80
+		}
+		
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_low_war
+			value = 0.70
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_low_peace
+			value = 0.60
+		}
+		
+	# Ideology ratios
+		
+		# Militarism: tier 3
+				
+			if = {
+				limit = {
+					OR = {
+						has_civic = civic_fanatic_purifiers
+						has_civic = civic_hive_devouring_swarm
+						has_civic = civic_machine_terminator
+					}
+				}
+				
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_high_war
+					value = 0.09
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_high_peace
+					value = 0.09
+				}
+				
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_medium_war
+					value = 0.12
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_medium_peace
+					value = 0.15
+				}
+				
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_low_war
+					value = 0.18
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_low_peace
+					value = 0.18
+				}
+				
+			}
+			
+		# Militarism: tier 2
+			
+			else_if = {
+				limit = {
+					OR = {
+						has_ethic = ethic_fanatic_militarist
+						has_civic = civic_machine_assimilator
+					}
+				}
+				
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_high_war
+					value = 0.06
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_high_peace
+					value = 0.06
+				}
+				
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_medium_war
+					value = 0.08
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_medium_peace
+					value = 0.10
+				}
+				
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_low_war
+					value = 0.12
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_low_peace
+					value = 0.12
+				}
+				
+			}
+			
+		# Militarism: tier 1
+			
+			else_if = {
+				limit = {
+					has_ethic = ethic_militarist
+				}
+				
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_high_war
+					value = 0.03
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_high_peace
+					value = 0.03
+				}
+				
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_medium_war
+					value = 0.04
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_medium_peace
+					value = 0.05
+				}
+				
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_low_war
+					value = 0.06
+				}
+				change_variable = {
+					which = acai_value_naval_capacity_ratio_low_peace
+					value = 0.06
+				}
+				
+			}
+			
+		# Pacifism: tier 3
+			
+			else_if = {
+				limit = {
+					has_civic = civic_inwards_perfection
+				}
+				
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_high_peace
+					value = 0.06
+				}
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_high_war
+					value = 0.12
+				}
+				
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_medium_peace
+					value = 0.09
+				}
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_medium_war
+					value = 0.18
+				}
+				
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_low_peace
+					value = 0.12
+				}
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_low_war
+					value = 0.24
+				}
+				
+			}
+			
+		# Pacifism: tier 2
+			
+			else_if = {
+				limit = {
+					has_ethic = ethic_fanatic_pacifist
+				}
+				
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_high_peace
+					value = 0.04
+				}
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_high_war
+					value = 0.08
+				}
+				
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_medium_peace
+					value = 0.06
+				}
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_medium_war
+					value = 0.12
+				}
+				
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_low_peace
+					value = 0.08
+				}
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_low_war
+					value = 0.16
+				}
+				
+			}
+			
+		# Pacifism: tier 1
+		
+			else_if = {
+				limit = {
+					has_ethic = ethic_pacifist
+				}
+				
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_high_peace
+					value = 0.02
+				}
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_high_war
+					value = 0.04
+				}
+				
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_medium_peace
+					value = 0.03
+				}
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_medium_war
+					value = 0.06
+				}
+				
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_low_peace
+					value = 0.04
+				}
+				subtract_variable = {
+					which = acai_value_naval_capacity_ratio_low_war
+					value = 0.08
+				}
+				
+			}
+			
+		#
+		
+	#
+	
+	set_variable = {
+		which = acai_value_naval_capacity_ratio_high_delete_war
+		value = acai_value_naval_capacity_ratio_high_war
+	}
+	change_variable = {
+		which = acai_value_naval_capacity_ratio_high_delete_war
+		value = 0.20
+	}
+	set_variable = {
+		which = acai_value_naval_capacity_ratio_high_delete_peace
+		value = acai_value_naval_capacity_ratio_high_peace
+	}
+	change_variable = {
+		which = acai_value_naval_capacity_ratio_high_delete_peace
+		value = 0.10
+	}
+	
+	set_variable = {
+		which = acai_value_naval_capacity_ratio_medium_delete_war
+		value = acai_value_naval_capacity_ratio_medium_war
+	}
+	change_variable = {
+		which = acai_value_naval_capacity_ratio_medium_delete_war
+		value = 0.20
+	}
+	set_variable = {
+		which = acai_value_naval_capacity_ratio_medium_delete_peace
+		value = acai_value_naval_capacity_ratio_medium_peace
+	}
+	change_variable = {
+		which = acai_value_naval_capacity_ratio_medium_delete_peace
+		value = 0.10
+	}
+	
+	set_variable = {
+		which = acai_value_naval_capacity_ratio_low_delete_war
+		value = acai_value_naval_capacity_ratio_low_war
+	}
+	change_variable = {
+		which = acai_value_naval_capacity_ratio_low_delete_war
+		value = 0.20
+	}
+	set_variable = {
+		which = acai_value_naval_capacity_ratio_low_delete_peace
+		value = acai_value_naval_capacity_ratio_low_peace
+	}
+	change_variable = {
+		which = acai_value_naval_capacity_ratio_low_delete_peace
+		value = 0.10
+	}
+	
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_value_naval_capacity_ratio_high_delete_war
+				value < 1.00
+			}
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_high_delete_war
+			value = 1.00
+		}
+	}
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_value_naval_capacity_ratio_high_delete_peace
+				value < 1.00
+			}
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_high_delete_peace
+			value = 1.00
+		}
+	}
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_value_naval_capacity_ratio_medium_delete_war
+				value < 1.00
+			}
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_medium_delete_war
+			value = 1.00
+		}
+	}
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_value_naval_capacity_ratio_medium_delete_peace
+				value < 1.00
+			}
+		}
+		set_variable = {
+			which =acai_value_naval_capacity_ratio_medium_delete_peace
+			value = 1.00
+		}
+	}
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_value_naval_capacity_ratio_low_delete_war
+				value < 1.00
+			}
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_low_delete_war
+			value = 1.00
+		}
+	}
+	if = {
+		limit = {
+			check_variable = {
+				which = acai_value_naval_capacity_ratio_low_delete_peace
+				value < 1.00
+			}
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_low_delete_peace
+			value = 1.00
+		}
+	}
+	
+	
+	# Calculating free for low (0.60/0.70)
+	
+	set_variable = {
+		which = acai_value_naval_capacity_free_low
+		value = acai_value_naval_capacity_maximum
+	}
+	
+	if = {
+		limit = {
+			is_at_war = yes
+		}
+		multiply_variable = {
+			which = acai_value_naval_capacity_free_low
+			value = acai_value_naval_capacity_ratio_low_war
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_low_delete
+			value = acai_value_naval_capacity_ratio_low_delete_war
+		}
+	}
+	else = {
+		multiply_variable = {
+			which = acai_value_naval_capacity_free_low
+			value = acai_value_naval_capacity_ratio_low_peace
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_low_delete
+			value = acai_value_naval_capacity_ratio_low_delete_peace
+		}
+	}
+	
+	subtract_variable = {
+		which = acai_value_naval_capacity_free_low
+		value = acai_value_naval_capacity_used
+	}
+	
+	# Calculating free for medium (0.80/0.90)
+	
+	set_variable = {
+		which = acai_value_naval_capacity_free_medium
+		value = acai_value_naval_capacity_maximum
+	}
+	
+	if = {
+		limit = {
+			is_at_war = yes
+		}
+		multiply_variable = {
+			which = acai_value_naval_capacity_free_medium
+			value = acai_value_naval_capacity_ratio_medium_war
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_medium_delete
+			value = acai_value_naval_capacity_ratio_medium_delete_war
+		}
+	}
+	else = {
+		multiply_variable = {
+			which = acai_value_naval_capacity_free_medium
+			value = acai_value_naval_capacity_ratio_medium_peace
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_medium_delete
+			value = acai_value_naval_capacity_ratio_medium_delete_peace
+		}
+	}
+	
+	subtract_variable = {
+		which = acai_value_naval_capacity_free_medium
+		value = acai_value_naval_capacity_used
+	}
+	
+	# Calculating free for high (1.00/1.10)
+	
+	set_variable = {
+		which = acai_value_naval_capacity_free_high
+		value = acai_value_naval_capacity_maximum
+	}
+	
+	if = {
+		limit = {
+			is_at_war = yes
+		}
+		multiply_variable = {
+			which = acai_value_naval_capacity_free_high
+			value = acai_value_naval_capacity_ratio_high_war
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_high_delete
+			value = acai_value_naval_capacity_ratio_high_delete_war
+		}
+	}
+	else = {
+		multiply_variable = {
+			which = acai_value_naval_capacity_free_high
+			value = acai_value_naval_capacity_ratio_high_peace
+		}
+		set_variable = {
+			which = acai_value_naval_capacity_ratio_high_delete
+			value = acai_value_naval_capacity_ratio_high_delete_peace
+		}
+	}
+	
+	subtract_variable = {
+		which = acai_value_naval_capacity_free_high
+		value = acai_value_naval_capacity_used
+	}
+	
+}

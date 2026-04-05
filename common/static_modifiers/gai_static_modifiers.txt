@@ -1,0 +1,74 @@
+no_platforms = {
+	starbase_defense_platform_capacity_add = -50
+}
+
+ai_capacity_overload_edict = {
+	country_resource_energy_mult = 0.20
+}
+
+ai_production_targets_edict = {
+	country_resource_minerals_mult = 0.20
+}
+
+ai_research_focus_edict = {
+	all_technology_research_speed = 0.10
+}
+
+ai_robot_campaign = {
+	pop_robot_build_speed_mult = 0.20
+}
+
+ai_healthcare_campaign = {
+	pop_growth_speed = 0.20
+}
+
+ai_map_the_stars = {
+	science_ship_survey_speed = 0.25
+	ship_anomaly_generation_chance_mult = 0.10
+}
+
+ai_simulate_enclave_artist_patron = {
+	country_resource_unity_mult = 0.10
+}
+
+ai_simulate_min_trade_1 = {
+	static_resource_minerals_add = 10
+}
+
+ai_simulate_min_trade_2 = {
+	static_resource_minerals_add = 25
+}
+
+ai_simulate_min_trade_3 = {
+	static_resource_minerals_add = 50
+}
+
+ai_fix_subject_1 = {
+	static_resource_minerals_add = 35
+	static_resource_energy_add = 35
+	static_resource_food_add = 35
+}
+
+ai_purifier = {
+	pop_government_ethic_attraction = 1
+}
+
+ai_recycling_campaign = {
+	pop_consumer_goods_mult = -0.15
+}
+
+ai_sectors_only = {
+	country_core_sector_system_cap = -4 #includes the +2 from expansionist
+}
+
+ai_ethic_fanatic_pacifist_sectors_only = {
+	country_core_sector_system_cap = -4
+}
+
+ai_ethic_pacifist_sectors_only = {
+	country_core_sector_system_cap = -2
+}
+
+ai_civic_efficient_bureaucracy_sectors_only = {
+	country_core_sector_system_cap = -2
+}

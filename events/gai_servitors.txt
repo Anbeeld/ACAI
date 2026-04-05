@@ -1,0 +1,106 @@
+namespace = gai_bio_trophy
+
+event = {
+	id = gai_bio_trophy.1
+	hide_window = yes
+	is_triggered_only = yes
+		
+	immediate = {
+		every_country = {
+			limit = {
+				NOT = { has_global_flag = disable_gai_bio_trophy }
+				is_ai = yes
+				is_at_war = no
+				is_country_type = "default"
+				NOT = { has_modifier = servitor_morale_40 }
+				has_valid_civic = civic_machine_servitor
+			}
+			country_event = { id = gai_bio_trophy.2 }
+		}
+	}
+}
+
+country_event = {
+	id = gai_bio_trophy.2	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		random_owned_pop = {
+            limit = {
+                has_citizenship_type = {
+					country = root
+					type = citizenship_organic_trophy
+				}
+            }
+            if = { 
+                limit = { 
+                    prev = {
+                        any_planet_within_border = {    
+                            is_colony = yes
+							free_pop_tiles > 0
+                            habitability = { who = prevprev value > 0.199 }
+                        }
+                    }
+                }
+            }
+            save_event_target_as = habitability_spec
+        }
+		random_owned_planet = {
+			limit = {
+				is_colony = yes
+				is_under_colonization = no
+				solar_system = {
+					is_within_borders_of = root
+				}
+				habitability = { who = event_target:habitability_spec value > 0.199 }
+				any_tile = {
+					gai_has_food = yes
+					has_blocker = no
+					NOT = { has_building = building_nutrient_paste_facility }
+					has_growing_pop = no
+					has_grown_pop = no
+				}
+			}
+			random_tile = {
+				limit = {
+					gai_has_food = yes
+					NOT = { gai_has_minerals = yes }
+					NOT = { gai_near_capital = yes }
+					has_blocker = no
+					has_grown_pop = no
+					has_growing_pop = no
+					NOT = { has_building = building_nutrient_paste_facility }
+				}
+				IF = {
+					limit = {
+						OR = { 
+							owner = {
+								has_monthly_income = {
+									resource = food
+									value > 2
+								}
+							}
+							planet = { has_building = building_nutrient_paste_facility }
+						}
+					}
+					create_pop = {
+						species = event_target:habitability_spec
+					}
+				}
+				IF = {
+					limit = {
+						owner = {
+							has_monthly_income = {
+								resource = food
+								value < 2
+							}
+						}
+						NOT = { planet = { has_building = building_nutrient_paste_facility } }
+					}
+					add_building_construction = building_nutrient_paste_facility
+				}
+			}
+		}
+	}
+}
