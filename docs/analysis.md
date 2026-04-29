@@ -106,9 +106,14 @@ Key state objects:
 | State | Stored on | Purpose |
 | --- | --- | --- |
 | `acai_days_scope` | Global event target | Holds rolling day counters used to distribute monthly work across different dates |
-| `acai_value_day_monthly_*` | `acai_days_scope` target | Economy, ship, robot, and building schedule windows |
+| `acai_value_day_monthly_economy` | `acai_days_scope` target | Economy schedule window (cycles 1–7, resets to 1 at 8) |
+| `acai_value_day_monthly_ships` | `acai_days_scope` target | Ship schedule window (cycles 8–11, resets to 8 at 12) |
+| `acai_value_day_monthly_robots` | `acai_days_scope` target | Robot schedule window (cycles 16–19, resets to 16 at 20) |
+| `acai_value_day_monthly_buildings_1` | `acai_days_scope` target | Building wave 1 schedule window |
+| `acai_value_day_monthly_buildings_2` | `acai_days_scope` target | Building wave 2 schedule window |
+| `acai_value_day_monthly_buildings_3` | `acai_days_scope` target | Building wave 3 schedule window (habitats only) |
 | `acai_corvette_preference`, `acai_battleship_preference` | Country flags | Long-lived doctrine flags that influence research, ship sections, components, and actual ship production |
-| `acai_destroyer_preference` | Country flag | Checked actively in tech and component AI weights, but the assignment code in `aai_yearly.10` is commented out and any existing flag is explicitly removed; a dormant doctrine that still shapes data-layer weights if manually set. The preference assignment `random_list` is actually 30 corvette / 30 battleship / 40 no change; the commented-out destroyer branch would have been 30 as well |
+| `acai_destroyer_preference` | Country flag | Dormant doctrine: the assignment code in `aai_yearly.10` is commented out and any existing flag is explicitly removed. Still referenced in 44 tech/component weight locations (see quirks, item 9). The preference assignment `random_list` is actually 30 corvette / 30 battleship / 40 no change; the commented-out destroyer branch would have been 30 as well |
 | `acai_value_energy_*`, `acai_value_minerals_*`, food booleans | Country variables | Coarse economy model used by builders, colonization, ship logic, and robot logic |
 | `acai_boolean_deposit_planet`, `acai_value_minerals_deposit` | Country variables | Virtual mineral reserve for colony ships |
 | `acai_value_main_fleet_*` | Fleet and country variables | Strongest-fleet detection and tie-breaking |
@@ -130,9 +135,9 @@ Main file: `events/Anbeelds_AI_Monthly.txt`
 
 `aai_monthly.1` is the central monthly dispatcher for active AI empires. Without scheduling, every AI empire would run every heavy decision routine on the same monthly pulse; this file deliberately staggers work to lower burst load and reduce synchronized behavior.
 
-It maintains rolling day counters in the global `acai_days_scope`, applies monthly strongest-fleet healing checks, starts stuck-transport recovery, and spreads work over several days instead of running everything on one pulse. Economy work cycles through days 1–7. Ship work varies through 4 cycle positions (variable values 8–11), each position firing two ship events offset by 4 days, covering day range 8–15. Robot work cycles through days 16–19, gated by conditions: robots must not be outlawed, the empire must be a machine intelligence or have robotic workers tech or the `synthetic_age` flag, and mineral thresholds apply (minerals > 100 at peace, minerals > 3000 at war). Building work is split into scheduling waves: for habitat-owning empires, wave 1 (`buildings_1`, days 1–5) for normal construction, wave 2 (`buildings_2`, days 6–10) for upgrades/replacement, and wave 3 (`buildings_3`, days 9–10) for habitats. Empires without habitats receive only waves 1 and 2, with slightly different day mappings at value boundaries. While iterating AI empires, the event also checks whether the strongest fleet is damaged and at war, looks for a usable owned starbase for repair, and triggers the transport stuck-fix subsystem if required.
+It maintains rolling day counters in the global `acai_days_scope`, applies monthly strongest-fleet healing checks, starts stuck-transport recovery, and spreads work over several days instead of running everything on one pulse. Economy work cycles through days 1–7. Ship work varies through 4 cycle positions (variable values 8–11), each position firing two ship events offset by 4 days, covering day range 8–15; ship events also require at least one communications contact or 8+ years passed, minerals sufficient for a corvette, and an owned starbase with free shipyard capacity. Robot work cycles through days 16–19, gated by conditions: robots must not be outlawed, the empire must be a machine intelligence or have robotic workers tech or the `synthetic_age` flag, and mineral thresholds apply (minerals > 100 at peace, minerals > 3000 at war). Building work is gated by minerals (at peace requires minerals > 60; at war requires minerals > 5000) and is split into scheduling waves: for habitat-owning empires, wave 1 (`buildings_1`, values 1–5) for normal construction (value 5 fires at days=1 with random=3 rather than a deterministic day 5), wave 2 (`buildings_2`, values 6–10) for upgrades/replacement (value 6 fires at days=5, value 10 fires at days=5 with random=3, with the effective deterministic range being days 5–8), and wave 3 (`buildings_3`, values 9–10) for habitats (days 9–10). Empires without habitats receive only waves 1 and 2, with slightly different day mappings: value 5 fires at deterministic days=5 (unlike the habitat branch's randomized reschedule), and value 10 fires at deterministic days=10. The economy event (`aai_monthly.2`) also runs `aai_main_fleet_calculating` and `acai_naval_capacity_usage_calculating` on every tick alongside `aai_calc_economy` and `acai_calc_deposit`, recalculating fleet strength and naval capacity each month. While iterating AI empires, the event also checks whether the strongest fleet is damaged and at war, looks for a usable owned starbase for repair, and triggers the transport stuck-fix subsystem if required.
 
-The mod behaves like a persistent planner rather than a once-a-month panic script. Economy work fires on days 1–7, ship work on days 8–15, and building logic in a separate conditional pass — empires are recalculated often, but never all on the same pulse.
+The mod behaves like a persistent planner rather than a once-a-month panic script. Economy work fires on days 1–7, ship work on days 8–15, and building logic in a separate mineral-gated conditional pass — empires are recalculated often, but never all on the same pulse.
 
 ## 2. Yearly orchestration
 
@@ -144,12 +149,14 @@ Scheduled subsystems and their timing:
 
 - `aai_yearly.2` calls `aai_calc_pops_and_food`; fires twice per year (around days 20 and 190, `random = 50`)
 - `aai_yearly.3` calls `aai_civilian.1`; fires twice per year (around days 70 and 240, `random = 10`)
-- `aai_yearly.4` calls `aai_armies.1`; fires twice per year (around days 80 and 250, `random = 10`); `aai_armies.10` (idle transport recall) also fires at the same two offsets
-- `aai_yearly.5` calls the starbase planner; fires twice per year (around days 90 and 260, `random = 40`; internally chains five staggered sub-events at 0/+5/+10/+15/+20 day offsets)
-- `aai_yearly.6` recalculates naval capacity and desired usage bands; fires twice per year (around days 150 and 320, `random = 20`)
-- `aai_yearly.10` assigns ship preference when an empire has none. The `random_list` has two active entries: 30% corvette and 30% battleship. The remaining 40% is unallocated, leaving whatever preference the empire already has. The destroyer preference branch is commented out. It removes `acai_destroyer_preference` only when the empire has no existing corvette or battleship preference (conditional, not unconditional). It also manages the `acai_upgrading_band_aid` modifier (adds it for AI empires that lack it, removes it for non-AI empires). Fires once per year (around days 5–10 with `random = 5` jitter) and also at game start via `on_game_start_country`.
+- `aai_yearly.4` calls `aai_armies.1` and also fires `aai_armies.10` (idle transport recall); fires twice per year (around days 80 and 250, `random = 10`); accepts both `default` and `awakened_fallen_empire` country types
+- `aai_yearly.5` calls the starbase planner; fires twice per year (around days 90 and 260, `random = 40`; internally chains five staggered sub-events at 0/+5/+10/+15/+20 day offsets); gated by mineral thresholds (at peace requires minerals > 100; at war requires escalating thresholds of 5000/10000/17500/27500 based on missing starbase technology levels, or a large stockpile override)
+- `aai_yearly.6` recalculates both naval capacity (`acai_naval_capacity_calculating`) and naval capacity usage (`acai_naval_capacity_usage_calculating`); fires twice per year (around days 150 and 320, `random = 20`)
+- `aai_yearly.10` assigns ship preference when an empire has none. The `random_list` has two active entries: 30% corvette and 30% battleship. The remaining 40% is unallocated, leaving whatever preference the empire already has. The destroyer preference branch is commented out. It removes `acai_destroyer_preference` only when the empire has no existing corvette or battleship preference (the NOR check includes only those two flags, with the destroyer check commented out, which enables cleanup of orphaned destroyer flags). It also manages the `acai_upgrading_band_aid` modifier (adds it for AI empires that lack it, removes it for non-AI empires — the event fires for all `default` country types, not just AI, and the non-AI branch explicitly removes the modifier from non-AI empires). Fires once per year (around days 5–10 with `random = 5` jitter) and also at game start via `on_game_start_country`.
 
 All yearly subsystems except ship preference fire twice per year with different day offsets plus jitter. The AI periodically recenters its long-term plan: what to research toward, how much navy to aim for, how many civilian ships to keep, and how to structure starbases. Most subsystems recalculate twice per year, ensuring mid-course corrections within a single game year rather than waiting a full 360 days.
+
+Two additional yearly events are defined but dormant: `aai_yearly.20` implements a full sector resource-loss simulation but is commented out of the scheduler, and `aai_yearly.100` is a comprehensive debug logger that is also not scheduled.
 
 ## 3. Economy evaluation
 
@@ -181,12 +188,12 @@ Most other subsystems need stable yes/no decisions such as "energy low", "food m
 
 `aai_calc_economy`:
 
-- quantizes energy stockpiles and energy/mineral incomes into discrete variables (e.g. `acai_value_minerals_income` in 5-unit steps from 5 to 510)
+- quantizes energy stockpile in 300-unit steps from 300 to 15000, energy production in 50-unit steps from 50 to 2000, and energy income in 1-unit steps from 2 to 104; quantizes mineral income in 5-unit steps from 5 to 510
 - computes an energy stock segment (`aai_value_energy_stock_segment`) by multiplying energy production by 6 and adding 300 (not dividing by income thresholds)
-- subtracts estimated main-fleet upkeep from both energy income and minerals income when the strongest fleet is parked at a friendly crew-quarters starbase; the upkeep deduction scales by game age in 15-year brackets for corvettes (0.175 early, incrementing to 0.40 at 165+ years) and uses a flat -2.50 energy for battleships; each energy deduction has a paired mineral deduction (0.35 to 0.80 for corvettes, 5.0 for battleships)
-- derives mineral income margin thresholds (`acai_value_minerals_income_extreme_margin`, `acai_value_minerals_income_low_margin`) with 10% percentage buffers above the base breakpoints
+- subtracts estimated main-fleet upkeep from both energy income and minerals income when the strongest fleet is parked at a friendly crew-quarters starbase; the upkeep deduction scales by game age in 15-year brackets for corvettes (0.175 early, incrementing to 0.40 at 165+ years) and uses a flat -2.50 energy for battleships; each energy deduction has a paired mineral deduction that is exactly 2× the energy deduction (0.35 to 0.80 for corvettes, 5.0 for battleships, maintaining a consistent 2:1 mineral-to-energy ratio); destroyer and cruiser size checks exist only as commented-out code
+- derives mineral income margin thresholds: the extreme margin adds a 10% percentage buffer plus a flat +5 (`acai_value_minerals_income_extreme_margin = extreme + 5 + extreme/10`), while the low margin adds a 10% percentage buffer plus a different flat +10 (`acai_value_minerals_income_low_margin = low + 10 + low/10`)
 - sets boolean-style thresholds such as:
-  - `aai_boolean_energy_income_low`
+  - `aai_boolean_energy_income_low` (set to 1 if stockpile >= energy stock segment OR income >= low threshold, else 2; the stockpile alternative path is unique to the low threshold)
   - `aai_boolean_energy_income_medium`
   - `aai_boolean_energy_income_high`
   - `acai_boolean_minerals_income_extreme` / `acai_boolean_minerals_income_extreme_margin`
@@ -196,7 +203,7 @@ Most other subsystems need stable yes/no decisions such as "energy low", "food m
 
 - skips food calculations entirely for machine intelligences
 - counts usable pops into `aai_value_num_pops`
-- sets food income thresholds across 29 discrete levels (not just low/medium/high); scaling differs by empire size (empires under 200 pops divide by 20, larger ones divide by 40 with +5 compensation, then add base 2)
+- sets food income thresholds across 29 discrete levels for the low-food check (values 2–30), 61 levels for the medium check (values 8–68), and 61 levels for the high check (values 22–82); scaling differs by empire size: low food uses `pops/20` (under 200 pops) or `pops/40 + 5` (200+ pops) then adds base 2; medium food uses `pops/10` (under 200) or `pops/20 + 10` (200+) then adds base 8; high food uses the medium value + 14
 - derives mineral-pressure reference values from pop count using specific formulas: `acai_value_minerals_income_low = (pops / 2) + 10`, `acai_value_minerals_income_extreme = (pops / 4) + 5`
 
 `acai_calc_deposit`:
@@ -205,11 +212,7 @@ Most other subsystems need stable yes/no decisions such as "energy low", "food m
 - caps the reserve at 300
 - this reserve is spent by colonization instead of the normal stockpile
 
-### Expected outcome
-
-- AI building and ship decisions respond to broad economic state, not one-off noise
-- Early empires can deliberately save for colony ships (section 4)
-- Main-fleet upkeep affects AI expansion and production decisions — when the strongest fleet is parked at a crew-quarters starbase, the economy model reduces both energy and minerals income, which tightens both building logic (section 5) and ship production (section 8) in a way the vanilla AI often mishandles
+The economy model links to the rest of the AI in two directions: it feeds boolean thresholds into building, ship, colonization, and robot logic (sections 4–8), and it deducts main-fleet upkeep from income when the strongest fleet is parked at a crew-quarters starbase, which tightens building logic (section 5) and ship production (section 8) in a way the vanilla AI often mishandles. Early empires can also deliberately save for colony ships through the deposit mechanism (section 4).
 
 ## 4. Colonization and colony setup
 
@@ -217,11 +220,11 @@ Main file: `events/gai_ai_colonize.txt`
 
 The legacy colonization layer still actively controls when AI empires colonize and how newly colonized worlds are initialized. The repository uses a custom mineral reserve and tile-aware colony-shelter placement that vanilla AI does not provide.
 
-`gai_ai_colonize.1` scans AI empires with valid colonizable planets (includes `awakened_fallen_empire` country types, not just `default`), rejects empires with low energy income, and requires energy >= 100 and either at least 300 minerals or a full 300-mineral colony reserve in `acai_value_minerals_deposit`. If below 300 minerals and under 3 planets, it enables deposit saving by setting `acai_boolean_deposit_planet = 2`.
+`gai_ai_colonize.1` scans AI empires with valid colonizable planets (includes `awakened_fallen_empire` country types, not just `default`), rejects empires where `aai_energy_income_low` is not false (i.e., the empire must not have low energy income), and then within that filter requires energy stockpile >= 100 and either at least 300 minerals or a full 300-mineral colony reserve in `acai_value_minerals_deposit`. The energy check is therefore dual: an outer filter using the shared economy trigger `aai_energy_income_low = no` AND an inner requirement of energy >= 100. If below 300 minerals and under 3 planets, it enables deposit saving by setting `acai_boolean_deposit_planet = 2`.
 
-`gai_ai_colonize.2` finds a legal colonizing species from owned pops with habitability > 0.19, excluding pops with assimilation, purge, or purge-machine citizenship. It avoids holy worlds if any holy-world guardian exists, starts the colony, and for empires whose primary species has habitability < 0.20 on the target planet, also creates an additional pop of the viable species on the colony. It spends either the reserved deposit or the regular stockpile (300 minerals), plus 100 energy.
+`gai_ai_colonize.2` finds a legal colonizing species from owned pops with habitability > 0.19, excluding pops with assimilation, purge, or purge-machine citizenship. It avoids holy worlds only when both conditions hold: the planet has the holy_planet modifier AND there exists any country with the holy_planets AI personality behavior. For empires whose primary species has habitability < 0.20 on the target planet, it also creates an additional pop of the viable species. It spends either the reserved deposit or the regular stockpile (300 minerals), plus 100 energy.
 
-`gai_ai_colonize.3` runs on `on_colonized`. For AI owners, it removes the initial shelter/deployment-post placement and relocates it to a better tile, using 15 cascading priority conditions for non-machine empires and 17 for machine intelligences, prioritizing 4-adjacency energy tiles (no research neighbors) → 4-adjacency blank → 4-adjacency food → then progressively relaxing adjacency and tile-type requirements. Machine intelligences place `building_deployment_post` instead of `building_colony_shelter` with a different priority tree. The event includes a Machine Assimilator branch that adds a colonist pop of a viable organic species.
+`gai_ai_colonize.3` runs on `on_colonized`. For AI owners, it removes the initial shelter/deployment-post placement and relocates it to a better tile, using 15 cascading priority conditions for non-machine empires and 16 for machine intelligences (the additional machine condition is `>1 adjacent tiles with food`), prioritizing 4-adjacency energy tiles (no research neighbors) → 4-adjacency blank tiles (no research neighbors) → 4-adjacency food tiles (no research neighbors) then progressively relaxing adjacency and tile-type requirements. Machine intelligences place `building_deployment_post` instead of `building_colony_shelter` with a different priority tree. The event includes a Machine Assimilator branch that adds a colonist pop of a viable organic species.
 
 AI empires colonize when they can actually support it; colony ships do not consume minerals that were implicitly needed elsewhere unless the AI has enough; and new colony capitals land on better tiles than the default script would place them on.
 
@@ -255,22 +258,22 @@ Planet management is the core of the mod. Most of the repository exists either t
 
 #### Empty-tile construction on normal planets
 
-`aai_planet_building_construction` chooses a target tile and then picks a building using tile yields and empire state.
+`aai_planet_building_construction` chooses a target tile and then picks a building using tile yields and empire state. Every tile selection is gated by `acai_rogue_servitors_not_organic`, preventing organic pops on Rogue Servitor worlds from being disrupted.
 
 Observed priority order:
 
-- restore a missing capital
-- use species/planet-specific specials such as alien pets or Betharian deposits
-- fix low food
-- fix low energy
+- restore a missing capital (requires `num_adjacent_tiles > 2`; if the owner lacks `tech_planetary_government` or has <=4 pops or <350 minerals, falls back to `building_colony_shelter` or `building_deployment_post` for machines)
+- use species/planet-specific specials such as alien pets (builds `building_xeno_zoo` with `tech_alien_life_studies`, or `building_animal_evaluation_laboratory` for machine intelligences; without the tech, alien pets tiles get `building_basic_science_lab_1` instead) and Betharian power plants (builds `building_betharian_power_plant` with `tech_mine_betharian`; without the tech, betharian tiles get `building_power_plant_1` instead)
+- fix low food (with sub-priorities: food tile first, then blank tile, then energy tile, then any remaining tile)
+- fix low energy (with sub-priorities: energy tile first, then blank tile)
 - use research tiles for labs
 - use mineral tiles for mines
 - on blank tiles, choose between science and mining early, then balance later
 
 Additional logic in the empty-tile construction pass:
 
-- strategic resource buildings: Alien Pets (XZoo/Animal Lab with `tech_alien_life_studies`) and Betharian power plants (`tech_mine_betharian`)
-- machine intelligences are excluded from all food-related building logic (33+ `auth_machine_intelligence` checks across building files)
+- strategic resource buildings: Alien Pets (XZoo/Animal Lab with `tech_alien_life_studies`, or `building_animal_evaluation_laboratory` for machines; falls back to `building_basic_science_lab_1` without the tech) and Betharian power plants (`building_betharian_power_plant` with `tech_mine_betharian`; falls back to `building_power_plant_1` without the tech)
+- machine intelligences are excluded from food-related building logic and routed to machine-specific alternatives (including machine capitals and deployment posts); the 33+ `auth_machine_intelligence` checks across building files cover capital selection, energy logic on habitats, strategic resource handling, and food exclusion — not all are purely food-related
 
 The logic is guarded by helper triggers such as:
 
@@ -294,48 +297,56 @@ The logic is guarded by helper triggers such as:
 `aai_buildings.40`:
 
 - removes `building_junkheap`
-- fills an empty valid tile on a normal colony
+- fills an empty valid tile on a normal colony (minerals > 60 required)
 - if there is no good empty tile, runs emergency replacement logic
 - can demolish and replace buildings to restore capital, food, or energy
+- handles surplus replacement: when food or energy income is high, removes excess farms or power plants respectively and replaces them with mining bays or research labs (weighted 45% mining, 30% research when no priority target exists)
+- also handles strategic resource building replacement (demolishing an existing building to place alien pets or betharian power on an appropriate tile)
+- replaces mismatched research labs on specialized research tiles (physics/society/engineering tiles getting the wrong lab type)
 
 `aai_buildings.45`:
 
-- handles capital upgrades and conventional building upgrades
+- handles capital upgrades and conventional building upgrades (minerals > 180 required)
 - confirmed upgrade paths include:
-  - colony shelter/deployment post to capital tier 1
-  - capital tier 1 to tier 2
-  - capital tier 2 to tier 3
-  - mining networks up to tier 5
-  - power plants up to tier 5
-  - farms up to tier 5
-  - mineral processing, power hubs, hospitals, assembly plants
-  - unity chains for spiritualist, machine, and generic empires
-  - research lab chains for all three science branches
+  - colony shelter/deployment post to capital tier 1 (at >5 pops, >350 minerals)
+  - capital tier 1 to tier 2 (at >10 pops, >500 minerals, `tech_colonial_centralization`)
+  - capital tier 2 to tier 3 (on capital planet, >1000 minerals, `tech_galactic_administration`)
+  - mining networks up to tier 5 (requires `gai_upgraded_capital`)
+  - power plants up to tier 5 (requires `gai_upgraded_capital`)
+  - farms up to tier 5 (requires `gai_upgraded_capital`)
+  - mineral processing (tier 1→2, requires `tech_mineral_processing_2`)
+  - power hubs (tier 1→2, requires `tech_power_hub_2`)
+  - clinics to hospitals (requires `tech_frontier_hospital`)
+  - spare parts depots to unit assembly plants (requires `tech_intelligent_factories`; machine-specific)
+  - unity chains for spiritualist (temple progression), machine (uplink node progression), and generic empires (autochthon monument progression)
+  - research lab chains: basic science labs upgrade to physics/biology/engineering labs at tier 2 capital, then to tier 4 (not tier 5); labs on non-research tiles get a random specialization (20% physics, 40% biology, 30% engineering)
+  - science lab upgrades are gated behind `years_passed > 10`
 
 `aai_buildings.50`:
 
-- fills empty habitat tiles
-- otherwise demolishes and replaces habitat buildings to restore missing capital, food, or energy
+- fills empty habitat tiles (minerals > 250 required)
+- otherwise demolishes and replaces habitat buildings to restore missing capital, food, or energy with specific fallback orders (e.g., remove solar power processor if energy is medium when fixing low food, remove agricultural zone if food is medium when fixing low energy, then weighted 45% mining / 30% research as a final fallback)
+- also handles surplus replacement on habitats: when food income is high, removes agricultural zones; when energy income is high, removes solar power processors
 
 #### Critical building enforcement
 
 `gai_critical_buildings.1` and `.2` are still active yearly.
 
-They scan upgraded-capital colonies and ensure the planet has the appropriate support structure set:
+They scan upgraded-capital colonies and ensure the planet has the appropriate support structure set, in this priority order:
 
-- unity building
-- growth building
+- unity building (autochthon monument for generic, uplink node for machine, temple for spiritualist)
+- growth building (clinic for generic, spare parts depot for machine)
 - paradise dome
 - power hub
-- purifier building
-- slave processing
-- mineral processing
+- control center (machine intelligence building)
 - hive synapse
-- machine control center
+- mineral processing
+- symbol of purity
+- slave processing
 
 This logic uses the large legacy trigger library in `common/scripted_triggers/gai_triggers.txt`.
 
-The `gai_is_ai` trigger (used broadly by the legacy layer) matches planets that are `sector_controlled = yes`, not just those with AI owners. This means critical building insertion and other `gai_*` operations apply to colony worlds placed into sectors under player empires as well, not only to AI empires.
+The `gai_is_ai` trigger (used broadly by the legacy layer) matches planets that are `sector_controlled = yes`, not just those with AI owners. This means critical building insertion and other `gai_*` operations apply to colony worlds placed into sectors under player empires as well, not only to AI empires. However, the country-level filter in `gai_critical_buildings.1` requires `minerals > 1000` or `is_ai = yes`, so player sector planets are only affected if the player country itself passes that stockpile threshold.
 
 #### Rogue Servitor support
 
@@ -348,11 +359,9 @@ The `gai_is_ai` trigger (used broadly by the legacy layer) matches planets that 
 
 ### Expected outcome
 
-- AI worlds fill in a goal-directed order instead of random or purely yield-driven order
-- emergency shortages can trigger demolition and replacement
-- habitats do not use the normal-planet logic
-- critical support buildings appear reliably instead of being forgotten forever
+- Critical support buildings appear reliably instead of being forgotten
 - Rogue Servitors maintain bio-trophies in a more stable way
+- The building planner and the starbase planner share the same economy booleans, so a mineral shortage that blocks building placement also delays colony ships (section 4) and ship production (section 8)
 
 ## 6. Civilian ship production
 
@@ -364,9 +373,9 @@ Main file: `events/Anbeelds_AI_Civilian.txt`
 
 Main file: `events/Anbeelds_AI_Robots.txt`
 
-`aai_robots.1` creates robot-pop construction orders on colonies with free tile space, avoiding planets already growing too many robot pops. For machine intelligences and empires with the `synthetic_age` flag, it builds the top-tier robot pop (`buildable_robot_pop_4`). For other empires, it requires monthly energy income > 5 and picks the highest unlocked tier (synthetic, droid, robot), spending 100 minerals each time.
+`aai_robots.1` creates robot-pop construction orders on colonies with free tile space, avoiding planets already growing too many robot pops. For machine intelligences and empires with the `synthetic_age` flag, it builds the top-tier robot pop (`buildable_robot_pop_4`); machine intelligences are allowed up to 2 simultaneously growing robot pops (count < 2), while other empires are limited to 1 (count < 1). For other empires, it requires monthly energy income > 5 and picks the highest unlocked tier (synthetic, droid, robot), spending 100 minerals each time.
 
-Known quirk: the machine-intelligence branch checks `aai_var_energy_income_medium`, which is never produced anywhere in the repository (see quirks, item 1).
+Known quirk: the machine-intelligence branch checks a variable name that is never produced anywhere in the repository, making the condition always evaluate to zero/default (see quirks, item 1).
 
 ## 8. Fleet production, composition, and delivery
 
@@ -406,7 +415,7 @@ The repository clearly treats navy behavior as one of vanilla Stellaris AI's mai
 
 - iterates military fleets
 - stores a quantized `fleet_power`
-- assigns a monotonically increasing identificator to break ties
+- assigns an identificator that starts at 1 and increments per fleet, combined with the country owner scope value, to break ties
 
 `acai_main_fleet_current_strongest`:
 
@@ -439,14 +448,12 @@ This strongest-fleet concept is used by:
 - shifts those values upward for mutually exclusive ideology tiers (only one applies):
   - tier 3 (genocidal: `civic_fanatic_purifiers`, `civic_hive_devouring_swarm`, or `civic_machine_terminator`)
   - tier 2 (`ethic_fanatic_militarist` or `civic_machine_assimilator`)
-  - tier 1 (`ethic_militarist`)
+  - tier 1 (`ethic_filitarist`)
 - shifts them downward for mutually exclusive pacifism tiers:
   - tier 3 (`civic_inwards_perfection`)
   - tier 2 (`ethic_fanatic_pacifist`)
   - tier 1 (`ethic_pacifist`)
-- calculates separate delete thresholds and free-capacity values
-
-This gives the ship logic a policy layer rather than a single fixed ratio.
+- calculates separate delete thresholds by adding 0.20 (war) or 0.10 (peace) to each ratio, floored at 1.00
 
 #### Build vs disband decision
 
@@ -486,8 +493,6 @@ Confirmed build behavior:
   - year-scaled cost from 140 to 320 minerals
   - reserves 1 expected naval cap
 
-Destroyer and cruiser build paths exist in `acai_ships_build` only as commented-out code; the helper events that would queue them (`aai_ships.11` for destroyers and `aai_ships.12` for cruisers) are fully defined but never called by the live build effect (see dormant pieces, "Destroyer/cruiser production branch").
-
 #### Shipyard busy-slot tracking
 
 `acai_ships_make_shipyard_busy` and `acai_ships_make_shipyard_free`:
@@ -518,7 +523,7 @@ Destroyer and cruiser build paths exist in `acai_ships_build` only as commented-
 
 This is a workaround for the limited control Clausewitz event scripts have over reinforcements.
 
-After the initial 60-day (corvette) or 480-day (battleship) build delay, additional delivery delays are applied based on the number of jumps between the ship's origin and the main fleet's current system. Delivery delays differ by ship type: corvettes add 70 days per 2 jumps (scaling up to 700 days at 19+ jumps), while battleships add 80 days per 2 jumps (scaling up to 800 days at 19+ jumps). Same-system delivery is instant (0 days).
+After the initial 60-day (corvette) or 480-day (battleship) build delay, additional delivery delays are applied based on the number of jumps between the ship's origin and the main fleet's current system. Delivery delays differ by ship type: corvettes add 70 days per 2-jump block (scaling up to 700 days at 19+ jumps), while battleships add 80 days per 2-jump block (scaling up to 800 days at 19+ jumps). Same-system delivery is instant (0 days). If the main fleet is in combat or has no valid solar system, the delivery is delayed by 15 days and retried.
 
 #### Fleet meta shaping through static data
 
@@ -528,18 +533,12 @@ Confirmed patterns:
 
 - `common/section_templates/corvette.txt` strongly prefers torpedo corvettes and zeroes out several alternative corvette middles
 - `common/section_templates/battleship.txt` prefers long-range/artillery battleship sections and disables several weaker or situational layouts
-- `common/component_templates/00_ACAI_Combat_computers.txt` strongly favors artillery computers for destroyer/battleship-pref empires
+- `common/component_templates/00_ACAI_Combat_computers.txt` strongly favors artillery computers for destroyer/battleship-pref empires; this file only overrides artillery computers, leaving picket, swarm, and line computers at vanilla weights
 - `common/component_templates/00_ACAI_Afterburners.txt` heavily favors afterburners for corvette-pref and pre-battleship strategies
 - `common/component_templates/00_ACAI_Auxiliary.txt` favors fire-control for battleship-pref empires once battleships are unlocked
 - `common/technology/*.txt` uses `years_passed` and preference flags to bias research into or away from hull lines, ship upgrades, and weapons
 
-### Expected outcome
-
-- Corvette-pref empires stay small-hull focused much longer
-- Battleship-pref empires jump hard into artillery battleships once the economy supports it
-- Fleets are kept closer to target utilization instead of drifting randomly
-- New ships arrive at the main fleet more reliably than simple spawn-at-capital behavior would allow
-- The repair system (section 9) heals the same strongest fleet that this one delivers ships to, so ship delivery and fleet healing form a reinforcement loop: damaged fleets heal, new ships arrive, and the fleet returns to combat
+The repair system (section 9) heals the same strongest fleet that this one delivers ships to, so ship delivery and fleet healing form a reinforcement loop: damaged fleets heal, new ships arrive, and the fleet returns to combat. Ship production is also gated by mineral thresholds (minerals > 300 at peace for battleships, minerals sufficient for a corvette otherwise) and by available shipyard capacity tracked through the `acai_ships_busy_shipyards_*` flags — a shortage of shipyard starbases chokes both production and fleet recovery. Destroyer and cruiser build paths exist in `acai_ships_build` only as commented-out code; the creation event stubs (`.11`, `.12`) and delivery event stubs (`.21`, `.22`) are fully defined live code that is never called by the active build effect (see dormant pieces, "Destroyer/cruiser production branch"). The destroyer preference flag (`acai_destroyer_preference`) is referenced in 44 tech and component AI weight locations but is never assigned by any live code path (see quirks, item 9).
 
 ## 9. Fleet repair and healing
 
@@ -555,9 +554,9 @@ Main files: `events/Anbeelds_AI_Armies.txt`, `common/scripted_effects/ACAI_Armie
 
 Transport fleets are one of the most failure-prone vanilla AI units. This subsystem patches three problems:
 
-- `aai_armies.1` builds assault armies on the capital or a safe alternative planet (100 minerals per army, looping until comfortable count or minerals run out). Also applies to `awakened_fallen_empire` country types.
+- `aai_armies.1` builds assault armies on the capital or a safe alternative planet (100 minerals per army, looping up to 20 times while minerals > 100). Also applies to `awakened_fallen_empire` country types.
 - `aai_armies.10` recalls idle transport-only fleets to the capital during peacetime when they are sitting in systems with no nearby owned starbase.
-- `aai_armies.2` is the stuck-fix event: it checks transport fleets that have land-army orders but no valid solar system (`NOT = { exists = solar_system }`), retries for a while, and can eventually delete the broken fleet and recreate it fresh. Helper effects `acai_armies_stuckfix_call` and `acai_armies_stuckfix_cancel` manage the retry and cancellation state.
+- `aai_armies.2` is the stuck-fix event: it checks transport fleets that have `land_armies_order` (the primary path is fleets with a valid solar system that are still stuck; fleets with a missing solar system are immediately cancelled via `acai_armies_stuckfix_cancel`), uses a two-counter retry system (`acai_value_armies_stuck_1` threshold 35 and `acai_value_armies_stuck_2` threshold 20), and can eventually delete the broken fleet and recreate it fresh. Helper effects `acai_armies_stuckfix_call` and `acai_armies_stuckfix_cancel` manage the retry and cancellation state.
 
 ## 11. Starbase planning
 
@@ -594,8 +593,8 @@ This is a direct replacement for vanilla starbase indecision. The repository wan
 - computes desired starbase cap from pops, systems, tech, traditions, and `ap_grasp_the_void`
 - caps desired total by owned systems
 - computes role targets with fixed formulas:
-  - shipyards start at 1 and gain +1 per 10 points of desired starbase limit once the limit reaches 11
-  - trading hubs start at 2 and gain +1 per 4 points of desired starbase limit once the limit reaches 7
+  - shipyards start at 1 and gain +1 for every 10 points of desired starbase limit beyond 1 (so shipyard count = 1 + floor((limit - 1) / 10) once the limit reaches 11)
+  - trading hubs start at 2 and gain +1 each time the remaining limit can absorb a subtraction of 4 (starting from limit >= 7, so trading hub count = 2 + number of iterations subtracting 4 while remaining >= 7)
   - anchorages absorb the remainder or any excess role assignments
 - stores role flags on the system star, not on the starbase object itself
 
@@ -616,10 +615,10 @@ This is a direct replacement for vanilla starbase indecision. The repository wan
 - recalculates counts
 - prioritizes outposts for upgrading
 - uses `acai_boolean_trading_hub_priority` to decide whether outpost upgrades should favor immediately suitable trade systems, future trade systems, or any valid outpost
-- prefers safer candidates first by checking for hostile neighbors at two jumps, then one jump, then direct adjacency
-- upgrades outposts and larger starbases through the size chain
-- uses different mineral thresholds
-- contains `ap_voidborn` handling as a reserve requirement, not a higher actual upgrade cost
+- prefers safer candidates first by checking for no hostile neighbors at progressively relaxing ranges: first systems with no foreign starbases within 2 jumps, then 1 jump, then direct adjacency, then any valid outpost
+- upgrades outposts and larger starbases through the size chain (outpost → starport at 300 minerals, starport → starhold at 750 minerals, starhold → starfortress at 2500 or 12500 minerals with `ap_voidborn`, starfortress → citadel at 7500 or 17500 minerals with `ap_voidborn`)
+- uses different mineral thresholds as gate for each upgrade tier
+- contains `ap_voidborn` handling as a reserve requirement that raises the effective upgrade cost threshold, not a higher actual upgrade cost
 
 `aai_starbases.500` (dormant — defined but never triggered; see dormant pieces for the full layout patterns):
 
@@ -635,32 +634,25 @@ This is a direct replacement for vanilla starbase indecision. The repository wan
 These effects:
 
 - fill all module slots for the chosen role when possible
-- add role-appropriate buildings such as crew quarters, fleet academy, naval logistics office, offworld trading company, titan yards, colossus yards, black site (trading hubs at starfortress level in colony systems for non-gestalt empires with `tech_living_state`), hydroponics bay, resource silo (added to both anchorages and trading hubs), warp fluctuator, or communications jammer
+- add role-appropriate buildings such as crew quarters, fleet academy, naval logistics office, offworld trading company, titan yards, colossus yards, deep space black site (trading hubs at starfortress level in colony systems for non-gestalt empires with `tech_living_state`), hydroponics bay (non-machine only on anchorages), resource silo (added to both anchorages and trading hubs), warp fluctuator, or communications jammer
 - spend minerals directly from the owning empire
 
-### Expected outcome
-
-- More role-pure shipyard and anchorage networks
-- More trading hubs in colony systems, trader-enclave systems, and candidate future-colony systems
-- Fewer random starbase layouts
-- Better late-game access to titan and colossus infrastructure
-- Note: the defensive conversion pass (`aai_starbases.500`) is defined but never triggered (see dormant pieces)
-- The shipyard specialisation directly determines where section 8's ship delivery chain can spawn new vessels — a shortage of shipyard starbases chokes both ship production and fleet recovery
+Shipyard, anchorage, and trading-hub roles are assigned by the planner and filled through dedicated construction effects. The shipyard specialisation directly determines where section 8's ship delivery chain can spawn new vessels — a shortage of shipyard starbases chokes both ship production and fleet recovery. The defensive conversion pass (`aai_starbases.500`) is defined but never triggered (see dormant pieces).
 
 ## 12. Edict simulation and economic buffs
 
 Main files: `events/gai_edicts.txt`, `common/static_modifiers/gai_static_modifiers.txt`, `common/edicts/00_campaigns.txt`, `common/edicts/01_edicts.txt`
 
-The mod splits edicts into two systems: campaign edicts remain real edicts but are retuned (`00_campaigns.txt` makes them energy-cost, 3600-day campaigns with explicit AI weights tied to energy stockpile and income), while core empire edicts are applied via scripted modifiers gated by influence thresholds and economy conditions, rather than left to the base AI's edict heuristics (`01_edicts.txt` sets most `ai_weight` values to zero, though some event edicts like `masters_writings_*`, `improved_work_environment`, and `renewable_energy` retain `ai_weight = 1`).
+The mod splits edicts into two systems: campaign edicts remain real edicts but are retuned (`00_campaigns.txt` makes them energy-cost at 1000 energy and 3600-day duration with explicit AI weights tied to energy stockpile and income; hive campaigns use food at 500 cost instead), while core empire edicts are applied via scripted modifiers gated by influence thresholds and economy conditions, rather than left to the base AI's edict heuristics (`01_edicts.txt` sets most `ai_weight` values to zero, though some event edicts like `masters_writings_*`, `improved_work_environment`, and `renewable_energy` retain `ai_weight = 1`).
 
-`gai_edict.1` dispatches to `gai_edict.2` for every AI default-type country. `gai_edict.2` simulates edicts by applying modifiers directly:
+`gai_edict.1` dispatches to `gai_edict.2` for every AI default-type country. `gai_edict.2` simulates edicts by applying modifiers directly; all three edict modifiers have duplicate-prevention checks (`NOT = { has_modifier = ... }`) to avoid stacking:
 
 - `ai_capacity_overload_edict` — requires `aai_energy_income_low = yes` (using the shared Anbeeld economy trigger, not an inline threshold), requires `tech_power_hub_1`, costs 300 influence
 - `ai_production_targets_edict` — requires `tech_colonial_centralization`, costs 300 influence; fallback if energy is not low
 - `ai_research_focus_edict` — requires materialist ethic, costs 300 influence; next fallback if neither of the above apply
 - All three edict-simulation branches are gated behind an influence threshold that varies by ascension perk status and game age: 450 influence for the first 20 years with no voidborn/wonders, then 300 influence thereafter; 600 with voidborn only; 700 with galactic wonders only; 900 with both
-- `ai_healthcare_campaign`, `ai_robot_campaign`, and `ai_recycling_campaign` are all dead code — gated by `always = no` and never execute
-- Enclave-like modifiers (live, not gated by `always = no`): mineral trade tiers 1/2/3 costing 2400/6000/12000 energy, requiring trader enclave relations and stockpile thresholds of 3500/8000/14500 energy; curator insight (5000 energy, 8000+ stockpile, curator relations); artist patron equivalent (5000 energy, 8000+ stockpile, artist relations)
+- `ai_healthcare_campaign`, `ai_robot_campaign`, and `ai_recycling_campaign` are all dead code — gated by `always = no` and never execute. Each would cost 1000 energy (not influence) with specific stockpile requirements.
+- Enclave-like modifiers (live, not gated by `always = no`): the enclave trade section requires the empire to not be a purifier/terminator/assimilator/devouring swarm and to not be at war. Mineral trade tiers 1/2/3 costing 2400/6000/12000 energy, requiring trader enclave relations and monthly mineral income > 10; tier 1 requires energy stockpile 3500–8000, tier 2 requires 8000–12000, tier 3 requires 14500+ (upper bounds ensure the correct tier is picked); curator insight (5000 energy, 8000+ stockpile, curator relations, monthly energy income > 25); artist patron equivalent (5000 energy, 8000+ stockpile, artist relations, monthly energy income > 25)
 
 `gai_edict.3` manages the `ai_fix_subject_1` modifier (applies it to AI subjects, removes it when they lose subject status), but the call from `gai_edict.1` is commented out, making this event dormant. The subject economy fix is not applied by any live code path.
 
@@ -670,13 +662,11 @@ Main files: `events/gai_war.txt`, `events/gai_clear.txt`, `events/gai_no_starbas
 
 This part of the repository pushes AI empires toward more decisive war behavior and tries to prevent several war-related stall states. `gai_war.1` nudges empires past 15 years of peace toward weaker neighbors, and `no_starbase_defense.1` strips platform capacity from poor AI empires.
 
-`gai_war.1` and follow-up events scan peaceful AI empires with enough strength and economy, or awakened fallen empires (the `gai_war.4` path handles awakened fallen empires specifically, with lower income thresholds of 25 energy/minerals per month instead of 100, and uses domination war goals). They reject pacifists, federated empires, subjects, and weak empires, check for a `disable_gai_war` global flag that allows disabling war nudging entirely, and choose war goals based on civics and target type: conquest, cleansing, absorption, assimilation, end-threat (`wg_end_threat` for purifiers/exterminators, `wg_end_threat_swarm` for devouring swarm, `wg_end_threat_assimilators` for assimilators), or awakened-empire domination.
+`gai_war.1` and follow-up events scan peaceful AI empires with enough strength and economy, or awakened fallen empires (the `gai_war.4` path handles awakened fallen empires specifically, with lower income thresholds of 25 energy/minerals per month instead of 100, and uses domination war goals). They reject pacifists, federated empires, subjects, empires without `tech_destroyers`, and empires with a `disable_gai_war` global flag, and choose war goals based on civics and target type: conquest, cleansing, absorption, assimilation, end-threat (`wg_end_threat` for purifiers/exterminators, `wg_end_threat_swarm` for devouring swarm, `wg_end_threat_assimilators` for assimilators), or awakened-empire domination. Options `.f` (end swarm) and `.f` (end assimilators) share the same option name `gai_war.1.f`, likely a naming collision where the second should be `.h`. A fallback option `gai_war.1.g` handles the case where no valid target exists.
 
-`gai_clear.1` through `.4` handle wartime cleanup: `.1` dispatches to `.2`, `.3`, or `.4` based on war state and flag presence; `gai_clear.2` on first war entry forces all transport fleets with stale orders and all military fleets not currently merging to return, sets `gai_clear_fired` flag and `transport_five_year_clear` timed flag (720 days); `.3` removes the `gai_clear_fired` flag when the empire is no longer at war; `.4` re-fires transport-only cleanup every 180 days while war continues.
+`gai_clear.1` through `.4` handle wartime cleanup: `.1` dispatches to `.2`, `.3`, or `.4` based on war state and flag presence; `gai_clear.2` on first war entry forces all transport fleets with specific order types (`land_armies_order`, `orbit_planet_order`, or `no_order`) and all military fleets not merging (`NOT = { has_fleet_order = merge_fleet_order }`) to return, sets `gai_clear_fired` flag and `transport_five_year_clear` timed flag (720 days); `.3` removes the `gai_clear_fired` flag when the empire is no longer at war (this event is not gated by `is_ai`, so even non-AI default countries can trigger it); `.4` re-fires transport-only cleanup every 180 days while war continues, and also accepts `awakened_fallen_empire` country types (unlike `.2` which only accepts `default`).
 
 `no_starbase_defense.1` applies `no_platforms` for 480 days to poor AI empires with monthly energy income < 45 and monthly minerals income < 150, reducing starbase defense platform capacity by 50. The define and opinion files also support aggression indirectly by changing war targeting priorities, claim valuation, threat values, friction and trust behavior, and war exhaustion handling.
-
-Result: more wars after long peace, fewer bankrupt AIs wasting money on defense platforms, and fewer fleets idling under stale war orders.
 
 ## 14. Startup bootstrap and machine uprising patch
 
@@ -684,9 +674,9 @@ Main files: `events/aifixmod_set_flag.txt`, `events/gai_disable_plasma.txt`, `ev
 
 These files are one-off bootstraps and vanilla-event overrides.
 
-`ai_fixmod_flag.1` runs once at game start (`fire_only_once = yes`) for all AI default empires. It fires `ai_fixmod_flag.2` for each, which applies `ai_map_the_stars` as a timed modifier (7200 days, not permanent) and subtracts 100 influence to emulate edict cost, then fires `ai_fixmod_plasma.1` for each and sets the global flag `ai_fixmod_flag`. `ai_fixmod_plasma.1` sets the country flag `ai_fixmod_arc_emitters` and grants `tech_arc_emitter_1`.
+`ai_fixmod_flag.1` runs once at game start (`fire_only_once = yes`) for all AI default empires. It fires both `ai_fixmod_flag.2` and `ai_fixmod_plasma.1` as sibling calls for each qualifying country — they are not chained (`.2` does not call `.plasma.1`; the parent event fires both directly). `ai_fixmod_flag.2` applies `ai_map_the_stars` as a timed modifier (7200 days, not permanent) and subtracts 100 influence to emulate edict cost, then sets the global flag `ai_fixmod_flag`. `ai_fixmod_plasma.1` sets the country flag `ai_fixmod_arc_emitters` and grants `tech_arc_emitter_1`.
 
-`syndaw.1022` in `gai_machine_uprising.txt` reuses a vanilla Synthetic Dawn event ID, making it an override patch. When a machine uprising is created, it gives the uprising large resource stockpiles, applies capacity overload, production targets, and research focus modifiers, flips the capital and flagged systems/planets, ensures at least 5 machine pops on flipped worlds, creates machine armies, copies most host technologies except biological/psionic/organic-specific branches, declares war on the host, buffs AI uprisings further with `uprising_ai_buff`, and creates fleets from naval cap (exterminators get 100% via four `create_fleet_from_naval_cap` calls at 0.1/0.2/0.3/0.4, others get 60% via calls at 0.1/0.2/0.3) plus one science ship and one constructor.
+`syndaw.1022` in `gai_machine_uprising.txt` reuses a vanilla Synthetic Dawn event ID, making it an override patch. When a machine uprising is created, it gives the uprising large resource stockpiles (10000 energy, 10000 minerals, 1000 influence, plus unity scaled by game years), applies capacity overload, production targets, and research focus modifiers, flips the capital and flagged systems/planets, ensures at least 5 machine pops on flipped worlds, creates machine armies (6 for exterminators, 3 for others), copies most host technologies except biological/psionic/organic-specific branches, declares war on the host, buffs AI uprisings further with `uprising_ai_buff` for 1800 days (+50% army damage, -25% army cost, +20% pop growth, -15% consumer goods), and creates fleets from naval cap (exterminators get 100% via four `create_fleet_from_naval_cap` calls at 0.1/0.2/0.3/0.4, others get 60% via calls at 0.1/0.2/0.3) plus one science ship and one constructor.
 
 AI machine uprisings are far less likely to spawn as weak non-entities; AI empires effectively get `map_the_stars` immediately (survey speed +25%, anomaly generation +10%, lasting 7200 days); and arc emitters are forced into the AI tech state through a legacy compatibility hook.
 
@@ -716,12 +706,12 @@ Confirmed define groups:
   - claim behavior changed: max claim distance increased, colony systems valued much more heavily, relations affect claim value more strongly
   - expansion behavior changed: colony systems and resource systems score much higher, higher randomness, higher priority on rebuilding and bordering expansion
   - fleet settings: transport size 20, arsenal size 200, minimum offensive fleet sizes raised (MIN_FLEET_FOR_OFFENSIVE at 800, MIN_FLEET_TO_RESTRICT_SYSTEM at 500), ship build/disband limits (25 built/week, 5 disbanded/week), deficit spending thresholds retuned (war starts at 75% of storage, peace at 5%; stop at 25% and 2.5%)
-  - energy budget: colonies zeroed, tile blockers at 50%, edicts/leaders at 20% each
-  - mineral budget: navy/army/colony/robot fractions all zeroed, buildings and starbase spending also zeroed, stations at 100%, megastructure at 80%, savings zeroed
+  - energy budget: colonies zeroed, tile blockers at 50%, edicts/leaders at 20% each, robot at 0%, savings at 0%, settlement at 10%. Specifically: `ENERGY_COLONY_BUDGET_FRACTION = 0.00`, `ENERGY_TILE_BLOCKER = 0.50`, `ENERGY_EDICTS = 0.20`, `ENERGY_LEADERS = 0.20`, `ENERGY_ROBOT = 0`, `ENERGY_RESETTLEMENT = 0.10`, `ENERGY_SAVINGS = 0.00`
+  - mineral budget: navy/army/colony/robot fractions, buildings and starbase spending, stations at 90%, megastructure at 80%, savings zeroed. Specifically: `MINERAL_BUDGET_NAVY = 0`, `MINERAL_BUDGET_ARMY = 0.10`, `MINERAL_BUDGET_COLONY = 0`, `MINERAL_BUDGET_ROBOT = 0`, `MINERAL_BUDGET_BUILDING = 0`, `MINERAL_BUDGET_STARBASE = 0`, `MINERAL_BUDGET_STATION = 0.90`, `MINERAL_BUDGET_MEGASTRUCTURE = 0.80`, `MINERAL_BUDGET_SAVINGS = 0`
   - AI aggressiveness base raised from default 2 to 75, boxed-in mult at 15, propagator boxed-in mult at 20, no-colony-target mult at 10
   - diplomacy and threat settings changed: stronger threat generation from planets, starbases, and systems; trust, friction, and pact/federation acceptance values changed (see section 17 for the full vanilla comparison)
 
-This file alone makes the AI globally more expansionist and militarily decisive: `NAI` aggressiveness rises from 2 to 75, claim-distance limits and colony-claim weights increase, minimum offensive fleet sizes jump to 800, and the mineral budget zeroes out navy/army/colony/robot spending so the scripted planner controls outlays instead.
+This file alone makes the AI globally more expansionist and militarily decisive: `NAI` aggressiveness rises from 2 to 75, claim-distance limits and colony-claim weights increase, minimum offensive fleet sizes jump to 800, and the mineral budget zeroes out navy/colony/robot spending so the scripted planner controls outlays instead. The army budget is not zeroed (0.10) and the station budget is 0.90 rather than 1.00, meaning the vanilla AI still has some autonomous mineral spending on armies and stations.
 
 ## 17. Diplomacy and relation model
 
@@ -887,8 +877,6 @@ The main mechanical levers are:
 - stronger acceptance weighting for shared rivals, shared threats, relative strength, and strategic stance
 - slightly earlier deal-breaking threshold
 
-This makes diplomatic alignment depend more on current strategic conditions and less on accumulated treaty inertia.
-
 #### 6. Role of the diplomacy tradition file
 
 `common/traditions/Anbeelds_AI_diplomacy.txt` does matter, but mostly as AI support for diplomatic empires once they are already on that path.
@@ -907,17 +895,7 @@ Relative importance:
 
 ### Overall effect
 
-More specifically, the mod does all of these:
-
-- removes much of vanilla's passive alliance/federation friendship inertia
-- lowers trust accumulation and trust ceilings so old ties matter less
-- makes border friction and local threat matter more
-- makes shared rivals, shared threats, and relative strength matter much more in pact/federation acceptance
-- makes bad deals somewhat easier to abandon
-
-It does not simply make all diplomacy harsher, and it does not override every diplomatic opinion key; for example, `opinion_federation_associate` is not redefined here.
-
-The overall result: diplomatic relationships carry less momentum from old treaties, border friction and threat decay faster but hit harder while they last, and pacts form around current strategic alignment — shared rivals, shared threats, relative fleet strength — rather than accumulated goodwill.
+The mod does not simply make all diplomacy harsher, and it does not override every diplomatic opinion key; for example, `opinion_federation_associate` is not redefined here.
 
 ## 18. Static data override layer
 
@@ -942,6 +920,7 @@ This matters because Clausewitz merges by object key, not by file name. The effe
   - `ap_galactic_wonders`
 - makes some niche perks late-only or near-never picks
 - special-cases colossus for genocidal, militarist, or terraforming/megastructure-oriented empires
+- `ap_synthetic_age` and `ap_machine_worlds` also receive factor 100 but are zeroed without `ap_voidborn`
 
 Expected outcome: AI perk picks are pushed toward economy, habitats, megastructures, and selected military spikes rather than flavor perks.
 
@@ -1027,9 +1006,8 @@ Habitat construction compared with vanilla:
   - vanilla still required `exists = starbase` in `possible`
   - vanilla reduced habitat weight to `0.1` if the system lacked a starport or touched a foreign-owned neighboring system
 - the mod changes that behavior rather than introducing the first habitat AI hook:
-  - removes the explicit `exists = starbase` gate from `possible`
-  - removes the starport penalty from `ai_weight`
-  - changes the foreign-border penalty from `0.1` to `0`
+  - the `possible` block does not have an explicit `exists = starbase` gate to remove
+  - the `ai_weight` removes the starport penalty and changes the foreign-border penalty from `0.1` to `0` (hard disable via `factor = 0`)
   - adds a new `ap_galactic_wonders` suppression branch meant to keep some systems free for larger projects
 - that last branch is stricter than the inline comment suggests:
   - as written, it zeroes habitat weight for most `ap_galactic_wonders` empires unless they have both `think_tank_restored` and `think_tank_4`
@@ -1238,7 +1216,7 @@ Why this choice makes sense here:
 - Clausewitz script is much safer when decisions are expressed as stable thresholds instead of fragile arithmetic chains
 - it gives the rest of the AI a shared language such as "energy low", "buildable shipyard slot available", or "navy above delete threshold"
 
-The depth of the quantization is worth noting: the economy model is not a simple three-bucket system. It includes derived margin buffers, age-scaled fleet upkeep deductions (15-year brackets), energy stock segmentation, and pop-count-dependent mineral pressure formulas. This gives the downstream consumers (building, ship, colonization logic) genuinely multi-dimensional economic awareness, at the cost of a large variable surface.
+The economy model is not a simple three-bucket system. It includes derived margin buffers, age-scaled fleet upkeep deductions (15-year brackets), energy stock segmentation, and pop-count-dependent mineral pressure formulas. This gives the downstream consumers (building, ship, colonization logic) genuinely multi-dimensional economic awareness, at the cost of a large variable surface.
 
 #### 2. Distributed scheduling over one-shot global recalculation
 
@@ -1283,7 +1261,7 @@ Why it is good:
 
 Where it breaks down:
 
-- the consistency is not total: the robot event checks `aai_var_energy_income_medium` instead of the trigger-wrapped `aai_boolean_energy_income_medium`, and that variable is never set — demonstrating exactly the failure mode the trigger wrappers were designed to prevent (see quirks, item 1)
+- the consistency is not total: the robot event checks a raw variable name (`aai_var_energy_income_medium`) instead of the trigger wrapper, and that variable is never set — exactly the failure mode the trigger wrappers were designed to prevent (see quirks, item 1)
 - the edict simulation system (`gai_edict.2`) uses its own inline thresholds (3000+ energy, >25 energy/month) rather than the shared economy booleans, creating a parallel decision model for buff eligibility
 
 #### 3. The repository targets actual AI failure modes, not just abstract weights
@@ -1403,11 +1381,10 @@ Evidence:
 
 - placeholder-localisation reuse in `gai_war.txt`
 - localisation for `enable/disable_gai` without matching edict definitions in this repository
-- `acai_destroyer_preference` is checked in 39 tech and 5 component weight locations (44 total) but never set — these branches silently evaluate to false, meaning the tech/component weights for destroyer-pref empires have no effect and exist only as dead conditions
-- `aai_starbases.500` defines a complete defensive conversion feature (starport/starhold/fortress layouts) that is never triggered
-- 5 static modifiers (`ai_purifier`, `ai_sectors_only`, pacifist/bureaucracy sector-cap variants) are defined but never applied
-- the sector-loss simulation (`aai_yearly.20`) is fully implemented but unscheduled
-- the debug logger (`aai_yearly.100`) is also unscheduled
+- `acai_destroyer_preference` checked in 44 locations but never set (quirks, item 9)
+- `aai_starbases.500` defines a complete defensive conversion feature that is never triggered (quirks, item 8)
+- 5 static modifiers defined but never applied (quirks, item 10)
+- the sector-loss simulation and debug logger are fully implemented but unscheduled (dormant pieces, section 19)
 
 Why this is a weakness:
 
@@ -1509,9 +1486,11 @@ These are repository findings, not guesses.
 10. `gai_static_modifiers.txt` defines `ai_purifier`, `ai_sectors_only`, and three pacifist/bureaucracy sector-cap modifiers that are never applied by any live event or effect in the repository. The `ai_purifier` application code in `gai_edicts.txt` is commented out.
 11. The call to `gai_edict.3` (subject economy fix) from `gai_edict.1` is commented out. While `gai_edict.3` is fully implemented and would add `ai_fix_subject_1` granting +35 minerals/energy/food to AI subjects, no live code path triggers it. This means the AI subject economy fix described in the static modifiers is dormant.
 12. The healthcare/robot/recycling campaign simulation block in `gai_edict.2` is gated by `always = no`, making all three simulated campaign modifiers (`ai_healthcare_campaign`, `ai_robot_campaign`, `ai_recycling_campaign`) dead code despite being fully defined in `gai_static_modifiers.txt`.
-13. `events/gai_war.txt` options `.f` (end swarm, line 312) and `.f` (end assimilators, line 340) share the same option name `gai_war.1.f`. This is likely a naming collision/typo; the second should probably be `gai_war.1.h`.
+13. `events/gai_war.txt` options `.f` (end swarm, line 312) and `.f` (end assimilators, line 340) share the same option name `gai_war.1.f`. This is likely a naming collision/typo; the second should probably be `gai_war.1.h`. A fallback option `gai_war.1.g` also exists for when no valid target is found.
 14. `ACAI_Main_fleet_calculating.txt` lines 17-18 contain a duplicate `if`/`else_if` pair both checking `fleet_power >= 50 < 100` and setting value 50. The first `if` on line 17 should probably be `fleet_power < 50`. This appears to be a copy-paste bug, currently causing fleets with 50-99 power to be processed twice in the quantization chain but without functional impact since both set the same value.
 15. `common/edicts/01_edicts.txt` does not set all edict `ai_weight` to zero despite the mod's intent to control edicts via scripted modifiers; some event edicts (`masters_writings_*`, `improved_work_environment`, `renewable_energy`) retain `ai_weight = 1`, potentially allowing the vanilla AI to pick them independently of the scripted simulation.
+16. The monthly building event (`aai_buildings.40`) is gated by a mineral threshold (minerals > 60 at peace, minerals > 5000 at war) that is not documented in the original `aai_buildings.40` description but affects whether buildings are placed at all. This gate prevents building placement on extremely low-mineral planets but means war economy can lock out normal construction.
+17. `gai_ai_colonize.3` uses 16 cascading conditions for machine intelligences, not 17 as originally stated. The extra `>1 adjacent food` condition in the machine path (between the 2-adjacent and 1-adjacent blocks) accounts for the difference from the 15-condition non-machine path.
 
 ## 22. Expected gameplay outcome, in plain terms
 
@@ -1629,7 +1608,7 @@ If the active parts of this repository run as written, the AI should behave like
 
 - `ACAI_Modifiers.txt`: defines the free-upgrade bandaid, healing lock/regen modifiers, and dormant sector-loss modifiers.
 - `Anbeelds_AI_Modifiers.txt`: gives all difficulty levels (Grand Admiral through Ensign) zero ship upgrade cost via `country_ship_upgrade_cost_mult = -1.00`.
-- `gai_static_modifiers.txt`: defines simulated edicts, enclave trade modifiers (mineral trade tiers 1/2/3 at 10/25/50 minerals), curator insight, artist patron (+10% unity), subject-economy fix (`ai_fix_subject_1` granting +35 each of minerals/energy/food), no-platforms behavior (-50 platform capacity). Also defines but never applies: `ai_purifier` ethic attraction modifier (referenced only in commented-out code), and sector-cap reduction modifiers (`ai_sectors_only` -4, pacifist variants -2/-4, bureaucracy variant -2) that are never referenced outside this definition file.
+- `gai_static_modifiers.txt`: defines simulated edicts, enclave trade modifiers (mineral trade tiers 1/2/3 granting +10/+25/+50 monthly minerals), curator insight (+10% science output), artist patron (+10% unity), subject-economy fix (`ai_fix_subject_1` granting +35 each of minerals/energy/food), no-platforms behavior (-50 platform capacity). Also defines but never applies: `ai_purifier` ethic attraction modifier (referenced only in commented-out code), and sector-cap reduction modifiers (`ai_sectors_only` -4, pacifist variants -2/-4, bureaucracy variant -2) that are never referenced outside this definition file.
 
 ### `common/technology`
 
@@ -1663,7 +1642,7 @@ If the active parts of this repository run as written, the AI should behave like
 ### `events`
 
 - `ACAI_Healing_Events.txt`: strongest-fleet repair routing and locking.
-- `aifixmod_set_flag.txt`: game-start bootstrap for map-the-stars style buff and the arc-emitter compatibility hook.
+- `aifixmod_set_flag.txt`: game-start bootstrap that fires both `ai_fixmod_flag.2` (applies map-the-stars modifier for 7200 days, subtracts 100 influence) and `ai_fixmod_plasma.1` (grants `tech_arc_emitter_1` and sets `ai_fixmod_arc_emitters` flag) as sibling calls — not a chain from `.2` to `plasma.1`.
 - `Anbeelds_AI_Armies.txt`: assault-army production, transport recall, and transport-fleet recovery.
 - `Anbeelds_AI_Buildings.txt`: monthly building placement, upgrades, and emergency replacement on planets and habitats.
 - `Anbeelds_AI_Civilian.txt`: constructor and science-ship spawning.
@@ -1688,6 +1667,4 @@ If the active parts of this repository run as written, the AI should behave like
 
 ## Closing assessment
 
-This repository is not one small AI tweak. It is a full-stack AI behavior rewrite for Stellaris script — a monthly scheduler that distributes economy, ship, robot, and building work over staggered day windows; a quantized economy model that feeds boolean thresholds into building, ship, colonization, and robot logic; a planet builder that can demolish and replace missing infrastructure; a starbase planner that assigns each upgraded base to shipyard, trading-hub, or anchorage duty; a fleet manager that delivers corvettes and battleships to the strongest fleet and locks damaged fleets at friendly starbases for repair; a war nudger that pushes empires past 15 years of peace; a colonization reserve that diverts up to 300 minerals away from other spending; a legacy fix layer that still handles colonization, critical buildings, edict simulation, and Rogue Servitors; a data override layer that zeroes out vanilla AI weights for sections, components, perks, and traditions; and a global define rewrite that raises AI aggressiveness from 2 to 75.
-
-The most important design choice is consistency between those layers. The event systems decide strategy, and the data overrides make vanilla AI subsystems, ship designer choices, and object eligibility support that strategy instead of undermining it — so a shortage in the economy booleans tightens building logic and delays ship production, while starbase shipyard slots gate where new vessels can appear and damaged fleets know which owned starbase to retreat to.
+The most important design choice in this repository is consistency between its layers. The event systems decide strategy, and the data overrides make vanilla AI subsystems, ship designer choices, and object eligibility support that strategy instead of undermining it — so a shortage in the economy booleans tightens building logic and delays ship production, while starbase shipyard slots gate where new vessels can appear and damaged fleets know which owned starbase to retreat to.
